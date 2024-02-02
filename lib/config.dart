@@ -1,0 +1,1 @@
+int mapSize=100;
