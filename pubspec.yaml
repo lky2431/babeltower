@@ -19,8 +19,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   tuple: ^2.0.2
   flame_bloc: ^1.10.9
-  flame_riverpod: ^5.1.5
-  riverpod_annotation: ^2.3.3
+  firebase_core: ^2.25.3
 
 
 dev_dependencies:
@@ -31,8 +30,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.8
   freezed: ^2.4.6
-  riverpod_generator: ^2.3.9
-  riverpod_lint: ^2.3.7
   custom_lint: ^0.5.11
 
 

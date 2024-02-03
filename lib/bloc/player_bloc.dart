@@ -12,6 +12,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   PlayerBloc(this.initialState) : super(initialState) {
     on<_Move>(onMove);
     on<_SetPosition>(onSetPosition);
+    on<_Damage>(onDamage);
   }
 
   final PlayerState initialState;
@@ -21,7 +22,11 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   }
 
   FutureOr<void> onSetPosition(_SetPosition event, Emitter<PlayerState> emit) {
-
     emit(state.copyWith(position: Vector2.copy(event.position)));
+  }
+
+  FutureOr<void> onDamage(_Damage event, Emitter<PlayerState> emit) {
+    emit(state.copyWith(health: state.health-event.damage));
+
   }
 }

@@ -6,6 +6,7 @@ import 'package:tuple/tuple.dart';
 
 import '../tool/mapGenerator.dart';
 import 'TileComponent.dart';
+import 'ZombieComponent.dart';
 
 class TileGenerationComponent extends PositionComponent
     with FlameBlocReader<PlayerBloc, PlayerState>, HasGameRef<BabelTowerGame> {
@@ -19,9 +20,8 @@ class TileGenerationComponent extends PositionComponent
   Future<void> onLoad() async {
     super.onLoad();
     _size = gameRef.size;
-    //print(_size);
+
     tiles = getPossibleMap();
-    //print(tiles);
 
     await add(FlameBlocListener<PlayerBloc, PlayerState>(onNewState: (state) {
       updateAccordingPosition(state.position);
@@ -60,4 +60,6 @@ class TileGenerationComponent extends PositionComponent
 
   @override
   void onRemove() {}
+
+
 }

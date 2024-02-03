@@ -20,18 +20,21 @@ mixin _$PlayerEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
+    required TResult Function(double damage) damage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
+    TResult? Function(double damage)? damage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
+    TResult Function(double damage)? damage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$PlayerEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
+    required TResult Function(_Damage value) damage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
+    TResult? Function(_Damage value)? damage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
+    TResult Function(_Damage value)? damage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -139,6 +145,7 @@ class _$MoveImpl implements _Move {
   TResult when<TResult extends Object?>({
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
+    required TResult Function(double damage) damage,
   }) {
     return move(this.move);
   }
@@ -148,6 +155,7 @@ class _$MoveImpl implements _Move {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
+    TResult? Function(double damage)? damage,
   }) {
     return move?.call(this.move);
   }
@@ -157,6 +165,7 @@ class _$MoveImpl implements _Move {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
+    TResult Function(double damage)? damage,
     required TResult orElse(),
   }) {
     if (move != null) {
@@ -170,6 +179,7 @@ class _$MoveImpl implements _Move {
   TResult map<TResult extends Object?>({
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
+    required TResult Function(_Damage value) damage,
   }) {
     return move(this);
   }
@@ -179,6 +189,7 @@ class _$MoveImpl implements _Move {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
+    TResult? Function(_Damage value)? damage,
   }) {
     return move?.call(this);
   }
@@ -188,6 +199,7 @@ class _$MoveImpl implements _Move {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
+    TResult Function(_Damage value)? damage,
     required TResult orElse(),
   }) {
     if (move != null) {
@@ -273,6 +285,7 @@ class _$SetPositionImpl implements _SetPosition {
   TResult when<TResult extends Object?>({
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
+    required TResult Function(double damage) damage,
   }) {
     return setPosition(position);
   }
@@ -282,6 +295,7 @@ class _$SetPositionImpl implements _SetPosition {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
+    TResult? Function(double damage)? damage,
   }) {
     return setPosition?.call(position);
   }
@@ -291,6 +305,7 @@ class _$SetPositionImpl implements _SetPosition {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
+    TResult Function(double damage)? damage,
     required TResult orElse(),
   }) {
     if (setPosition != null) {
@@ -304,6 +319,7 @@ class _$SetPositionImpl implements _SetPosition {
   TResult map<TResult extends Object?>({
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
+    required TResult Function(_Damage value) damage,
   }) {
     return setPosition(this);
   }
@@ -313,6 +329,7 @@ class _$SetPositionImpl implements _SetPosition {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
+    TResult? Function(_Damage value)? damage,
   }) {
     return setPosition?.call(this);
   }
@@ -322,6 +339,7 @@ class _$SetPositionImpl implements _SetPosition {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
+    TResult Function(_Damage value)? damage,
     required TResult orElse(),
   }) {
     if (setPosition != null) {
@@ -341,10 +359,150 @@ abstract class _SetPosition implements PlayerEvent {
 }
 
 /// @nodoc
+abstract class _$$DamageImplCopyWith<$Res> {
+  factory _$$DamageImplCopyWith(
+          _$DamageImpl value, $Res Function(_$DamageImpl) then) =
+      __$$DamageImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({double damage});
+}
+
+/// @nodoc
+class __$$DamageImplCopyWithImpl<$Res>
+    extends _$PlayerEventCopyWithImpl<$Res, _$DamageImpl>
+    implements _$$DamageImplCopyWith<$Res> {
+  __$$DamageImplCopyWithImpl(
+      _$DamageImpl _value, $Res Function(_$DamageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? damage = null,
+  }) {
+    return _then(_$DamageImpl(
+      null == damage
+          ? _value.damage
+          : damage // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DamageImpl implements _Damage {
+  const _$DamageImpl(this.damage);
+
+  @override
+  final double damage;
+
+  @override
+  String toString() {
+    return 'PlayerEvent.damage(damage: $damage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DamageImpl &&
+            (identical(other.damage, damage) || other.damage == damage));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, damage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DamageImplCopyWith<_$DamageImpl> get copyWith =>
+      __$$DamageImplCopyWithImpl<_$DamageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Vector2 move) move,
+    required TResult Function(Vector2 position) setPosition,
+    required TResult Function(double damage) damage,
+  }) {
+    return damage(this.damage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Vector2 move)? move,
+    TResult? Function(Vector2 position)? setPosition,
+    TResult? Function(double damage)? damage,
+  }) {
+    return damage?.call(this.damage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Vector2 move)? move,
+    TResult Function(Vector2 position)? setPosition,
+    TResult Function(double damage)? damage,
+    required TResult orElse(),
+  }) {
+    if (damage != null) {
+      return damage(this.damage);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Move value) move,
+    required TResult Function(_SetPosition value) setPosition,
+    required TResult Function(_Damage value) damage,
+  }) {
+    return damage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Move value)? move,
+    TResult? Function(_SetPosition value)? setPosition,
+    TResult? Function(_Damage value)? damage,
+  }) {
+    return damage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Move value)? move,
+    TResult Function(_SetPosition value)? setPosition,
+    TResult Function(_Damage value)? damage,
+    required TResult orElse(),
+  }) {
+    if (damage != null) {
+      return damage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Damage implements PlayerEvent {
+  const factory _Damage(final double damage) = _$DamageImpl;
+
+  double get damage;
+  @JsonKey(ignore: true)
+  _$$DamageImplCopyWith<_$DamageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$PlayerState {
   Vector2 get speed => throw _privateConstructorUsedError;
   bool get moving => throw _privateConstructorUsedError;
   Vector2 get position => throw _privateConstructorUsedError;
+  double get health => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PlayerStateCopyWith<PlayerState> get copyWith =>
@@ -357,7 +515,7 @@ abstract class $PlayerStateCopyWith<$Res> {
           PlayerState value, $Res Function(PlayerState) then) =
       _$PlayerStateCopyWithImpl<$Res, PlayerState>;
   @useResult
-  $Res call({Vector2 speed, bool moving, Vector2 position});
+  $Res call({Vector2 speed, bool moving, Vector2 position, double health});
 }
 
 /// @nodoc
@@ -376,6 +534,7 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
     Object? speed = null,
     Object? moving = null,
     Object? position = null,
+    Object? health = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -390,6 +549,10 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as Vector2,
+      health: null == health
+          ? _value.health
+          : health // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -402,7 +565,7 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       __$$PlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Vector2 speed, bool moving, Vector2 position});
+  $Res call({Vector2 speed, bool moving, Vector2 position, double health});
 }
 
 /// @nodoc
@@ -419,6 +582,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? speed = null,
     Object? moving = null,
     Object? position = null,
+    Object? health = null,
   }) {
     return _then(_$PlayerStateImpl(
       speed: null == speed
@@ -433,6 +597,10 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as Vector2,
+      health: null == health
+          ? _value.health
+          : health // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -441,7 +609,10 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
 
 class _$PlayerStateImpl implements _PlayerState {
   const _$PlayerStateImpl(
-      {required this.speed, this.moving = false, required this.position});
+      {required this.speed,
+      this.moving = false,
+      required this.position,
+      this.health = 1});
 
   @override
   final Vector2 speed;
@@ -450,10 +621,13 @@ class _$PlayerStateImpl implements _PlayerState {
   final bool moving;
   @override
   final Vector2 position;
+  @override
+  @JsonKey()
+  final double health;
 
   @override
   String toString() {
-    return 'PlayerState(speed: $speed, moving: $moving, position: $position)';
+    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health)';
   }
 
   @override
@@ -464,11 +638,12 @@ class _$PlayerStateImpl implements _PlayerState {
             (identical(other.speed, speed) || other.speed == speed) &&
             (identical(other.moving, moving) || other.moving == moving) &&
             (identical(other.position, position) ||
-                other.position == position));
+                other.position == position) &&
+            (identical(other.health, health) || other.health == health));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, speed, moving, position);
+  int get hashCode => Object.hash(runtimeType, speed, moving, position, health);
 
   @JsonKey(ignore: true)
   @override
@@ -481,7 +656,8 @@ abstract class _PlayerState implements PlayerState {
   const factory _PlayerState(
       {required final Vector2 speed,
       final bool moving,
-      required final Vector2 position}) = _$PlayerStateImpl;
+      required final Vector2 position,
+      final double health}) = _$PlayerStateImpl;
 
   @override
   Vector2 get speed;
@@ -489,6 +665,8 @@ abstract class _PlayerState implements PlayerState {
   bool get moving;
   @override
   Vector2 get position;
+  @override
+  double get health;
   @override
   @JsonKey(ignore: true)
   _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>
