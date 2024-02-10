@@ -1,1 +1,1 @@
-int mapSize=100;
+int mapSize=20;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/player_bloc.dart';
+import '../bloc/player/player_bloc.dart';
 
 class HealthBarWidget extends StatelessWidget {
   const HealthBarWidget({super.key});
@@ -9,6 +9,9 @@ class HealthBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width - 48;
+    if(width>500){
+      width=500;
+    }
 
     return Padding(
       padding: const EdgeInsets.all(24.0),

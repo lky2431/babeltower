@@ -7,7 +7,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 
-import '../bloc/player_bloc.dart';
+import '../bloc/player/player_bloc.dart';
 import '../tool/cVectors.dart';
 
 class ZombieComponent extends SpriteAnimationComponent
@@ -32,6 +32,7 @@ class ZombieComponent extends SpriteAnimationComponent
   late Vector2 _size;
   final Function onDestroyed;
   bool attacking = false;
+  int indexToCheck = 0;
 
   @override
   Future<void> onLoad() async {
@@ -39,8 +40,8 @@ class ZombieComponent extends SpriteAnimationComponent
     size = v196;
     add(RectangleHitbox(size: v128));
     position = _position;
-    spriteSheet =
-        SpriteSheet(image: await Flame.images.load('zombie.png'), srcSize: v32);
+    spriteSheet = SpriteSheet(
+        image: await Flame.images.load('zombie.png'), srcSize: Vector2(32, 32));
     animation = moveAnimation;
     anchor = Anchor.center;
     _size = gameRef.size;
@@ -50,11 +51,10 @@ class ZombieComponent extends SpriteAnimationComponent
   void update(double dt) {
     super.update(dt);
     priority = position.y.toInt();
-    Vector2 speed = (_playerPosition - position).normalized() * 90;
+    Vector2 speed = (_playerPosition - position).normalized() * 90 * vratio;
     if (!attacking) {
       position += speed * dt;
     }
-
     if (speed.x > 0 && flip) {
       flipHorizontallyAroundCenter();
       flip = false;
@@ -62,18 +62,22 @@ class ZombieComponent extends SpriteAnimationComponent
       flipHorizontallyAroundCenter();
       flip = true;
     }
-    if (_playerPosition.x + _size.x < position.x ||
-        _playerPosition.x - _size.x > position.x ||
-        _playerPosition.y + _size.y < _position.y &&
-            _playerPosition.y - _size.y > position.y) {
-      parent.remove(this);
+    if (indexToCheck > 10) {
+      if (_playerPosition.x + _size.x < position.x ||
+          _playerPosition.x - _size.x > position.x ||
+          _playerPosition.y + _size.y < _position.y &&
+              _playerPosition.y - _size.y > position.y) {
+        removeFromParent();
+      }
+      indexToCheck = 0;
     }
+    indexToCheck += 1;
   }
 
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
     if (other is ZombieComponent) {
-      //position += (position - other.position) * 0.01;
+      position += (position - other.position) * 0.01;
     } else if (other is PlayerComponent) {
       if (!attacking) {
         animation = attackAnimation;
@@ -85,7 +89,6 @@ class ZombieComponent extends SpriteAnimationComponent
         bloc.add(PlayerEvent.damage(0.01));
       }
     }
-    position += (position - other.position) * 0.01;
   }
 
   @override
@@ -108,7 +111,7 @@ class ZombieComponent extends SpriteAnimationComponent
 
   @override
   void onRemove() {
-    super.onRemove();
     onDestroyed();
+    super.onRemove();
   }
 }

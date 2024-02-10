@@ -18,6 +18,7 @@ class TileComponent extends SpriteComponent {
     super.onLoad();
 
     final image = await Flame.images.load('tile.png');
+    priority=-10;
 
     add(
       SpriteComponent(

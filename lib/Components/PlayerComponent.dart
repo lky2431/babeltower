@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:babeltower/BabelTowerGame.dart';
-import 'package:babeltower/bloc/player_bloc.dart';
+import 'package:babeltower/bloc/player/player_bloc.dart';
 import 'package:babeltower/config.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -14,7 +14,6 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/rendering.dart';
 
-
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -25,7 +24,6 @@ class PlayerComponent extends SpriteAnimationComponent
         FlameBlocReader<PlayerBloc, PlayerState>,
         KeyboardHandler,
         CollisionCallbacks,
-
         HasGameRef<BabelTowerGame> {
   PlayerComponent();
   final Vector2 playerDimensions = Vector2(96, 96);
@@ -48,14 +46,12 @@ class PlayerComponent extends SpriteAnimationComponent
   bool flipped = false;
   Vector2 previousSpeed = Vector2(0, 0);
   double prevHealth = 1;
-  @override
-  bool get debugMode => true;
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
     add(RectangleHitbox(
-        size: Vector2(80, 132),
+        size: Vector2(80*vratio, 132*vratio),
         collisionType: CollisionType.passive,
         anchor: Anchor.center,
         position: v128));
@@ -64,7 +60,6 @@ class PlayerComponent extends SpriteAnimationComponent
         image: await Flame.images.load('main_ch.png'),
         srcSize: playerDimensions);
     animation = idlebackAnimation;
-
 
     position = bloc.state.position;
     anchor = Anchor.center;
@@ -75,19 +70,20 @@ class PlayerComponent extends SpriteAnimationComponent
         decorator.addLast(PaintDecorator.tint(Colors.red.withOpacity(0.2)));
         add(ParticleSystemComponent(
             particle: Particle.generate(
-              lifespan: 0.2,
+                lifespan: 0.2,
                 count: 20,
                 generator: (int) {
                   return AcceleratedParticle(
-                      position: Vector2.all(128)+Vector2(Random().nextDouble() * 20 - 10,
-                          Random().nextDouble() * 20 - 10),
+                      position: v128 +
+                          Vector2(Random().nextDouble() * 20 - 10,
+                              Random().nextDouble() * 20 - 10),
                       acceleration: Vector2(0, 200),
                       speed: Vector2(Random().nextDouble() * 400 - 200,
                           Random().nextDouble() * 400 - 200),
                       child: CircleParticle(
                           radius: 2, paint: Paint()..color = Colors.red));
                 })));
-        Future.delayed(Duration(milliseconds: 200),(){
+        Future.delayed(Duration(milliseconds: 200), () {
           decorator.removeLast();
         });
       }
@@ -100,7 +96,7 @@ class PlayerComponent extends SpriteAnimationComponent
   void update(double dt) {
     super.update(dt);
     priority = position.y.toInt();
-    position += speed * dt * 180;
+    position += speed * dt * 180*vratio;
     if (position.x < 0) {
       position.x = 0;
     }
@@ -171,7 +167,7 @@ class PlayerComponent extends SpriteAnimationComponent
       bloc.add(PlayerEvent.move(Vector2(1, 0)));
     }
     if (keysPressed.isEmpty) {
-      //bloc.add(PlayerEvent.move(Vector2(0, 0)));
+      bloc.add(PlayerEvent.move(Vector2(0, 0)));
     }
     return true;
   }
