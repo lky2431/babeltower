@@ -1,3 +1,4 @@
+import 'package:babeltower/dialog/BagDialog.dart';
 import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:babeltower/dialog/LeaveFieldDialog.dart';
 import 'package:flame/components.dart';
@@ -25,9 +26,10 @@ class FieldGamePage extends StatelessWidget {
         return GameWidget<BabelTowerGame>(
           game: BabelTowerGame(context.read<PlayerBloc>()),
           overlayBuilderMap: {
-            "HealthBar": (context, game) => const HealthBarWidget(),
+            "HealthBar": (context, game) => HealthBarWidget(game),
             "Tutorial": (context, game) => FieldTutorialDialog(game),
-            "Leave":(context, game)=>LeaveFieldDialog(game)
+            "Leave": (context, game) => LeaveFieldDialog(game),
+            "Bag": (context, game) => BagDialog(game)
           },
           initialActiveOverlays: [
             "HealthBar",

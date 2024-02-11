@@ -12,14 +12,17 @@ import 'package:flutter/material.dart';
 import '../tool/cVectors.dart';
 
 class BuildingBlockComponent extends PositionComponent with CollisionCallbacks {
-  BuildingBlockComponent();
-  late final BuildingBlock block;
+  BuildingBlockComponent({required this.block, required this.initialPosition});
+  final BuildingBlock block;
+  final Vector2 initialPosition;
+
+
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
     priority = -1;
-    block = availableBlocks[Random().nextInt(availableBlocks.length)];
+
     size = v64 * 3;
     for (int pos in block.blocks) {
       add(_subBlock(
@@ -43,8 +46,7 @@ class BuildingBlockComponent extends PositionComponent with CollisionCallbacks {
   @override
   void onMount() {
     super.onMount();
-    position = Vector2(Random().nextDouble() * mapSize * 80,
-        Random().nextDouble() * mapSize * 80);
+    position = initialPosition;
   }
 
   @override

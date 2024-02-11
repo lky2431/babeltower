@@ -21,6 +21,8 @@ mixin _$PlayerEvent {
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
     required TResult Function(double damage) damage,
+    required TResult Function(int index) drop,
+    required TResult Function(PickableItem item) pick,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +30,8 @@ mixin _$PlayerEvent {
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
     TResult? Function(double damage)? damage,
+    TResult? Function(int index)? drop,
+    TResult? Function(PickableItem item)? pick,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +39,8 @@ mixin _$PlayerEvent {
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
     TResult Function(double damage)? damage,
+    TResult Function(int index)? drop,
+    TResult Function(PickableItem item)? pick,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +49,8 @@ mixin _$PlayerEvent {
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
     required TResult Function(_Damage value) damage,
+    required TResult Function(_Drop value) drop,
+    required TResult Function(_Pick value) pick,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +58,8 @@ mixin _$PlayerEvent {
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
     TResult? Function(_Damage value)? damage,
+    TResult? Function(_Drop value)? drop,
+    TResult? Function(_Pick value)? pick,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +67,8 @@ mixin _$PlayerEvent {
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
     TResult Function(_Damage value)? damage,
+    TResult Function(_Drop value)? drop,
+    TResult Function(_Pick value)? pick,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -146,6 +158,8 @@ class _$MoveImpl implements _Move {
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
     required TResult Function(double damage) damage,
+    required TResult Function(int index) drop,
+    required TResult Function(PickableItem item) pick,
   }) {
     return move(this.move);
   }
@@ -156,6 +170,8 @@ class _$MoveImpl implements _Move {
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
     TResult? Function(double damage)? damage,
+    TResult? Function(int index)? drop,
+    TResult? Function(PickableItem item)? pick,
   }) {
     return move?.call(this.move);
   }
@@ -166,6 +182,8 @@ class _$MoveImpl implements _Move {
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
     TResult Function(double damage)? damage,
+    TResult Function(int index)? drop,
+    TResult Function(PickableItem item)? pick,
     required TResult orElse(),
   }) {
     if (move != null) {
@@ -180,6 +198,8 @@ class _$MoveImpl implements _Move {
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
     required TResult Function(_Damage value) damage,
+    required TResult Function(_Drop value) drop,
+    required TResult Function(_Pick value) pick,
   }) {
     return move(this);
   }
@@ -190,6 +210,8 @@ class _$MoveImpl implements _Move {
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
     TResult? Function(_Damage value)? damage,
+    TResult? Function(_Drop value)? drop,
+    TResult? Function(_Pick value)? pick,
   }) {
     return move?.call(this);
   }
@@ -200,6 +222,8 @@ class _$MoveImpl implements _Move {
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
     TResult Function(_Damage value)? damage,
+    TResult Function(_Drop value)? drop,
+    TResult Function(_Pick value)? pick,
     required TResult orElse(),
   }) {
     if (move != null) {
@@ -286,6 +310,8 @@ class _$SetPositionImpl implements _SetPosition {
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
     required TResult Function(double damage) damage,
+    required TResult Function(int index) drop,
+    required TResult Function(PickableItem item) pick,
   }) {
     return setPosition(position);
   }
@@ -296,6 +322,8 @@ class _$SetPositionImpl implements _SetPosition {
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
     TResult? Function(double damage)? damage,
+    TResult? Function(int index)? drop,
+    TResult? Function(PickableItem item)? pick,
   }) {
     return setPosition?.call(position);
   }
@@ -306,6 +334,8 @@ class _$SetPositionImpl implements _SetPosition {
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
     TResult Function(double damage)? damage,
+    TResult Function(int index)? drop,
+    TResult Function(PickableItem item)? pick,
     required TResult orElse(),
   }) {
     if (setPosition != null) {
@@ -320,6 +350,8 @@ class _$SetPositionImpl implements _SetPosition {
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
     required TResult Function(_Damage value) damage,
+    required TResult Function(_Drop value) drop,
+    required TResult Function(_Pick value) pick,
   }) {
     return setPosition(this);
   }
@@ -330,6 +362,8 @@ class _$SetPositionImpl implements _SetPosition {
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
     TResult? Function(_Damage value)? damage,
+    TResult? Function(_Drop value)? drop,
+    TResult? Function(_Pick value)? pick,
   }) {
     return setPosition?.call(this);
   }
@@ -340,6 +374,8 @@ class _$SetPositionImpl implements _SetPosition {
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
     TResult Function(_Damage value)? damage,
+    TResult Function(_Drop value)? drop,
+    TResult Function(_Pick value)? pick,
     required TResult orElse(),
   }) {
     if (setPosition != null) {
@@ -425,6 +461,8 @@ class _$DamageImpl implements _Damage {
     required TResult Function(Vector2 move) move,
     required TResult Function(Vector2 position) setPosition,
     required TResult Function(double damage) damage,
+    required TResult Function(int index) drop,
+    required TResult Function(PickableItem item) pick,
   }) {
     return damage(this.damage);
   }
@@ -435,6 +473,8 @@ class _$DamageImpl implements _Damage {
     TResult? Function(Vector2 move)? move,
     TResult? Function(Vector2 position)? setPosition,
     TResult? Function(double damage)? damage,
+    TResult? Function(int index)? drop,
+    TResult? Function(PickableItem item)? pick,
   }) {
     return damage?.call(this.damage);
   }
@@ -445,6 +485,8 @@ class _$DamageImpl implements _Damage {
     TResult Function(Vector2 move)? move,
     TResult Function(Vector2 position)? setPosition,
     TResult Function(double damage)? damage,
+    TResult Function(int index)? drop,
+    TResult Function(PickableItem item)? pick,
     required TResult orElse(),
   }) {
     if (damage != null) {
@@ -459,6 +501,8 @@ class _$DamageImpl implements _Damage {
     required TResult Function(_Move value) move,
     required TResult Function(_SetPosition value) setPosition,
     required TResult Function(_Damage value) damage,
+    required TResult Function(_Drop value) drop,
+    required TResult Function(_Pick value) pick,
   }) {
     return damage(this);
   }
@@ -469,6 +513,8 @@ class _$DamageImpl implements _Damage {
     TResult? Function(_Move value)? move,
     TResult? Function(_SetPosition value)? setPosition,
     TResult? Function(_Damage value)? damage,
+    TResult? Function(_Drop value)? drop,
+    TResult? Function(_Pick value)? pick,
   }) {
     return damage?.call(this);
   }
@@ -479,6 +525,8 @@ class _$DamageImpl implements _Damage {
     TResult Function(_Move value)? move,
     TResult Function(_SetPosition value)? setPosition,
     TResult Function(_Damage value)? damage,
+    TResult Function(_Drop value)? drop,
+    TResult Function(_Pick value)? pick,
     required TResult orElse(),
   }) {
     if (damage != null) {
@@ -498,11 +546,324 @@ abstract class _Damage implements PlayerEvent {
 }
 
 /// @nodoc
+abstract class _$$DropImplCopyWith<$Res> {
+  factory _$$DropImplCopyWith(
+          _$DropImpl value, $Res Function(_$DropImpl) then) =
+      __$$DropImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int index});
+}
+
+/// @nodoc
+class __$$DropImplCopyWithImpl<$Res>
+    extends _$PlayerEventCopyWithImpl<$Res, _$DropImpl>
+    implements _$$DropImplCopyWith<$Res> {
+  __$$DropImplCopyWithImpl(_$DropImpl _value, $Res Function(_$DropImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+  }) {
+    return _then(_$DropImpl(
+      null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DropImpl implements _Drop {
+  const _$DropImpl(this.index);
+
+  @override
+  final int index;
+
+  @override
+  String toString() {
+    return 'PlayerEvent.drop(index: $index)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DropImpl &&
+            (identical(other.index, index) || other.index == index));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, index);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DropImplCopyWith<_$DropImpl> get copyWith =>
+      __$$DropImplCopyWithImpl<_$DropImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Vector2 move) move,
+    required TResult Function(Vector2 position) setPosition,
+    required TResult Function(double damage) damage,
+    required TResult Function(int index) drop,
+    required TResult Function(PickableItem item) pick,
+  }) {
+    return drop(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Vector2 move)? move,
+    TResult? Function(Vector2 position)? setPosition,
+    TResult? Function(double damage)? damage,
+    TResult? Function(int index)? drop,
+    TResult? Function(PickableItem item)? pick,
+  }) {
+    return drop?.call(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Vector2 move)? move,
+    TResult Function(Vector2 position)? setPosition,
+    TResult Function(double damage)? damage,
+    TResult Function(int index)? drop,
+    TResult Function(PickableItem item)? pick,
+    required TResult orElse(),
+  }) {
+    if (drop != null) {
+      return drop(index);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Move value) move,
+    required TResult Function(_SetPosition value) setPosition,
+    required TResult Function(_Damage value) damage,
+    required TResult Function(_Drop value) drop,
+    required TResult Function(_Pick value) pick,
+  }) {
+    return drop(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Move value)? move,
+    TResult? Function(_SetPosition value)? setPosition,
+    TResult? Function(_Damage value)? damage,
+    TResult? Function(_Drop value)? drop,
+    TResult? Function(_Pick value)? pick,
+  }) {
+    return drop?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Move value)? move,
+    TResult Function(_SetPosition value)? setPosition,
+    TResult Function(_Damage value)? damage,
+    TResult Function(_Drop value)? drop,
+    TResult Function(_Pick value)? pick,
+    required TResult orElse(),
+  }) {
+    if (drop != null) {
+      return drop(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Drop implements PlayerEvent {
+  const factory _Drop(final int index) = _$DropImpl;
+
+  int get index;
+  @JsonKey(ignore: true)
+  _$$DropImplCopyWith<_$DropImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PickImplCopyWith<$Res> {
+  factory _$$PickImplCopyWith(
+          _$PickImpl value, $Res Function(_$PickImpl) then) =
+      __$$PickImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({PickableItem item});
+
+  $PickableItemCopyWith<$Res> get item;
+}
+
+/// @nodoc
+class __$$PickImplCopyWithImpl<$Res>
+    extends _$PlayerEventCopyWithImpl<$Res, _$PickImpl>
+    implements _$$PickImplCopyWith<$Res> {
+  __$$PickImplCopyWithImpl(_$PickImpl _value, $Res Function(_$PickImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? item = null,
+  }) {
+    return _then(_$PickImpl(
+      null == item
+          ? _value.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as PickableItem,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PickableItemCopyWith<$Res> get item {
+    return $PickableItemCopyWith<$Res>(_value.item, (value) {
+      return _then(_value.copyWith(item: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$PickImpl implements _Pick {
+  const _$PickImpl(this.item);
+
+  @override
+  final PickableItem item;
+
+  @override
+  String toString() {
+    return 'PlayerEvent.pick(item: $item)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PickImpl &&
+            (identical(other.item, item) || other.item == item));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, item);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PickImplCopyWith<_$PickImpl> get copyWith =>
+      __$$PickImplCopyWithImpl<_$PickImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Vector2 move) move,
+    required TResult Function(Vector2 position) setPosition,
+    required TResult Function(double damage) damage,
+    required TResult Function(int index) drop,
+    required TResult Function(PickableItem item) pick,
+  }) {
+    return pick(item);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Vector2 move)? move,
+    TResult? Function(Vector2 position)? setPosition,
+    TResult? Function(double damage)? damage,
+    TResult? Function(int index)? drop,
+    TResult? Function(PickableItem item)? pick,
+  }) {
+    return pick?.call(item);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Vector2 move)? move,
+    TResult Function(Vector2 position)? setPosition,
+    TResult Function(double damage)? damage,
+    TResult Function(int index)? drop,
+    TResult Function(PickableItem item)? pick,
+    required TResult orElse(),
+  }) {
+    if (pick != null) {
+      return pick(item);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Move value) move,
+    required TResult Function(_SetPosition value) setPosition,
+    required TResult Function(_Damage value) damage,
+    required TResult Function(_Drop value) drop,
+    required TResult Function(_Pick value) pick,
+  }) {
+    return pick(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Move value)? move,
+    TResult? Function(_SetPosition value)? setPosition,
+    TResult? Function(_Damage value)? damage,
+    TResult? Function(_Drop value)? drop,
+    TResult? Function(_Pick value)? pick,
+  }) {
+    return pick?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Move value)? move,
+    TResult Function(_SetPosition value)? setPosition,
+    TResult Function(_Damage value)? damage,
+    TResult Function(_Drop value)? drop,
+    TResult Function(_Pick value)? pick,
+    required TResult orElse(),
+  }) {
+    if (pick != null) {
+      return pick(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Pick implements PlayerEvent {
+  const factory _Pick(final PickableItem item) = _$PickImpl;
+
+  PickableItem get item;
+  @JsonKey(ignore: true)
+  _$$PickImplCopyWith<_$PickImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$PlayerState {
   Vector2 get speed => throw _privateConstructorUsedError;
   bool get moving => throw _privateConstructorUsedError;
   Vector2 get position => throw _privateConstructorUsedError;
   double get health => throw _privateConstructorUsedError;
+  Map<int, PickableItem> get items => throw _privateConstructorUsedError;
+  double get weight => throw _privateConstructorUsedError;
+  double get maxWeight => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PlayerStateCopyWith<PlayerState> get copyWith =>
@@ -515,7 +876,14 @@ abstract class $PlayerStateCopyWith<$Res> {
           PlayerState value, $Res Function(PlayerState) then) =
       _$PlayerStateCopyWithImpl<$Res, PlayerState>;
   @useResult
-  $Res call({Vector2 speed, bool moving, Vector2 position, double health});
+  $Res call(
+      {Vector2 speed,
+      bool moving,
+      Vector2 position,
+      double health,
+      Map<int, PickableItem> items,
+      double weight,
+      double maxWeight});
 }
 
 /// @nodoc
@@ -535,6 +903,9 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
     Object? moving = null,
     Object? position = null,
     Object? health = null,
+    Object? items = null,
+    Object? weight = null,
+    Object? maxWeight = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -553,6 +924,18 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.health
           : health // ignore: cast_nullable_to_non_nullable
               as double,
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as Map<int, PickableItem>,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxWeight: null == maxWeight
+          ? _value.maxWeight
+          : maxWeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -565,7 +948,14 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       __$$PlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Vector2 speed, bool moving, Vector2 position, double health});
+  $Res call(
+      {Vector2 speed,
+      bool moving,
+      Vector2 position,
+      double health,
+      Map<int, PickableItem> items,
+      double weight,
+      double maxWeight});
 }
 
 /// @nodoc
@@ -583,6 +973,9 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? moving = null,
     Object? position = null,
     Object? health = null,
+    Object? items = null,
+    Object? weight = null,
+    Object? maxWeight = null,
   }) {
     return _then(_$PlayerStateImpl(
       speed: null == speed
@@ -601,6 +994,18 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.health
           : health // ignore: cast_nullable_to_non_nullable
               as double,
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as Map<int, PickableItem>,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxWeight: null == maxWeight
+          ? _value.maxWeight
+          : maxWeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -612,7 +1017,11 @@ class _$PlayerStateImpl implements _PlayerState {
       {required this.speed,
       this.moving = false,
       required this.position,
-      this.health = 1});
+      this.health = 1,
+      final Map<int, PickableItem> items = const {},
+      this.weight = 0,
+      this.maxWeight = 50})
+      : _items = items;
 
   @override
   final Vector2 speed;
@@ -624,10 +1033,25 @@ class _$PlayerStateImpl implements _PlayerState {
   @override
   @JsonKey()
   final double health;
+  final Map<int, PickableItem> _items;
+  @override
+  @JsonKey()
+  Map<int, PickableItem> get items {
+    if (_items is EqualUnmodifiableMapView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_items);
+  }
+
+  @override
+  @JsonKey()
+  final double weight;
+  @override
+  @JsonKey()
+  final double maxWeight;
 
   @override
   String toString() {
-    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health)';
+    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight)';
   }
 
   @override
@@ -639,11 +1063,16 @@ class _$PlayerStateImpl implements _PlayerState {
             (identical(other.moving, moving) || other.moving == moving) &&
             (identical(other.position, position) ||
                 other.position == position) &&
-            (identical(other.health, health) || other.health == health));
+            (identical(other.health, health) || other.health == health) &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.maxWeight, maxWeight) ||
+                other.maxWeight == maxWeight));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, speed, moving, position, health);
+  int get hashCode => Object.hash(runtimeType, speed, moving, position, health,
+      const DeepCollectionEquality().hash(_items), weight, maxWeight);
 
   @JsonKey(ignore: true)
   @override
@@ -657,7 +1086,10 @@ abstract class _PlayerState implements PlayerState {
       {required final Vector2 speed,
       final bool moving,
       required final Vector2 position,
-      final double health}) = _$PlayerStateImpl;
+      final double health,
+      final Map<int, PickableItem> items,
+      final double weight,
+      final double maxWeight}) = _$PlayerStateImpl;
 
   @override
   Vector2 get speed;
@@ -667,6 +1099,12 @@ abstract class _PlayerState implements PlayerState {
   Vector2 get position;
   @override
   double get health;
+  @override
+  Map<int, PickableItem> get items;
+  @override
+  double get weight;
+  @override
+  double get maxWeight;
   @override
   @JsonKey(ignore: true)
   _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>

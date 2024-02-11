@@ -24,6 +24,7 @@ import 'package:flame_bloc/flame_bloc.dart';
 
 import 'Components/IndicatorComponent.dart';
 import 'Components/PortalComponent.dart';
+import 'model/BuildingBlock.dart';
 
 class BabelTowerGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection, PanDetector {
@@ -46,7 +47,11 @@ class BabelTowerGame extends FlameGame
       portal,
       IndicatorManager(components: [portal]),
       ...List.generate(
-          50, (index) => BuildingBlockComponent())
+          5,
+          (index) => BuildingBlockComponent(
+              block: availableBlocks[Random().nextInt(availableBlocks.length)],
+              initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
+              Random().nextDouble() * mapSize * 80)))
     ], value: playerBloc);
     world.add(provider);
   }
