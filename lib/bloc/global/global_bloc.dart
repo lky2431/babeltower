@@ -9,6 +9,10 @@ part 'global_bloc.freezed.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(const GlobalState()) {
+    emit(state.copyWith(gameContent: GameContent(
+      builtTower: {0: 1, 1: 2, 2: 1, 3: 1, 4: 3},
+      blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1}
+    )));
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
           stage: GameStage.introduction,

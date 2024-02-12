@@ -22,24 +22,19 @@ class _LeaveFieldDialogState extends State<LeaveFieldDialog> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Container(
-          height: 300,
-          decoration: BoxDecoration(color: Colors.brown),
-          constraints: BoxConstraints(maxWidth: 400),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: AlertDialog(
-              content: Text("Do you want to leave the field now?"),
-              actions: [
-                TextButton(onPressed: () {
-
-                }, child: Text("Yes")),
-                TextButton(onPressed: () {
-                  widget.game.overlays.remove("Leave");
-                  widget.game.resumeEngine();
-                }, child: Text("No"))
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: AlertDialog(
+            content: Text("Do you want to leave the mountain now?"),
+            actions: [
+              TextButton(onPressed: () {}, child: Text("Yes")),
+              TextButton(
+                  onPressed: () {
+                    widget.game.overlays.remove("Leave");
+                    widget.game.resumeEngine();
+                  },
+                  child: Text("No"))
+            ],
           ),
         ),
       ),

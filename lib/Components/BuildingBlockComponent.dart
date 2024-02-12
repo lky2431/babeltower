@@ -1,22 +1,26 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/Components/PlayerComponent.dart';
+import 'package:babeltower/bloc/player/player_bloc.dart';
 import 'package:babeltower/config.dart';
 import 'package:babeltower/model/BuildingBlock.dart';
+import 'package:babeltower/model/PickableItem.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../tool/cVectors.dart';
 
-class BuildingBlockComponent extends PositionComponent with CollisionCallbacks {
-  BuildingBlockComponent({required this.block, required this.initialPosition});
-  final BuildingBlock block;
+class BuildingBlockComponent extends PositionComponent
+    with CollisionCallbacks, FlameBlocReader<PlayerBloc, PlayerState>, HasGameRef<BabelTowerGame> {
+  BuildingBlockComponent({required this.index, required this.initialPosition});
+  final int index;
   final Vector2 initialPosition;
-
-
+  bool picking =false;
 
   @override
   Future<void> onLoad() async {
@@ -24,7 +28,7 @@ class BuildingBlockComponent extends PositionComponent with CollisionCallbacks {
     priority = -1;
 
     size = v64 * 3;
-    for (int pos in block.blocks) {
+    for (int pos in availableBlocks[index]!.blocks) {
       add(_subBlock(
           Vector2(pos % 3, (pos / 3).floor().toDouble()) * 64 * vratio));
       add(RectangleComponent(
@@ -52,8 +56,20 @@ class BuildingBlockComponent extends PositionComponent with CollisionCallbacks {
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if(other is PlayerComponent){
-
+    if (other is PlayerComponent && !picking) {
+      picking=true;
+      PickableItem item = PickableItem.building(
+          "block to build tower", index, availableBlocks[index]!.blocks.length * 2);
+      String? result = bloc.shouldPick(item);
+      if (result==null) {
+        removeFromParent();
+        bloc.add(PlayerEvent.pick(item));
+      }else{
+        gameRef.overlays.add(result);
+        Future.delayed(Duration(seconds: 3),(){
+          picking=false;
+        });
+      }
     }
   }
 }

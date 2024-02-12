@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/Components/BuildingBlockComponent.dart';
+import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
+import 'package:babeltower/model/BuildingBlock.dart';
 import 'package:babeltower/tool/cVectors.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
@@ -119,15 +121,17 @@ class _BagDialogState extends State<BagDialog> {
                                       .read<PlayerBloc>()
                                       .add(PlayerEvent.drop(selectedIndex!));
                                   if (state.items[selectedIndex]! is Building) {
-
-                                    widget.game.provider.add(
-                                        BuildingBlockComponent(
-                                            block: (state.items[selectedIndex]!
-                                                    as Building)
-                                                .block, initialPosition: state.position+(v196..rotate(pi))));
-                                  }else{
-                                    
-                                  }
+                                    widget.game.provider
+                                        .add(
+                                            BuildingBlockComponent(
+                                                index:
+                                                    (state.items[selectedIndex]!
+                                                            as Building)
+                                                        .blockIndex,
+                                                initialPosition:
+                                                    state.position +
+                                                        (v196..rotate(pi))));
+                                  } else {}
                                 },
                                 child: Text("Drop"))
                           ],
@@ -176,35 +180,7 @@ class ItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8)),
             child: switch (child) {
               null => null,
-              Building(:final block) => Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      List<int> blocks = block.blocks;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                            3,
-                            (j) => Row(
-                                  children: List.generate(3, (i) {
-                                    if (blocks.contains(3 * j + i)) {
-                                      return Container(
-                                        height: constraints.maxWidth / 3,
-                                        width: constraints.maxWidth / 3,
-                                        child: Image.asset(
-                                            "assets/images/block.png"),
-                                      );
-                                    }
-                                    return Container(
-                                      width: constraints.maxWidth / 3,
-                                    );
-                                  }),
-                                )),
-                      );
-                    },
-                  ),
-                ),
+              Building(:final blockIndex) => BuildingBlockWidget(blockIndex),
               Normal(:final image) => Image.asset("assets/images/$image.png"),
             },
           ),

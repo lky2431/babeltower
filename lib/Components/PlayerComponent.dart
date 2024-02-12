@@ -21,7 +21,7 @@ import '../tool/cVectors.dart';
 
 class PlayerComponent extends SpriteAnimationComponent
     with
-        FlameBlocReader<PlayerBloc, PlayerState>,
+        FlameBlocListenable<PlayerBloc, PlayerState>,
         KeyboardHandler,
         CollisionCallbacks,
         HasGameRef<BabelTowerGame> {
@@ -46,12 +46,13 @@ class PlayerComponent extends SpriteAnimationComponent
   bool flipped = false;
   Vector2 previousSpeed = Vector2(0, 0);
   double prevHealth = 1;
+  double speedFactor = 100;
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
     add(RectangleHitbox(
-        size: Vector2(80*vratio, 132*vratio),
+        size: Vector2(80 * vratio, 132 * vratio),
         collisionType: CollisionType.passive,
         anchor: Anchor.center,
         position: v128));
@@ -61,7 +62,6 @@ class PlayerComponent extends SpriteAnimationComponent
         srcSize: playerDimensions);
     animation = idlebackAnimation;
 
-    position = bloc.state.position;
     anchor = Anchor.center;
     size = v256;
     add(FlameBlocListener<PlayerBloc, PlayerState>(onNewState: (state) {
@@ -93,10 +93,16 @@ class PlayerComponent extends SpriteAnimationComponent
   }
 
   @override
+  void onInitialState(PlayerState state) {
+    super.onInitialState(state);
+    position = state.position;
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
     priority = position.y.toInt();
-    position += speed * dt * 180*vratio;
+    position += speed * dt * speedFactor * vratio;
     if (position.x < 0) {
       position.x = 0;
     }
@@ -142,6 +148,14 @@ class PlayerComponent extends SpriteAnimationComponent
     if (flipped) {
       flipHorizontallyAroundCenter();
       flipped = false;
+    }
+  }
+
+  @override
+  void onNewState(PlayerState state) {
+    super.onNewState(state);
+    if (isMounted) {
+      speedFactor = 180 - state.weight;
     }
   }
 

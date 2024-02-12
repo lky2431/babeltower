@@ -20,10 +20,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     on<_Pick>(onPick);
 
     Map<int, PickableItem> map = {};
-    for (int i = 0; i < availableBlocks.length; i++) {
-      map[i] = PickableItem.building(
-          "block", availableBlocks[i], availableBlocks[i].blocks.length * 2);
-    }
+
     emit(state.copyWith(items: map, weight: 15));
   }
 
@@ -60,13 +57,13 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
         state.copyWith(items: items, weight: state.weight + event.item.weight));
   }
 
-  bool shouldPick(PickableItem item) {
+  String? shouldPick(PickableItem item) {
     if (state.items.keys.length >= 30) {
-      return false;
+      return "Overitem";
     }
     if (state.weight + item.weight > state.maxWeight) {
-      return false;
+      return "Overload";
     }
-    return true;
+    return null;
   }
 }

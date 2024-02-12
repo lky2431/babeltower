@@ -6,6 +6,7 @@ import 'package:babeltower/Components/PlayerComponent.dart';
 import 'package:babeltower/Components/SpawnEnemyComponent.dart';
 
 import 'package:babeltower/Components/TileGenerationComponent.dart';
+import 'package:babeltower/Components/TrashComponent.dart';
 
 import 'package:babeltower/bloc/player/player_bloc.dart';
 import 'package:babeltower/config.dart';
@@ -47,11 +48,16 @@ class BabelTowerGame extends FlameGame
       portal,
       IndicatorManager(components: [portal]),
       ...List.generate(
-          5,
+          10,
           (index) => BuildingBlockComponent(
-              block: availableBlocks[Random().nextInt(availableBlocks.length)],
+              index: Random().nextInt(availableBlocks.values.length),
               initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
-              Random().nextDouble() * mapSize * 80)))
+                  Random().nextDouble() * mapSize * 80))),
+      ...List.generate(
+          50,
+          (index) => TrashComponent(
+              initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
+                  Random().nextDouble() * mapSize * 80))),
     ], value: playerBloc);
     world.add(provider);
   }
