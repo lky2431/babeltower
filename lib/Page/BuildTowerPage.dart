@@ -34,134 +34,139 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
       child: SizedBox.expand(
         child: BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, state) {
-            Map<int, int> blocks = state.gameContent!.blocks;
             return BlocProvider(
-              create: (context) => TowerBloc(state.gameContent!.builtTower),
-              child: Stack(
-                children: [
-                  BlocBuilder<TowerBloc, TowerState>(
-                    builder: (context, towerState) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: height / 15 * 5,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    child: DragTarget<int>(
-                                      onAccept: (index) {
-                                        context
-                                            .read<TowerBloc>()
-                                            .add(TowerEvent.leave());
-                                      },
-                                      onLeave: (index) {
-                                        context
-                                            .read<TowerBloc>()
-                                            .add(TowerEvent.leave());
-                                      },
-                                      onMove: (DragTargetDetails details) {
-                                        double thresholdx =
-                                            (width - height / 3) / 2;
-                                        int column =
-                                            ((details.offset.dx - thresholdx) /
-                                                    (height / 15))
-                                                .toInt();
-                                        context.read<TowerBloc>().add(
-                                            TowerEvent.updatePosition(
-                                                column, details.data));
-                                        setState(() {
-                                          offset = details.offset;
-                                        });
-                                      },
-                                      builder: (BuildContext context,
-                                          List<Object?> candidateData,
-                                          List<dynamic> rejectedData) {
-                                        return Row(
-                                          children: List.generate(5, (i) {
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                ...List.generate(
-                                                    (towerState.valid[i] ?? [])
-                                                        .length,
-                                                    (j) => SizedBox(
-                                                          height: height / 15,
-                                                          width: height / 15,
-                                                          child: Image.asset(
-                                                            "assets/images/block.png",
-                                                            color: Colors.green
-                                                                .withOpacity(
-                                                                    0.4),
-                                                            colorBlendMode:
-                                                                BlendMode.color,
-                                                          ),
-                                                        )),
-                                                ...List.generate(
-                                                    (towerState.valid[i] ??
-                                                                [
-                                                                  state
-                                                                      .gameContent!
-                                                                      .builtTower[i]!
-                                                                ])
-                                                            .reduce(min) -
-                                                        state.gameContent!
-                                                            .builtTower[i]!,
-                                                    (index) => SizedBox(
-                                                          height: height / 15,
-                                                          width: height / 15,
-                                                        )),
-                                                ...List.generate(
-                                                    state.gameContent!
-                                                        .builtTower[i]!,
-                                                    (j) => SizedBox(
-                                                          height: height / 15,
-                                                          width: height / 15,
-                                                          child: Image.asset(
-                                                              "assets/images/block.png"),
-                                                        )),
-                                              ],
-                                            );
-                                          }),
+              create: (context) => TowerBloc(context.read<GlobalBloc>()),
+              child: BlocBuilder<TowerBloc, TowerState>(
+                builder: (context, towerState) {
+                  Map<int, int> blocks = towerState.blocks;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          width: height / 15 * 5,
+                          child: Stack(
+                            children: [
+                              Container(
+                                child: DragTarget<int>(
+                                  onAccept: (index) {
+                                    context
+                                        .read<TowerBloc>()
+                                        .add(TowerEvent.accept(index));
+                                  },
+                                  onLeave: (index){
+                                    context
+                                        .read<TowerBloc>()
+                                        .add(TowerEvent.accept(index));
+                                  },
+                                  onMove: (DragTargetDetails details) {
+                                    double thresholdx =
+                                        (width - height / 3) / 2;
+                                    int column = (details.offset.dx -
+                                            thresholdx +
+                                            height / 15) ~/
+                                        (height / 15);
+                                    context.read<TowerBloc>().add(
+                                        TowerEvent.updatePosition(
+                                            column, details.data));
+                                    setState(() {
+                                      offset = details.offset;
+                                    });
+                                  },
+                                  builder: (BuildContext context,
+                                      List<Object?> candidateData,
+                                      List<dynamic> rejectedData) {
+                                    return Row(
+                                      children: List.generate(5, (i) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            ...List.generate(
+                                                11,
+                                                (j) => SizedBox(
+                                                      height: height / 15,
+                                                      width: height / 15,
+                                                      child: Builder(
+                                                        builder:
+                                                            (BuildContext
+                                                                context) {
+                                                          if (j <
+                                                              towerState
+                                                                      .towerBuilt[
+                                                                  i]!) {
+                                                            return Image.asset(
+                                                                "assets/images/block.png");
+                                                          }
+                                                          if ((towerState.valid[
+                                                                      i] ??
+                                                                  [])
+                                                              .contains(
+                                                                  j)) {
+                                                            return Image
+                                                                .asset(
+                                                              "assets/images/block.png",
+                                                              color: Colors
+                                                                  .green
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                              colorBlendMode:
+                                                                  BlendMode
+                                                                      .color,
+                                                            );
+                                                          }
+                                                          if ((towerState.notvalid[
+                                                                      i] ??
+                                                                  [])
+                                                              .contains(
+                                                                  j)) {
+                                                            return Image
+                                                                .asset(
+                                                              "assets/images/block.png",
+                                                              color: Colors
+                                                                  .red
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                              colorBlendMode:
+                                                                  BlendMode
+                                                                      .color,
+                                                            );
+                                                          }
+
+                                                          return Container();
+                                                        },
+                                                      ),
+                                                    )).reversed,
+                                          ],
                                         );
-                                      },
-                                    ),
-                                  ),
-                                  IgnorePointer(
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Container(
-                                        height: height / 15 * 6,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.green, width: 3),
-                                        ),
-                                        width: height / 15 * 5,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                      }),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
+                              IgnorePointer(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    height: height / 15 * 6,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.green, width: 3),
+                                    ),
+                                    width: height / 15 * 5,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          _buildGround(width, height),
-                          _buildSelection(
-                              blocks, height, towerState.rotation, context)
-                        ],
-                      );
-                    },
-                  ),
-                  Positioned(
-                      left: offset.dx,
-                      top: offset.dy,
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(color: Colors.red),
-                      ))
-                ],
+                        ),
+                      ),
+                      _buildGround(width, height),
+                      _buildSelection(
+                          blocks, height, towerState.rotation, context)
+                    ],
+                  );
+                },
               ),
             );
           },
@@ -201,7 +206,7 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white)),
+                            border: Border.all(color: Colors.white30)),
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Stack(

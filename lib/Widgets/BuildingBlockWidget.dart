@@ -15,7 +15,7 @@ class BuildingBlockWidget extends StatelessWidget {
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           BuildingBlock block = availableBlocks[blockIndex]!;
-          List<int> blocks = block.rotate(rotation);
+          List<int> blocks = BuildingBlock.pack(block.rotate(rotation));
 
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,

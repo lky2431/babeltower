@@ -48,7 +48,7 @@ class TrashComponent extends PositionComponent
     if (other is PlayerComponent && !picking) {
       picking = true;
       PickableItem item = PickableItem.normal(
-          trash.description, trash.name, trash.weight, trash.price);
+          trash.description, trash.name, trash.weight(), trash.price());
       String? result = bloc.shouldPick(item);
       if (result == null) {
         bloc.add(PlayerEvent.pick(item));

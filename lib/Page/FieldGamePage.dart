@@ -1,7 +1,9 @@
+import 'package:babeltower/Page/DayPage.dart';
 import 'package:babeltower/dialog/BagDialog.dart';
 import 'package:babeltower/dialog/CantPickDialog.dart';
 import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:babeltower/dialog/LeaveFieldDialog.dart';
+import 'package:babeltower/dialog/SummaryDialog.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +33,14 @@ class FieldGamePage extends StatelessWidget {
             "Tutorial": (context, game) => FieldTutorialDialog(game),
             "Leave": (context, game) => LeaveFieldDialog(game),
             "Bag": (context, game) => BagDialog(game),
-            "Overload":(context,game)=>CantPickDialog(true, game: game),
-            "Overitem":(context,game)=>CantPickDialog(false, game: game)
+            "Overload": (context, game) => CantPickDialog(true, game: game),
+            "Overitem": (context, game) => CantPickDialog(false, game: game),
+            "Summary": (context, game) => SummaryDialog(),
+
           },
           initialActiveOverlays: [
             "HealthBar",
+
             /*if (!context
                 .read<GlobalBloc>()
                 .state

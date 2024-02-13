@@ -16,5 +16,7 @@ class GameContent with _$GameContent {
     Map<GameStage, bool> hintShown,
     @Default({}) Map<int, int> builtTower,
     @Default({}) Map<int, int> blocks,
+    @Default(GameStage.day) GameStage stage,
+    @Default(1) int day,
   }) = _GameContent;
 }

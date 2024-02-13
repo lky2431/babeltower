@@ -35,6 +35,21 @@ class BuildingBlock {
     }
     return _temp;
   }
+
+  static List<int> pack(List<int> raw) {
+    List<int> blocks = List.of(raw);
+    if (!blocks.containAny([0, 3, 6])) {
+      blocks = blocks
+          .map((e) => e - 1)
+          .toList(); //shift left if the left column is empty
+    }
+    if (!blocks.containAny([6, 7, 8])) {
+      blocks = blocks
+          .map((e) => e + 3)
+          .toList(); //shift to down if the down row is empty
+    }
+    return blocks;
+  }
 }
 
 Map<int, BuildingBlock> availableBlocks = {
@@ -46,3 +61,14 @@ Map<int, BuildingBlock> availableBlocks = {
   5: BuildingBlock(blocks: [4, 7]),
   6: BuildingBlock(blocks: [3, 6, 7, 8, 5]),
 };
+
+extension on List<int> {
+  bool containAny(List<int> elements) {
+    for (int i in elements) {
+      if (contains(i)) {
+        return true;
+      }
+    }
+    return false;
+  }
+}

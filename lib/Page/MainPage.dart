@@ -1,4 +1,5 @@
 import 'package:babeltower/Page/BuildTowerPage.dart';
+import 'package:babeltower/Page/DayPage.dart';
 import 'package:babeltower/Page/FieldGamePage.dart';
 import 'package:babeltower/Page/IntroductionPage.dart';
 import 'package:babeltower/bloc/global/global_bloc.dart';
@@ -22,6 +23,8 @@ class MainPage extends StatelessWidget {
           return IntroductionPage();
         case GameStage.tower:
           return BuildTowerPage();
+        case GameStage.day:
+          return DayPage();
         default:
           return Container();
       }

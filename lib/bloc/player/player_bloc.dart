@@ -18,10 +18,6 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     on<_Damage>(onDamage);
     on<_Drop>(onDrop);
     on<_Pick>(onPick);
-
-    Map<int, PickableItem> map = {};
-
-    emit(state.copyWith(items: map, weight: 15));
   }
 
   final PlayerState initialState;
