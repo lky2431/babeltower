@@ -7,6 +7,7 @@ import 'package:babeltower/Components/GhostComponent.dart';
 import 'package:babeltower/Components/MosquitoComponent.dart';
 import 'package:babeltower/Components/ZombieComponent.dart';
 import 'package:babeltower/bloc/player/player_bloc.dart';
+import 'package:babeltower/model/GameContent.dart';
 import 'package:babeltower/tool/cVectors.dart';
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -18,39 +19,67 @@ class SpawnEnemyComponent extends Component with HasGameRef<BabelTowerGame> {
   late Vector2 _size;
   int zombieNumber = 0;
 
+  Difficulty difficulty = Difficulty.tough;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
     SpawnComponent zombieSpawn = SpawnComponent(
         factory: (int amount) {
-          zombieNumber += 1;
-          if (zombieNumber > 20) {
+          print(zombieNumber);
+          if (zombieNumber >
+              switch (difficulty) {
+                Difficulty.simple => 10,
+                Difficulty.real => 20,
+                Difficulty.tough => 40,
+              }) {
             return EmptyComponent();
           }
+          zombieNumber += 1;
           return ZombieComponent(zombiePosition(), onDestroyed: () {
             zombieNumber -= 1;
           });
         },
-        period: 2);
+        period: switch (difficulty) {
+          Difficulty.simple => 5,
+          Difficulty.real => 2,
+          Difficulty.tough => 1,
+        });
 
     SpawnComponent ghostSpawn = SpawnComponent(
         factory: (int amount) {
           (Vector2, Vector2) d = ghostDimension();
           return GhostComponent(d.$1, d.$2);
         },
-        period: 1);
+        period: switch (difficulty) {
+          Difficulty.simple => 2,
+          Difficulty.real => 1,
+          Difficulty.tough => 0.5,
+        });
     SpawnComponent mosquitoSpawn = SpawnComponent(
         factory: (int amount) {
           (Vector2, Vector2) d = mosquitoDimension();
           return MosquitoGroupComponent(initPosition: d.$1, speed: d.$2);
         },
-        period: 2);
+        period: switch (difficulty) {
+          Difficulty.simple => 6,
+          Difficulty.real => 2,
+          Difficulty.tough => 1,
+        });
     SpawnComponent explodeSpawn = SpawnComponent.periodRange(
         factory: (int amount) {
           return ExplosionComponent(initPosition: explodeDimension());
         },
-        minPeriod: 0.7,
-        maxPeriod: 2.5);
+        minPeriod: switch (difficulty) {
+          Difficulty.simple => 2,
+          Difficulty.real => 0.7,
+          Difficulty.tough => 0.3,
+        },
+        maxPeriod: switch (difficulty) {
+          Difficulty.simple => 5,
+          Difficulty.real => 2.5,
+          Difficulty.tough => 1,
+        });
     add(zombieSpawn);
     add(ghostSpawn);
     add(mosquitoSpawn);
@@ -84,7 +113,11 @@ class SpawnEnemyComponent extends Component with HasGameRef<BabelTowerGame> {
         : Vector2((Random().nextDouble() - 0.5) * _size.x,
             Random().nextBool() ? _size.y / 2 + 100 : -_size.y / 2 - 100);
 
-    return (camPosition + shiftVector, -shiftVector..rotate((Random().nextDouble()-0.5)*20/180*pi));
+    return (
+      camPosition + shiftVector,
+      -shiftVector
+        ..rotate((Random().nextDouble() - 0.5) * 20 / 180 * pi)
+    );
   }
 
   Vector2 explodeDimension() {

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/bloc/player/player_bloc.dart';
 import 'package:babeltower/config.dart';
+import 'package:babeltower/model/Goods.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -47,6 +48,7 @@ class PlayerComponent extends SpriteAnimationComponent
   Vector2 previousSpeed = Vector2(0, 0);
   double prevHealth = 1;
   double speedFactor = 100;
+  bool haveShoe = false;
 
   @override
   Future<void> onLoad() async {
@@ -96,13 +98,14 @@ class PlayerComponent extends SpriteAnimationComponent
   void onInitialState(PlayerState state) {
     super.onInitialState(state);
     position = state.position;
+    haveShoe = state.goods[allGoods.Shoe]!;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
     priority = position.y.toInt();
-    position += speed * dt * speedFactor * vratio;
+    position += speed * dt * speedFactor * vratio * (haveShoe ? 1.15 : 1);
     if (position.x < 0) {
       position.x = 0;
     }
@@ -155,7 +158,7 @@ class PlayerComponent extends SpriteAnimationComponent
   void onNewState(PlayerState state) {
     super.onNewState(state);
     if (isMounted) {
-      speedFactor = 180 - state.weight;
+      speedFactor = 260 - state.weight * 2;
     }
   }
 

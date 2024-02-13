@@ -10,10 +10,11 @@ part 'global_bloc.freezed.dart';
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(const GlobalState()) {
     emit(state.copyWith(
-        stage: GameStage.day,
+        stage: GameStage.field,
         gameContent: GameContent(
             builtTower: {0: 1, 1: 2, 2: 0, 3: 1, 4: 3},
-            blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1})));
+            blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}
+            )));
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
           stage: GameStage.introduction,
@@ -38,10 +39,16 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     on<_AddBlock>((event, emit) {
       Map<int, int> original = Map.from(state.gameContent!.blocks);
       for (int i in event.blocks.keys) {
-        original[i] = original[i]! + event.blocks[i]!;
+        original[i] = (original[i] ?? 0) + event.blocks[i]!;
       }
       emit(state.copyWith(
           gameContent: state.gameContent!.copyWith(blocks: original)));
+    });
+    on<_DayPass>((event, emit) {
+      emit(state.copyWith(
+          stage: GameStage.day,
+          gameContent:
+              state.gameContent!.copyWith(day: state.gameContent!.day + 1)));
     });
   }
 }

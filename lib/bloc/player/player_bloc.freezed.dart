@@ -864,6 +864,7 @@ mixin _$PlayerState {
   Map<int, PickableItem> get items => throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
   double get maxWeight => throw _privateConstructorUsedError;
+  Map<allGoods, bool> get goods => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PlayerStateCopyWith<PlayerState> get copyWith =>
@@ -883,7 +884,8 @@ abstract class $PlayerStateCopyWith<$Res> {
       double health,
       Map<int, PickableItem> items,
       double weight,
-      double maxWeight});
+      double maxWeight,
+      Map<allGoods, bool> goods});
 }
 
 /// @nodoc
@@ -906,6 +908,7 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
     Object? items = null,
     Object? weight = null,
     Object? maxWeight = null,
+    Object? goods = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -936,6 +939,10 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.maxWeight
           : maxWeight // ignore: cast_nullable_to_non_nullable
               as double,
+      goods: null == goods
+          ? _value.goods
+          : goods // ignore: cast_nullable_to_non_nullable
+              as Map<allGoods, bool>,
     ) as $Val);
   }
 }
@@ -955,7 +962,8 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       double health,
       Map<int, PickableItem> items,
       double weight,
-      double maxWeight});
+      double maxWeight,
+      Map<allGoods, bool> goods});
 }
 
 /// @nodoc
@@ -976,6 +984,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? items = null,
     Object? weight = null,
     Object? maxWeight = null,
+    Object? goods = null,
   }) {
     return _then(_$PlayerStateImpl(
       speed: null == speed
@@ -1006,6 +1015,10 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.maxWeight
           : maxWeight // ignore: cast_nullable_to_non_nullable
               as double,
+      goods: null == goods
+          ? _value._goods
+          : goods // ignore: cast_nullable_to_non_nullable
+              as Map<allGoods, bool>,
     ));
   }
 }
@@ -1020,8 +1033,10 @@ class _$PlayerStateImpl implements _PlayerState {
       this.health = 1,
       final Map<int, PickableItem> items = const {},
       this.weight = 0,
-      this.maxWeight = 50})
-      : _items = items;
+      this.maxWeight = 50,
+      required final Map<allGoods, bool> goods})
+      : _items = items,
+        _goods = goods;
 
   @override
   final Vector2 speed;
@@ -1048,10 +1063,17 @@ class _$PlayerStateImpl implements _PlayerState {
   @override
   @JsonKey()
   final double maxWeight;
+  final Map<allGoods, bool> _goods;
+  @override
+  Map<allGoods, bool> get goods {
+    if (_goods is EqualUnmodifiableMapView) return _goods;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_goods);
+  }
 
   @override
   String toString() {
-    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight)';
+    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight, goods: $goods)';
   }
 
   @override
@@ -1067,12 +1089,21 @@ class _$PlayerStateImpl implements _PlayerState {
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.maxWeight, maxWeight) ||
-                other.maxWeight == maxWeight));
+                other.maxWeight == maxWeight) &&
+            const DeepCollectionEquality().equals(other._goods, _goods));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, speed, moving, position, health,
-      const DeepCollectionEquality().hash(_items), weight, maxWeight);
+  int get hashCode => Object.hash(
+      runtimeType,
+      speed,
+      moving,
+      position,
+      health,
+      const DeepCollectionEquality().hash(_items),
+      weight,
+      maxWeight,
+      const DeepCollectionEquality().hash(_goods));
 
   @JsonKey(ignore: true)
   @override
@@ -1089,7 +1120,8 @@ abstract class _PlayerState implements PlayerState {
       final double health,
       final Map<int, PickableItem> items,
       final double weight,
-      final double maxWeight}) = _$PlayerStateImpl;
+      final double maxWeight,
+      required final Map<allGoods, bool> goods}) = _$PlayerStateImpl;
 
   @override
   Vector2 get speed;
@@ -1105,6 +1137,8 @@ abstract class _PlayerState implements PlayerState {
   double get weight;
   @override
   double get maxWeight;
+  @override
+  Map<allGoods, bool> get goods;
   @override
   @JsonKey(ignore: true)
   _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>

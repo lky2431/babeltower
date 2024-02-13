@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:babeltower/BabelTowerGame.dart';
+import 'package:babeltower/Components/BuildingBlockComponent.dart';
 import 'package:babeltower/mixin/Indicatable.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,7 @@ import '../tool/cVectors.dart';
 
 class IndicatorManager extends Component with HasGameRef {
   IndicatorManager({required this.components});
-  final List<Indicatable> components;
+  List<Indicatable> components;
   Map<GlobalKey, IndicatorComponent> records = {};
 
   @override
@@ -21,9 +22,13 @@ class IndicatorManager extends Component with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
+
     if (isMounted) {
       for (Indicatable component in components) {
-        bool active = component.isAcitve();
+        bool active = component.isActive();
+        if (component is BuildingBlockComponent) {
+          //print("${component.position}  $active $records");
+        }
         if (!active && !records.containsKey(component.globalKey)) {
           IndicatorComponent indicator = IndicatorComponent(component);
           game.world.add(indicator);
@@ -35,6 +40,11 @@ class IndicatorManager extends Component with HasGameRef {
         }
       }
     }
+  }
+
+  void removeComponent(GlobalKey key) {
+    components =
+        components.where((element) => element.globalKey != key).toList();
   }
 }
 
@@ -71,13 +81,19 @@ class IndicatorComponent extends SpriteComponent
     double camX = camPosition.x;
     double camY = camPosition.y;
     if (sourceX >= camX && sourceY <= camY) {
-      sourceAngle = atan((sourceX - camX) / (sourceY - camY));
+      sourceAngle = atan((sourceX - camX) / (camY - sourceY));
     } else if (sourceX >= camX && sourceY > camY) {
       sourceAngle = pi - atan((sourceX - camX) / (sourceY - camY));
     } else if (sourceX < camX && sourceY > camY) {
       sourceAngle = pi - atan((sourceX - camX) / (sourceY - camY));
     } else {
-      sourceAngle = atan((sourceX - camX) / (sourceY - camY)) + 2 * pi;
+      sourceAngle = 2 * pi - atan((sourceX - camX) / (sourceY - camY));
+    }
+    if (sourceAngle > 2 * pi) {
+      sourceAngle = sourceAngle - 2 * pi;
+    }
+    if (sourceAngle <= 0) {
+      sourceAngle = sourceAngle + 2 * pi;
     }
     if (sourceAngle <= diagonalAngle || sourceAngle >= 2 * pi - diagonalAngle) {
       position = camPosition +
@@ -99,6 +115,9 @@ class IndicatorComponent extends SpriteComponent
               -gameSize.x / 2 + 32, (gameSize.x / 2 - 32) / tan(sourceAngle));
     }
     angle = sourceAngle;
+
+    /*print(
+        "${sourceX - camX} ${sourceY - camY} ${sourceAngle} ${diagonalAngle} ${position - camPosition}");*/
   }
 
   @override

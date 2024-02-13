@@ -34,140 +34,54 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
       child: SizedBox.expand(
         child: BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, state) {
-            return BlocProvider(
-              create: (context) => TowerBloc(context.read<GlobalBloc>()),
-              child: BlocBuilder<TowerBloc, TowerState>(
-                builder: (context, towerState) {
-                  Map<int, int> blocks = towerState.blocks;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: height / 15 * 5,
-                          child: Stack(
+            return Stack(
+              children: [
+                BlocProvider(
+                  create: (context) => TowerBloc(context.read<GlobalBloc>()),
+                  child: BlocBuilder<TowerBloc, TowerState>(
+                    builder: (context, towerState) {
+                      Map<int, int> blocks = towerState.blocks;
+                      return OrientationBuilder(
+                          builder: (context, orientation) {
+                        if (orientation == Orientation.portrait) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                child: DragTarget<int>(
-                                  onAccept: (index) {
-                                    context
-                                        .read<TowerBloc>()
-                                        .add(TowerEvent.accept(index));
-                                  },
-                                  onLeave: (index){
-                                    context
-                                        .read<TowerBloc>()
-                                        .add(TowerEvent.accept(index));
-                                  },
-                                  onMove: (DragTargetDetails details) {
-                                    double thresholdx =
-                                        (width - height / 3) / 2;
-                                    int column = (details.offset.dx -
-                                            thresholdx +
-                                            height / 15) ~/
-                                        (height / 15);
-                                    context.read<TowerBloc>().add(
-                                        TowerEvent.updatePosition(
-                                            column, details.data));
-                                    setState(() {
-                                      offset = details.offset;
-                                    });
-                                  },
-                                  builder: (BuildContext context,
-                                      List<Object?> candidateData,
-                                      List<dynamic> rejectedData) {
-                                    return Row(
-                                      children: List.generate(5, (i) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            ...List.generate(
-                                                11,
-                                                (j) => SizedBox(
-                                                      height: height / 15,
-                                                      width: height / 15,
-                                                      child: Builder(
-                                                        builder:
-                                                            (BuildContext
-                                                                context) {
-                                                          if (j <
-                                                              towerState
-                                                                      .towerBuilt[
-                                                                  i]!) {
-                                                            return Image.asset(
-                                                                "assets/images/block.png");
-                                                          }
-                                                          if ((towerState.valid[
-                                                                      i] ??
-                                                                  [])
-                                                              .contains(
-                                                                  j)) {
-                                                            return Image
-                                                                .asset(
-                                                              "assets/images/block.png",
-                                                              color: Colors
-                                                                  .green
-                                                                  .withOpacity(
-                                                                      0.4),
-                                                              colorBlendMode:
-                                                                  BlendMode
-                                                                      .color,
-                                                            );
-                                                          }
-                                                          if ((towerState.notvalid[
-                                                                      i] ??
-                                                                  [])
-                                                              .contains(
-                                                                  j)) {
-                                                            return Image
-                                                                .asset(
-                                                              "assets/images/block.png",
-                                                              color: Colors
-                                                                  .red
-                                                                  .withOpacity(
-                                                                      0.4),
-                                                              colorBlendMode:
-                                                                  BlendMode
-                                                                      .color,
-                                                            );
-                                                          }
-
-                                                          return Container();
-                                                        },
-                                                      ),
-                                                    )).reversed,
-                                          ],
-                                        );
-                                      }),
-                                    );
-                                  },
-                                ),
+                              Expanded(
+                                child: _buildMainBody(context, towerState),
                               ),
-                              IgnorePointer(
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    height: height / 15 * 6,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.green, width: 3),
-                                    ),
-                                    width: height / 15 * 5,
-                                  ),
-                                ),
-                              )
+                              _buildGround(width, height),
+                              _buildSelection(blocks, height,
+                                  towerState.rotation, context, orientation)
                             ],
-                          ),
-                        ),
-                      ),
-                      _buildGround(width, height),
-                      _buildSelection(
-                          blocks, height, towerState.rotation, context)
-                    ],
-                  );
-                },
-              ),
+                          );
+                        }
+                        return Row(
+                          children: [
+                            Expanded(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: _buildMainBody(context, towerState),
+                                ),
+                                _buildGround(width, height),
+                              ],
+                            )),
+                            SizedBox(
+                              width: 150,
+                              height: height,
+                              child: _buildSelection(blocks, height,
+                                  towerState.rotation, context, orientation),
+                            )
+                          ],
+                        );
+                      });
+                    },
+                  ),
+                ),
+                buildExitButton(context)
+              ],
             );
           },
         ),
@@ -175,104 +89,265 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
     );
   }
 
-  Widget _buildSelection(
-      Map<int, int> blocks, double height, int rotation, BuildContext context) {
-    return Container(
-      color: Colors.black,
-      child: Row(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: List.generate(availableBlocks.length, (index) {
-                  if (blocks[index] == null || blocks[index] == 0) {
-                    return Container();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 8),
-                    child: Draggable(
-                      data: index,
-                      feedback: Opacity(
-                        opacity: 0.5,
-                        child: SizedBox(
-                            height: height / 5,
-                            width: height / 5,
-                            child:
-                                BuildingBlockWidget(index, rotation: rotation)),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white30)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: BuildingBlockWidget(
-                                  index,
-                                  rotation: rotation,
-                                ),
-                              ),
-                              Positioned(
-                                right: 4,
-                                bottom: 4,
-                                child: Container(
-                                  width: 24,
-                                  height: 24,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.brown),
-                                  child:
-                                      Center(child: Text("${blocks[index]}")),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.brown,
-                    borderRadius: BorderRadius.circular(8)),
-                child: IconButton(
-                    onPressed: () {
-                      context.read<TowerBloc>().add(TowerEvent.rotate());
-                    },
-                    icon: Icon(Icons.rotate_left))),
-          )
-        ],
+  Padding buildExitButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.brown, borderRadius: BorderRadius.circular(8)),
+        child: IconButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        content: Text("Finish the tower building?"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                context
+                                    .read<GlobalBloc>()
+                                    .add(GlobalEvent.dayPass());
+                              },
+                              child: Text("Yes")),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("No"))
+                        ],
+                      ));
+            },
+            icon: Icon(Icons.exit_to_app)),
       ),
     );
   }
 
-  Widget _buildGround(double width, double height) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-          (width / (height / 15)).ceil(),
-          (index) => SizedBox(
-                width: width / ((width / (height / 15)).ceil()),
-                height: height / 15,
-                child: Image.asset(
-                  "assets/images/soil.png",
-                  fit: BoxFit.fill,
+  Widget _buildMainBody(BuildContext context, TowerState towerState) {
+    return LayoutBuilder(builder: (context, constraint) {
+      double height = constraint.maxHeight;
+      double width = constraint.maxWidth;
+      return Container(
+        width: height / 15 * 5,
+        child: Stack(
+          children: [
+            Container(
+              child: DragTarget<int>(
+                onAccept: (index) {
+                  context.read<TowerBloc>().add(TowerEvent.accept(index));
+                },
+                onLeave: (index) {
+                  context.read<TowerBloc>().add(TowerEvent.accept(index));
+                },
+                onMove: (DragTargetDetails details) {
+                  double thresholdx = (width - height / 3) / 2;
+                  int column = (details.offset.dx - thresholdx + height / 15) ~/
+                      (height / 15);
+                  context
+                      .read<TowerBloc>()
+                      .add(TowerEvent.updatePosition(column, details.data));
+                  setState(() {
+                    offset = details.offset;
+                  });
+                },
+                builder: (BuildContext context, List<Object?> candidateData,
+                    List<dynamic> rejectedData) {
+                  return Row(
+                    children: List.generate(5, (i) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ...List.generate(
+                              11,
+                              (j) => SizedBox(
+                                    height: height / 15,
+                                    width: height / 15,
+                                    child: Builder(
+                                      builder: (BuildContext context) {
+                                        if (j < towerState.towerBuilt[i]!) {
+                                          return Image.asset(
+                                              "assets/images/block.png");
+                                        }
+                                        if ((towerState.valid[i] ?? [])
+                                            .contains(j)) {
+                                          return Image.asset(
+                                            "assets/images/block.png",
+                                            color:
+                                                Colors.green.withOpacity(0.4),
+                                            colorBlendMode: BlendMode.color,
+                                          );
+                                        }
+                                        if ((towerState.notvalid[i] ?? [])
+                                            .contains(j)) {
+                                          return Image.asset(
+                                            "assets/images/block.png",
+                                            color: Colors.red.withOpacity(0.4),
+                                            colorBlendMode: BlendMode.color,
+                                          );
+                                        }
+
+                                        return Container();
+                                      },
+                                    ),
+                                  )).reversed,
+                        ],
+                      );
+                    }),
+                  );
+                },
+              ),
+            ),
+            IgnorePointer(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: height / 15 * 6,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.green, width: 3),
+                  ),
+                  width: height / 15 * 5,
                 ),
-              )),
+              ),
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildSelection(Map<int, int> blocks, double height, int rotation,
+      BuildContext context, Orientation orientation) {
+    return Container(
+      color: Colors.black,
+      child: Builder(builder: (context) {
+        if (orientation == Orientation.portrait) {
+          return Row(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: List.generate(availableBlocks.length, (index) {
+                      if (blocks[index] == null || blocks[index] == 0) {
+                        return Container();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 8),
+                        child: _blockOption(index, height, rotation, blocks),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+              buildRotateButton(context)
+            ],
+          );
+        }
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: List.generate(availableBlocks.length, (index) {
+                    if (blocks[index] == null || blocks[index] == 0) {
+                      return Container();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 8),
+                      child: _blockOption(index, height, rotation, blocks),
+                    );
+                  }),
+                ),
+              ),
+            ),
+            buildRotateButton(context)
+          ],
+        );
+      }),
     );
+  }
+
+  Draggable<int> _blockOption(
+      int index, double height, int rotation, Map<int, int> blocks) {
+    return Draggable(
+      data: index,
+      feedback: Opacity(
+        opacity: 0.5,
+        child: SizedBox(
+            height: height / 5,
+            width: height / 5,
+            child: BuildingBlockWidget(index, rotation: rotation)),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white30)),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                height: 100,
+                width: 100,
+                child: BuildingBlockWidget(
+                  index,
+                  rotation: rotation,
+                ),
+              ),
+              Positioned(
+                right: 4,
+                bottom: 4,
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.brown),
+                  child: Center(child: Text("${blocks[index]}")),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding buildRotateButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Container(
+          decoration: BoxDecoration(
+              color: Colors.brown, borderRadius: BorderRadius.circular(8)),
+          child: IconButton(
+              onPressed: () {
+                context.read<TowerBloc>().add(TowerEvent.rotate());
+              },
+              icon: Icon(Icons.rotate_left))),
+    );
+  }
+
+  Widget _buildGround(double width, double height) {
+    return LayoutBuilder(builder: (context, constraint) {
+      double width = constraint.maxWidth;
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+            (width / (height / 15)).ceil(),
+            (index) => SizedBox(
+                  width: width / ((width / (height / 15)).ceil()),
+                  height: height / 15,
+                  child: Image.asset(
+                    "assets/images/soil.png",
+                    fit: BoxFit.fill,
+                  ),
+                )),
+      );
+    });
   }
 }

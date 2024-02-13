@@ -58,14 +58,13 @@ class PortalComponent extends SpriteAnimationComponent
   Vector2 get camPosition => gameRef.camera.viewfinder.position;
 
   @override
-  bool isAcitve() {
+  bool isActive() {
     if (position.x > camPosition.x + gameRef.size.x / 2 ||
         position.x < camPosition.x - gameRef.size.x / 2 ||
         position.y > camPosition.y + gameRef.size.y / 2 ||
         position.y < camPosition.y - gameRef.size.y / 2) {
       return false;
     }
-
     return true;
   }
 

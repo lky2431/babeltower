@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:babeltower/mixin/Indicatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flame/components.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../model/BuildingBlock.dart';
+import '../../model/Goods.dart';
 import '../../model/PickableItem.dart';
 part 'player_event.dart';
 part 'player_state.dart';
@@ -18,6 +20,9 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     on<_Damage>(onDamage);
     on<_Drop>(onDrop);
     on<_Pick>(onPick);
+    if (state.goods[allGoods.Basket]!) {
+      emit((state.copyWith(maxWeight: 70)));
+    }
   }
 
   final PlayerState initialState;
@@ -31,7 +36,9 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   }
 
   FutureOr<void> onDamage(_Damage event, Emitter<PlayerState> emit) {
-    emit(state.copyWith(health: state.health - event.damage));
+    double damage =
+        state.goods[allGoods.Basket]! ? event.damage : event.damage * 0.7;
+    emit(state.copyWith(health: state.health - damage));
   }
 
   FutureOr<void> onDrop(_Drop event, Emitter<PlayerState> emit) {

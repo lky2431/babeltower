@@ -32,6 +32,7 @@ class BabelTowerGame extends FlameGame
   BabelTowerGame(this.playerBloc);
   final PlayerBloc playerBloc;
   late FlameBlocProvider provider;
+  late IndicatorManager indicatorManager;
 
   @override
   Future<void> onLoad() async {
@@ -40,21 +41,25 @@ class BabelTowerGame extends FlameGame
     camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
         mapSize * 80.0 - size.x / 2, mapSize * 80.0 - size.y / 2));
     PortalComponent portal = PortalComponent();
+    List<BuildingBlockComponent> blocks = List.generate(
+        Random().nextInt(2) + 3,
+        (index) => BuildingBlockComponent(
+            // gameRef: this,
+            index: Random().nextInt(availableBlocks.values.length),
+            initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
+                Random().nextDouble() * mapSize * 80)));
+    indicatorManager = IndicatorManager(components: [portal, ...blocks]);
+
     provider = FlameBlocProvider<PlayerBloc, PlayerState>.value(children: [
       player,
       TileGenerationComponent(),
       SpawnEnemyComponent(),
       ControlComponent(),
       portal,
-      IndicatorManager(components: [portal]),
+      indicatorManager,
+      ...blocks,
       ...List.generate(
-          10,
-          (index) => BuildingBlockComponent(
-              index: Random().nextInt(availableBlocks.values.length),
-              initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
-                  Random().nextDouble() * mapSize * 80))),
-      ...List.generate(
-          50,
+          20,
           (index) => TrashComponent(
               initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
                   Random().nextDouble() * mapSize * 80))),

@@ -11,4 +11,5 @@ class GlobalEvent with _$GlobalEvent {
   const factory GlobalEvent.updateBlock(Map<int, int> blocks) = _UpdateBlock;
   const factory GlobalEvent.updateTower(Map<int, int> towerbuilt)= _UpdateTower;
   const factory GlobalEvent.addBlock(Map<int, int> blocks) = _AddBlock;
+  const factory GlobalEvent.dayPass()= _DayPass;
 }

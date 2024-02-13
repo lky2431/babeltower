@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:babeltower/bloc/global/global_bloc.dart';
@@ -62,21 +63,32 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
     Map<int, List<int>> _tempInValid = {};
 
     int maxHeight = 0; //determine how high the block will be placed.
-    for (int i = column; i < column + width; i++) {
+    /*for (int i = column; i < column + width; i++) {
       if (state.towerBuilt[i]! > maxHeight) {
         maxHeight = state.towerBuilt[i]!;
         if (!blocks.contains(6 + i - column)) {
           maxHeight = maxHeight - 1;
+          if (!blocks.contains(3 + 1 - column)) {
+            maxHeight = maxHeight - 1;
+          }
         }
       }
-    }
-
-    for (int i = 0; i < 9; i++) {
-      if (blocks.contains(i)) {
-        _tempValid[column + i % 3] = (_tempValid[column + i % 3] ?? [])
-          ..add(maxHeight + 2 - (i / 3).floor());
+    }*/
+    do {
+      _tempValid = {};
+      for (int i = 0; i < 9; i++) {
+        if (blocks.contains(i)) {
+          _tempValid[column + i % 3] = (_tempValid[column + i % 3] ?? [])
+            ..add(maxHeight + 2 - (i / 3).floor());
+        }
       }
-    }
+      maxHeight += 1;
+
+      if (maxHeight > 5) {
+        return false;
+      }
+    } while (isOverlap(_tempValid, column, width, state.towerBuilt));
+
     Map<int, List<int>> gapMap = {};
     for (int i = 0; i < 5; i++) {
       gapMap[i] = List.generate(state.towerBuilt[i] ?? 0, (index) => index)
@@ -85,7 +97,6 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
     }
     for (int i = 0; i < 5; i++) {
       int? gap = gapMap[i]!.isConsecutive();
-
 
       if (gap != null && _tempValid.containsKey(i)) {
         _tempInValid[i] =
@@ -97,7 +108,18 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
         }
       }
     }
+    //print("$_tempValid $_tempInValid");
     emit(state.copyWith(valid: _tempValid, notvalid: _tempInValid));
+  }
+
+  bool isOverlap(Map<int, List<int>> _tempValid, int column, int width,
+      Map<int, int> towerBuilt) {
+    for (int i = column; i < column + width; i++) {
+      if (_tempValid[i]!.reduce(min) < towerBuilt[i]!) {
+        return true;
+      }
+    }
+    return false;
   }
 
   FutureOr<void> onAccept(_Accept event, Emitter<TowerState> emit) {
@@ -120,7 +142,6 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
     super.close();
     globalBloc.add(GlobalEvent.updateBlock(state.blocks));
     globalBloc.add(GlobalEvent.updateTower(state.towerBuilt));
-
   }
 }
 

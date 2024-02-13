@@ -4,6 +4,7 @@ import 'package:babeltower/dialog/CantPickDialog.dart';
 import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:babeltower/dialog/LeaveFieldDialog.dart';
 import 'package:babeltower/dialog/SummaryDialog.dart';
+import 'package:babeltower/model/Goods.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ class FieldGamePage extends StatelessWidget {
     return BlocProvider<PlayerBloc>(
       create: (context) => PlayerBloc(PlayerState(
           speed: Vector2(0, 0),
-          position: Vector2(mapSize * 80 / 2, mapSize * 80 - 250))),
+          position: Vector2(mapSize * 80 / 2, mapSize * 80 - 250),
+          goods: context.read<GlobalBloc>().state.gameContent!.goods)),
       child: Builder(builder: (context) {
         return GameWidget<BabelTowerGame>(
           game: BabelTowerGame(context.read<PlayerBloc>()),
@@ -36,7 +38,6 @@ class FieldGamePage extends StatelessWidget {
             "Overload": (context, game) => CantPickDialog(true, game: game),
             "Overitem": (context, game) => CantPickDialog(false, game: game),
             "Summary": (context, game) => SummaryDialog(),
-
           },
           initialActiveOverlays: [
             "HealthBar",

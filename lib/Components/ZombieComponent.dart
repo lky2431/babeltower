@@ -51,7 +51,7 @@ class ZombieComponent extends SpriteAnimationComponent
   void update(double dt) {
     super.update(dt);
     priority = position.y.toInt();
-    Vector2 speed = (_playerPosition - position).normalized() * 90 * vratio;
+    Vector2 speed = (_playerPosition - position).normalized() * 140 * vratio;
     if (!attacking) {
       position += speed * dt;
     }
@@ -63,16 +63,19 @@ class ZombieComponent extends SpriteAnimationComponent
       flip = true;
     }
     if (indexToCheck > 10) {
-      if (_playerPosition.x + _size.x < position.x ||
-          _playerPosition.x - _size.x > position.x ||
-          _playerPosition.y + _size.y < _position.y &&
-              _playerPosition.y - _size.y > position.y) {
+      if (camPosition.x + _size.x*0.8 < position.x ||
+          camPosition.x - _size.x*0.8 > position.x ||
+          camPosition.y + _size.y*0.8 < _position.y &&
+              camPosition.y - _size.y*0.8 > position.y) {
+        onDestroyed();
         removeFromParent();
       }
       indexToCheck = 0;
     }
     indexToCheck += 1;
   }
+
+  Vector2 get camPosition => gameRef.camera.viewfinder.position;
 
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
@@ -111,7 +114,7 @@ class ZombieComponent extends SpriteAnimationComponent
 
   @override
   void onRemove() {
-    onDestroyed();
+
     super.onRemove();
   }
 }

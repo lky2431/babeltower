@@ -35,68 +35,119 @@ class SummaryDialog extends StatelessWidget {
                 blocksList.add(value.blockIndex);
               }
             });
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Summary",
-                  style: TextStyle(fontSize: 28),
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                if (blocksList.isNotEmpty) ...[
-                  Text("building block:", style: TextStyle(fontSize: 22)),
+
+            return OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.portrait) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Summary",
+                      style: TextStyle(fontSize: 28),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    if (blocksList.isNotEmpty) ..._buildBlockList(blocksList),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Divider(
+                        thickness: 1,
+                      ),
+                    ),
+                    ..._buildMoneyinfo(price),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    _buildOKButton(context, blocks)
+                  ],
+                );
+              }
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Summary",
+                        style: TextStyle(fontSize: 28),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      _buildOKButton(context, blocks)
+                    ],
+                  ),
                   SizedBox(
-                    height: 12,
+                    width: 12,
+                  ),
+                  if (blocksList.isNotEmpty)
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 500),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [..._buildBlockList(blocksList)],
+                      ),
+                    ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _buildMoneyinfo(price),
                   ),
                 ],
-                Wrap(
-                  children: blocksList
-                      .map((e) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: BuildingBlockWidget(e)),
-                          ))
-                      .toList(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-                Text("money earnt: \$${price.toStringAsFixed(2)}",
-                    style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  height: 12,
-                ),
-                Text("family expense: \$2", style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  height: 12,
-                ),
-                Text("saving: \$${(price - 2).toStringAsFixed(2)}",
-                    style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  height: 16,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      context
-                          .read<GlobalBloc>()
-                          .add(GlobalEvent.addBlock(blocks));
-                      context
-                          .read<GlobalBloc>()
-                          .add(GlobalEvent.changeStage(GameStage.tower));
-                    },
-                    child: Text("OK"))
-              ],
-            );
+              );
+            });
           },
         ),
       ),
     );
+  }
+
+  List<Widget> _buildBlockList(List<int> blocksList) {
+    return [
+      Text("building block:", style: TextStyle(fontSize: 22)),
+      SizedBox(
+        height: 12,
+      ),
+      Wrap(
+        children: blocksList
+            .map((e) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                      height: 100, width: 100, child: BuildingBlockWidget(e)),
+                ))
+            .toList(),
+      ),
+    ];
+  }
+
+  ElevatedButton _buildOKButton(BuildContext context, Map<int, int> blocks) {
+    return ElevatedButton(
+        onPressed: () {
+          context.read<GlobalBloc>().add(GlobalEvent.addBlock(blocks));
+          context
+              .read<GlobalBloc>()
+              .add(GlobalEvent.changeStage(GameStage.tower));
+        },
+        child: Text("OK"));
+  }
+
+  List<Widget> _buildMoneyinfo(double price) {
+    return [
+      Text("money earnt: \$${price.toStringAsFixed(2)}",
+          style: TextStyle(fontSize: 22)),
+      SizedBox(
+        height: 12,
+      ),
+      Text("family expense: \$2", style: TextStyle(fontSize: 22)),
+      SizedBox(
+        height: 12,
+      ),
+      Text("saving: \$${(price - 2).toStringAsFixed(2)}",
+          style: TextStyle(fontSize: 22)),
+    ];
   }
 }

@@ -9,6 +9,7 @@ class PlayerState with _$PlayerState {
     @Default(1) double health,
     @Default({}) Map<int, PickableItem> items,
     @Default(0) double weight,
-    @Default(50) double maxWeight
+    @Default(50) double maxWeight,
+    required Map<allGoods, bool> goods,
   }) = _PlayerState;
 }

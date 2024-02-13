@@ -22,7 +22,7 @@ class HealthBarWidget extends StatelessWidget {
                 width = 500;
               }
               return Stack(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.centerLeft,
                 children: [
                   Image.asset(
                     "assets/images/health_background.png",

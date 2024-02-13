@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';
 
 mixin Indicatable on PositionComponent {
-  bool isAcitve();
+  bool isActive();
   GlobalKey get globalKey;
   Future<SpriteComponent> indicatorSprite();
 }

@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/Components/BuildingBlockComponent.dart';
 import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
-import 'package:babeltower/model/BuildingBlock.dart';
+
 import 'package:babeltower/tool/cVectors.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../bloc/player/player_bloc.dart';
-import '../config.dart';
+
 import '../model/PickableItem.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,6 +40,10 @@ class _BagDialogState extends State<BagDialog> {
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 double width = constraints.maxWidth;
+                double height = constraints.maxHeight;
+                if (height < width * 10 / 6) {
+                  width = height * 6 / 10;
+                }
                 return BlocBuilder<PlayerBloc, PlayerState>(
                   builder: (context, state) {
                     return Column(
@@ -64,6 +68,7 @@ class _BagDialogState extends State<BagDialog> {
                         ...List.generate(
                             5,
                             (j) => Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: List.generate(
                                       6,
                                       (i) => ItemWidget(
@@ -121,16 +126,17 @@ class _BagDialogState extends State<BagDialog> {
                                       .read<PlayerBloc>()
                                       .add(PlayerEvent.drop(selectedIndex!));
                                   if (state.items[selectedIndex]! is Building) {
-                                    widget.game.provider
-                                        .add(
-                                            BuildingBlockComponent(
-                                                index:
-                                                    (state.items[selectedIndex]!
-                                                            as Building)
-                                                        .blockIndex,
-                                                initialPosition:
-                                                    state.position +
-                                                        (v196..rotate(pi))));
+                                    BuildingBlockComponent component =
+                                        BuildingBlockComponent(
+                                            //gameRef: widget.game,
+                                            index: (state.items[selectedIndex]!
+                                                    as Building)
+                                                .blockIndex,
+                                            initialPosition: state.position +
+                                                (v196..rotate(pi)));
+                                    widget.game.provider.add(component);
+                                    widget.game.indicatorManager.components
+                                        .add(component);
                                   } else {}
                                 },
                                 child: Text("Drop"))
@@ -171,7 +177,7 @@ class ItemWidget extends StatelessWidget {
         height: size,
         width: size,
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(4.0),
           child: Container(
             decoration: BoxDecoration(
                 border: Border.all(
