@@ -4,6 +4,7 @@ import 'package:babeltower/dialog/CantPickDialog.dart';
 import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:babeltower/dialog/LeaveFieldDialog.dart';
 import 'package:babeltower/dialog/SummaryDialog.dart';
+import 'package:babeltower/model/GameContent.dart';
 import 'package:babeltower/model/Goods.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -26,6 +27,9 @@ class FieldGamePage extends StatelessWidget {
       create: (context) => PlayerBloc(PlayerState(
           speed: Vector2(0, 0),
           position: Vector2(mapSize * 80 / 2, mapSize * 80 - 250),
+          difficulty:
+              context.read<GlobalBloc>().state.gameContent!.difficulty ??
+                  Difficulty.real,
           goods: context.read<GlobalBloc>().state.gameContent!.goods)),
       child: Builder(builder: (context) {
         return GameWidget<BabelTowerGame>(

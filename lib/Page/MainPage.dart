@@ -2,6 +2,7 @@ import 'package:babeltower/Page/BuildTowerPage.dart';
 import 'package:babeltower/Page/DayPage.dart';
 import 'package:babeltower/Page/FieldGamePage.dart';
 import 'package:babeltower/Page/IntroductionPage.dart';
+import 'package:babeltower/Page/ShopPage.dart';
 import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +26,8 @@ class MainPage extends StatelessWidget {
           return BuildTowerPage();
         case GameStage.day:
           return DayPage();
+        case GameStage.shop:
+          return ShopPage();
         default:
           return Container();
       }

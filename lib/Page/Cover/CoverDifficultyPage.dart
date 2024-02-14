@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/global/global_bloc.dart';
 
 class CoverDifficultyPage extends StatefulWidget {
-  const CoverDifficultyPage();
+  const CoverDifficultyPage({required this.onConfirm});
+  final Function() onConfirm;
 
   @override
   State<CoverDifficultyPage> createState() => _CoverDifficultyPageState();
@@ -41,6 +42,7 @@ class _CoverDifficultyPageState extends State<CoverDifficultyPage> {
               context
                   .read<GlobalBloc>()
                   .add(GlobalEvent.difficulty(difficulty));
+              widget.onConfirm();
             },
             child: Text(
               "CONFIRM",

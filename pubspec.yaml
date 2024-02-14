@@ -13,24 +13,24 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.2
   flame: ^1.8.0
   freezed_annotation: ^2.4.1
   tuple: ^2.0.2
   flame_bloc: ^1.10.9
   firebase_core: ^2.25.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
-  flutter_lints: ^2.0.0
   build_runner: ^2.4.8
   freezed: ^2.4.6
-  custom_lint: ^0.5.11
+  hive_generator: ^2.0.1
+  json_serializable: ^6.7.1
 
 
 flutter:

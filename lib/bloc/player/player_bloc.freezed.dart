@@ -864,6 +864,7 @@ mixin _$PlayerState {
   Map<int, PickableItem> get items => throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
   double get maxWeight => throw _privateConstructorUsedError;
+  Difficulty get difficulty => throw _privateConstructorUsedError;
   Map<allGoods, bool> get goods => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -885,6 +886,7 @@ abstract class $PlayerStateCopyWith<$Res> {
       Map<int, PickableItem> items,
       double weight,
       double maxWeight,
+      Difficulty difficulty,
       Map<allGoods, bool> goods});
 }
 
@@ -908,6 +910,7 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
     Object? items = null,
     Object? weight = null,
     Object? maxWeight = null,
+    Object? difficulty = null,
     Object? goods = null,
   }) {
     return _then(_value.copyWith(
@@ -939,6 +942,10 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.maxWeight
           : maxWeight // ignore: cast_nullable_to_non_nullable
               as double,
+      difficulty: null == difficulty
+          ? _value.difficulty
+          : difficulty // ignore: cast_nullable_to_non_nullable
+              as Difficulty,
       goods: null == goods
           ? _value.goods
           : goods // ignore: cast_nullable_to_non_nullable
@@ -963,6 +970,7 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       Map<int, PickableItem> items,
       double weight,
       double maxWeight,
+      Difficulty difficulty,
       Map<allGoods, bool> goods});
 }
 
@@ -984,6 +992,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? items = null,
     Object? weight = null,
     Object? maxWeight = null,
+    Object? difficulty = null,
     Object? goods = null,
   }) {
     return _then(_$PlayerStateImpl(
@@ -1015,6 +1024,10 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.maxWeight
           : maxWeight // ignore: cast_nullable_to_non_nullable
               as double,
+      difficulty: null == difficulty
+          ? _value.difficulty
+          : difficulty // ignore: cast_nullable_to_non_nullable
+              as Difficulty,
       goods: null == goods
           ? _value._goods
           : goods // ignore: cast_nullable_to_non_nullable
@@ -1034,6 +1047,7 @@ class _$PlayerStateImpl implements _PlayerState {
       final Map<int, PickableItem> items = const {},
       this.weight = 0,
       this.maxWeight = 50,
+      required this.difficulty,
       required final Map<allGoods, bool> goods})
       : _items = items,
         _goods = goods;
@@ -1063,6 +1077,8 @@ class _$PlayerStateImpl implements _PlayerState {
   @override
   @JsonKey()
   final double maxWeight;
+  @override
+  final Difficulty difficulty;
   final Map<allGoods, bool> _goods;
   @override
   Map<allGoods, bool> get goods {
@@ -1073,7 +1089,7 @@ class _$PlayerStateImpl implements _PlayerState {
 
   @override
   String toString() {
-    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight, goods: $goods)';
+    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight, difficulty: $difficulty, goods: $goods)';
   }
 
   @override
@@ -1090,6 +1106,8 @@ class _$PlayerStateImpl implements _PlayerState {
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.maxWeight, maxWeight) ||
                 other.maxWeight == maxWeight) &&
+            (identical(other.difficulty, difficulty) ||
+                other.difficulty == difficulty) &&
             const DeepCollectionEquality().equals(other._goods, _goods));
   }
 
@@ -1103,6 +1121,7 @@ class _$PlayerStateImpl implements _PlayerState {
       const DeepCollectionEquality().hash(_items),
       weight,
       maxWeight,
+      difficulty,
       const DeepCollectionEquality().hash(_goods));
 
   @JsonKey(ignore: true)
@@ -1121,6 +1140,7 @@ abstract class _PlayerState implements PlayerState {
       final Map<int, PickableItem> items,
       final double weight,
       final double maxWeight,
+      required final Difficulty difficulty,
       required final Map<allGoods, bool> goods}) = _$PlayerStateImpl;
 
   @override
@@ -1137,6 +1157,8 @@ abstract class _PlayerState implements PlayerState {
   double get weight;
   @override
   double get maxWeight;
+  @override
+  Difficulty get difficulty;
   @override
   Map<allGoods, bool> get goods;
   @override

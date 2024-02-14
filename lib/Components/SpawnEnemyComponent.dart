@@ -11,22 +11,22 @@ import 'package:babeltower/model/GameContent.dart';
 import 'package:babeltower/tool/cVectors.dart';
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flutter/cupertino.dart';
 
-class SpawnEnemyComponent extends Component with HasGameRef<BabelTowerGame> {
+class SpawnEnemyComponent extends Component
+    with HasGameRef<BabelTowerGame>, FlameBlocReader<PlayerBloc, PlayerState> {
   SpawnEnemyComponent();
 
   late Vector2 _size;
   int zombieNumber = 0;
 
-  Difficulty difficulty = Difficulty.tough;
+  late final Difficulty difficulty;
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    difficulty = bloc.state.difficulty;
     SpawnComponent zombieSpawn = SpawnComponent(
         factory: (int amount) {
-          print(zombieNumber);
           if (zombieNumber >
               switch (difficulty) {
                 Difficulty.simple => 10,

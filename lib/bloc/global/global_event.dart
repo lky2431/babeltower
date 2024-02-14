@@ -12,4 +12,7 @@ class GlobalEvent with _$GlobalEvent {
   const factory GlobalEvent.updateTower(Map<int, int> towerbuilt)= _UpdateTower;
   const factory GlobalEvent.addBlock(Map<int, int> blocks) = _AddBlock;
   const factory GlobalEvent.dayPass()= _DayPass;
+  const factory GlobalEvent.setSavePosition(int position) = _setSave;
+  const factory GlobalEvent.updateMoney(double money) = _UpdateMoney;
+  const factory GlobalEvent.purchase(Goods good)= _Purchase;
 }

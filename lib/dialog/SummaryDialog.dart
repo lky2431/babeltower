@@ -35,6 +35,8 @@ class SummaryDialog extends StatelessWidget {
                 blocksList.add(value.blockIndex);
               }
             });
+            double numsum =
+                context.read<GlobalBloc>().state.gameContent!.money + price - 2;
 
             return OrientationBuilder(builder: (context, orientation) {
               if (orientation == Orientation.portrait) {
@@ -55,11 +57,11 @@ class SummaryDialog extends StatelessWidget {
                         thickness: 1,
                       ),
                     ),
-                    ..._buildMoneyinfo(price),
+                    ..._buildMoneyinfo(price, numsum),
                     SizedBox(
                       height: 16,
                     ),
-                    _buildOKButton(context, blocks)
+                    _buildOKButton(context, blocks, numsum)
                   ],
                 );
               }
@@ -76,7 +78,7 @@ class SummaryDialog extends StatelessWidget {
                       SizedBox(
                         height: 24,
                       ),
-                      _buildOKButton(context, blocks)
+                      _buildOKButton(context, blocks, numsum)
                     ],
                   ),
                   SizedBox(
@@ -95,7 +97,7 @@ class SummaryDialog extends StatelessWidget {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: _buildMoneyinfo(price),
+                    children: _buildMoneyinfo(price, numsum),
                   ),
                 ],
               );
@@ -124,18 +126,23 @@ class SummaryDialog extends StatelessWidget {
     ];
   }
 
-  ElevatedButton _buildOKButton(BuildContext context, Map<int, int> blocks) {
+  ElevatedButton _buildOKButton(
+      BuildContext context, Map<int, int> blocks, double numsum) {
     return ElevatedButton(
         onPressed: () {
-          context.read<GlobalBloc>().add(GlobalEvent.addBlock(blocks));
-          context
-              .read<GlobalBloc>()
-              .add(GlobalEvent.changeStage(GameStage.tower));
+          GlobalBloc bloc = context.read<GlobalBloc>();
+          bloc.add(GlobalEvent.addBlock(blocks));
+          bloc.add(GlobalEvent.updateMoney(numsum));
+          if (bloc.state.gameContent!.goods.values.contains(false)) {
+            bloc.add(GlobalEvent.changeStage(GameStage.shop));
+          } else {
+            bloc.add(GlobalEvent.changeStage(GameStage.tower));
+          }
         },
         child: Text("OK"));
   }
 
-  List<Widget> _buildMoneyinfo(double price) {
+  List<Widget> _buildMoneyinfo(double price, double numsum) {
     return [
       Text("money earnt: \$${price.toStringAsFixed(2)}",
           style: TextStyle(fontSize: 22)),
@@ -146,8 +153,12 @@ class SummaryDialog extends StatelessWidget {
       SizedBox(
         height: 12,
       ),
-      Text("saving: \$${(price - 2).toStringAsFixed(2)}",
+      Text("change: \$${(price - 2).toStringAsFixed(2)}",
           style: TextStyle(fontSize: 22)),
+      SizedBox(
+        height: 12,
+      ),
+      Text("saving: \$${numsum}"),
     ];
   }
 }

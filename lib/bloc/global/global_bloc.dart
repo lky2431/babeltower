@@ -1,23 +1,31 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
 import '../../model/GameContent.dart';
+import '../../model/Goods.dart';
+import '../../repo/HiveRepo.dart';
 
 part 'global_event.dart';
 part 'global_state.dart';
 part 'global_bloc.freezed.dart';
+part 'global_bloc.g.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
-  GlobalBloc() : super(const GlobalState()) {
+  saveGame() {
+    GameContent game = state.gameContent!;
+    hive.saveGame(game.savePosition!, game);
+  }
+
+  GlobalBloc({required this.hive}) : super(const GlobalState()) {
     emit(state.copyWith(
-        stage: GameStage.field,
+        stage: GameStage.cover,
         gameContent: GameContent(
-            builtTower: {0: 1, 1: 2, 2: 0, 3: 1, 4: 3},
-            blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}
+            /*builtTower: {0: 1, 1: 2, 2: 0, 3: 1, 4: 3},
+            blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}*/
             )));
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
-          stage: GameStage.introduction,
           gameContent:
               state.gameContent!.copyWith(difficulty: event.difficulty)));
     });
@@ -26,6 +34,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     });
     on<_ChangeStage>((event, emit) {
       emit(state.copyWith(stage: event.stage));
+      saveGame();
     });
     on<_UpdateBlock>((event, emit) {
       emit(state.copyWith(
@@ -49,6 +58,30 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
           stage: GameStage.day,
           gameContent:
               state.gameContent!.copyWith(day: state.gameContent!.day + 1)));
+      saveGame();
+    });
+    on<_setSave>((event, emit) {
+      emit(state.copyWith(
+          stage: GameStage.introduction,
+          gameContent:
+              state.gameContent!.copyWith(savePosition: event.position)));
+      saveGame();
+    });
+    on<_UpdateMoney>((event, emit) {
+      emit(state.copyWith(
+          gameContent: state.gameContent!.copyWith(money: event.money)));
+    });
+    on<_Purchase>((event, emit) {
+      Map<allGoods, bool> purchased = Map.from(state.gameContent!.goods);
+      purchased[event.good.goods] = true;
+      emit(state.copyWith(
+          gameContent: state.gameContent!.copyWith(
+            goods: purchased,
+        money: state.gameContent!.money - event.good.price,
+      )));
+      saveGame();
     });
   }
+
+  final HiveRepo hive;
 }

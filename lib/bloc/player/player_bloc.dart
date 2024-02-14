@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:babeltower/mixin/Indicatable.dart';
+import 'package:babeltower/model/GameContent.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flame/components.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

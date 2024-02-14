@@ -20,7 +20,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
         if (stage > 2) {
           context
               .read<GlobalBloc>()
-              .add(GlobalEvent.changeStage(GameStage.field));
+              .add(GlobalEvent.changeStage(GameStage.day));
           return;
         }
         setState(() {
