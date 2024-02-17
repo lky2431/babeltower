@@ -19,22 +19,31 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
 
   GlobalBloc({required this.hive}) : super(const GlobalState()) {
     emit(state.copyWith(
-        stage: GameStage.cover,
-        gameContent: GameContent(
-            /*builtTower: {0: 1, 1: 2, 2: 0, 3: 1, 4: 3},
-            blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}*/
-            )));
+        stage: GameStage.field, gameContent: GameContent(name: "Mike")));
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
           gameContent:
               state.gameContent!.copyWith(difficulty: event.difficulty)));
     });
     on<_Name>((event, emit) {
-      emit(state.copyWith(gameContent: GameContent(name: event.name)));
+      emit(state.copyWith(
+          gameContent: GameContent(
+        name: event.name,
+        /*builtTower: {0: 6, 1: 6, 2: 6, 3: 6, 4: 6},
+              blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}*/
+      )));
     });
     on<_ChangeStage>((event, emit) {
-      emit(state.copyWith(stage: event.stage));
-      saveGame();
+      if (event.stage == GameStage.tower ||
+          event.stage == GameStage.shop ||
+          event.stage == GameStage.day) {
+        emit(state.copyWith(
+            stage: event.stage,
+            gameContent: state.gameContent!.copyWith(stage: event.stage)));
+        saveGame();
+      } else {
+        emit(state.copyWith(stage: event.stage));
+      }
     });
     on<_UpdateBlock>((event, emit) {
       emit(state.copyWith(
@@ -76,10 +85,20 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       purchased[event.good.goods] = true;
       emit(state.copyWith(
           gameContent: state.gameContent!.copyWith(
-            goods: purchased,
+        goods: purchased,
         money: state.gameContent!.money - event.good.price,
       )));
       saveGame();
+    });
+    on<_Quit>((event, emit) {
+      emit(state.copyWith(gameContent: null, stage: GameStage.cover));
+    });
+    on<_LoadGame>((event, emit) {
+      emit(state.copyWith(stage: event.game.stage, gameContent: event.game));
+    });
+    on<_UpdateHealth>((event, emit) {
+      emit(state.copyWith(
+          gameContent: state.gameContent!.copyWith(health: event.health)));
     });
   }
 

@@ -7,6 +7,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 
 import '../tool/cVectors.dart';
@@ -58,7 +59,7 @@ class MosquitoGroupComponent extends PositionComponent
 }
 
 class MosquitoComponent extends SpriteAnimationComponent
-    with CollisionCallbacks, FlameBlocReader<PlayerBloc, PlayerState> {
+    with CollisionCallbacks, FlameBlocReader<GameBloc, GameState> {
   MosquitoComponent({required this.initPosition});
 
   final Vector2 initPosition;
@@ -80,6 +81,7 @@ class MosquitoComponent extends SpriteAnimationComponent
         image: await Flame.images.load('mosquito.png'),
         srcSize: Vector2.all(64));
     animation = flyAnimation;
+    //FlameAudio.play('mosquito.mp3');
   }
 
   @override
@@ -92,7 +94,7 @@ class MosquitoComponent extends SpriteAnimationComponent
     if (other is PlayerComponent) {
       if (!attacking) {
         attacking = true;
-        bloc.add(const PlayerEvent.damage(0.01));
+        bloc.add(const GameEvent.damage(0.01));
       }
     }
   }

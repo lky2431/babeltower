@@ -21,6 +21,9 @@ dependencies:
   firebase_core: ^2.25.3
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  flame_audio: ^2.1.8
+  confetti: ^0.7.0
+  animate_do: ^3.3.3
 
 
 dev_dependencies:
@@ -41,6 +44,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/audio/
 
 
   # To add custom fonts to your application, add a fonts section here,

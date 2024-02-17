@@ -15,7 +15,7 @@ import '../tool/cVectors.dart';
 class TrashComponent extends PositionComponent
     with
         CollisionCallbacks,
-        FlameBlocReader<PlayerBloc, PlayerState>,
+        FlameBlocReader<GameBloc, GameState>,
         HasGameRef {
   TrashComponent({required this.initialPosition});
 
@@ -51,7 +51,7 @@ class TrashComponent extends PositionComponent
           trash.description, trash.name, trash.weight(), trash.price());
       String? result = bloc.shouldPick(item);
       if (result == null) {
-        bloc.add(PlayerEvent.pick(item));
+        bloc.add(GameEvent.pick(item));
         removeFromParent();
       } else {
         gameRef.overlays.add(result);

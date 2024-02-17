@@ -15,7 +15,7 @@ import 'PlayerComponent.dart';
 class PortalComponent extends SpriteAnimationComponent
     with
         CollisionCallbacks,
-        FlameBlocListenable<PlayerBloc, PlayerState>,
+        FlameBlocListenable<GameBloc, GameState>,
         Indicatable,
         HasGameRef {
   PortalComponent();
@@ -42,7 +42,7 @@ class PortalComponent extends SpriteAnimationComponent
   }
 
   @override
-  void onInitialState(PlayerState state) {
+  void onInitialState(GameState state) {
     super.onInitialState(state);
     position = state.position + Vector2(0, 180);
   }

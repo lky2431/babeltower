@@ -1,7 +1,6 @@
-import 'dart:ffi';
-
 import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
 import 'package:babeltower/bloc/global/global_bloc.dart';
+import 'package:babeltower/model/GameContent.dart';
 import 'package:babeltower/model/PickableItem.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,7 @@ class SummaryDialog extends StatelessWidget {
             colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken)),
       ),
       child: SizedBox.expand(
-        child: BlocBuilder<PlayerBloc, PlayerState>(
+        child: BlocBuilder<GameBloc, GameState>(
           builder: (context, state) {
             double price = 0;
             Map<int, int> blocks = {};
@@ -37,6 +36,15 @@ class SummaryDialog extends StatelessWidget {
             });
             double numsum =
                 context.read<GlobalBloc>().state.gameContent!.money + price - 2;
+            double health = state.health +
+                switch (state.difficulty) {
+                  Difficulty.simple => 0.6,
+                  Difficulty.real => 0.45,
+                  Difficulty.tough => 0.3,
+                };
+            if (health > 1) {
+              health = 1;
+            }
 
             return OrientationBuilder(builder: (context, orientation) {
               if (orientation == Orientation.portrait) {
@@ -61,7 +69,7 @@ class SummaryDialog extends StatelessWidget {
                     SizedBox(
                       height: 16,
                     ),
-                    _buildOKButton(context, blocks, numsum)
+                    _buildOKButton(context, blocks, numsum, health)
                   ],
                 );
               }
@@ -78,7 +86,7 @@ class SummaryDialog extends StatelessWidget {
                       SizedBox(
                         height: 24,
                       ),
-                      _buildOKButton(context, blocks, numsum)
+                      _buildOKButton(context, blocks, numsum, health)
                     ],
                   ),
                   SizedBox(
@@ -126,13 +134,14 @@ class SummaryDialog extends StatelessWidget {
     ];
   }
 
-  ElevatedButton _buildOKButton(
-      BuildContext context, Map<int, int> blocks, double numsum) {
+  ElevatedButton _buildOKButton(BuildContext context, Map<int, int> blocks,
+      double numsum, double health) {
     return ElevatedButton(
         onPressed: () {
           GlobalBloc bloc = context.read<GlobalBloc>();
           bloc.add(GlobalEvent.addBlock(blocks));
           bloc.add(GlobalEvent.updateMoney(numsum));
+          bloc.add(GlobalEvent.updateHealth(health));
           if (bloc.state.gameContent!.goods.values.contains(false)) {
             bloc.add(GlobalEvent.changeStage(GameStage.shop));
           } else {
@@ -158,7 +167,7 @@ class SummaryDialog extends StatelessWidget {
       SizedBox(
         height: 12,
       ),
-      Text("saving: \$${numsum}"),
+      Text("saving: \$${numsum.toStringAsFixed(2)}"),
     ];
   }
 }

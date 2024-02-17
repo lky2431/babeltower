@@ -23,6 +23,7 @@ import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 
+import 'Components/DeadListener.dart';
 import 'Components/IndicatorComponent.dart';
 import 'Components/PortalComponent.dart';
 import 'model/BuildingBlock.dart';
@@ -30,7 +31,7 @@ import 'model/BuildingBlock.dart';
 class BabelTowerGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection, PanDetector {
   BabelTowerGame(this.playerBloc);
-  final PlayerBloc playerBloc;
+  final GameBloc playerBloc;
   late FlameBlocProvider provider;
   late IndicatorManager indicatorManager;
 
@@ -50,16 +51,17 @@ class BabelTowerGame extends FlameGame
                 Random().nextDouble() * mapSize * 80)));
     indicatorManager = IndicatorManager(components: [portal, ...blocks]);
 
-    provider = FlameBlocProvider<PlayerBloc, PlayerState>.value(children: [
+    provider = FlameBlocProvider<GameBloc, GameState>.value(children: [
       player,
       TileGenerationComponent(),
       SpawnEnemyComponent(),
       ControlComponent(),
+      DeadListener(),
       portal,
       indicatorManager,
       ...blocks,
       ...List.generate(
-          20,
+          40,
           (index) => TrashComponent(
               initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
                   Random().nextDouble() * mapSize * 80))),

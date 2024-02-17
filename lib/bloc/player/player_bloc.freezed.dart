@@ -77,12 +77,12 @@ mixin _$PlayerEvent {
 /// @nodoc
 abstract class $PlayerEventCopyWith<$Res> {
   factory $PlayerEventCopyWith(
-          PlayerEvent value, $Res Function(PlayerEvent) then) =
-      _$PlayerEventCopyWithImpl<$Res, PlayerEvent>;
+          GameEvent value, $Res Function(GameEvent) then) =
+      _$PlayerEventCopyWithImpl<$Res, GameEvent>;
 }
 
 /// @nodoc
-class _$PlayerEventCopyWithImpl<$Res, $Val extends PlayerEvent>
+class _$PlayerEventCopyWithImpl<$Res, $Val extends GameEvent>
     implements $PlayerEventCopyWith<$Res> {
   _$PlayerEventCopyWithImpl(this._value, this._then);
 
@@ -233,7 +233,7 @@ class _$MoveImpl implements _Move {
   }
 }
 
-abstract class _Move implements PlayerEvent {
+abstract class _Move implements GameEvent {
   const factory _Move(final Vector2 move) = _$MoveImpl;
 
   Vector2 get move;
@@ -385,7 +385,7 @@ class _$SetPositionImpl implements _SetPosition {
   }
 }
 
-abstract class _SetPosition implements PlayerEvent {
+abstract class _SetPosition implements GameEvent {
   const factory _SetPosition(final Vector2 position) = _$SetPositionImpl;
 
   Vector2 get position;
@@ -536,7 +536,7 @@ class _$DamageImpl implements _Damage {
   }
 }
 
-abstract class _Damage implements PlayerEvent {
+abstract class _Damage implements GameEvent {
   const factory _Damage(final double damage) = _$DamageImpl;
 
   double get damage;
@@ -686,7 +686,7 @@ class _$DropImpl implements _Drop {
   }
 }
 
-abstract class _Drop implements PlayerEvent {
+abstract class _Drop implements GameEvent {
   const factory _Drop(final int index) = _$DropImpl;
 
   int get index;
@@ -846,7 +846,7 @@ class _$PickImpl implements _Pick {
   }
 }
 
-abstract class _Pick implements PlayerEvent {
+abstract class _Pick implements GameEvent {
   const factory _Pick(final PickableItem item) = _$PickImpl;
 
   PickableItem get item;
@@ -868,15 +868,15 @@ mixin _$PlayerState {
   Map<allGoods, bool> get goods => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $PlayerStateCopyWith<PlayerState> get copyWith =>
+  $PlayerStateCopyWith<GameState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PlayerStateCopyWith<$Res> {
   factory $PlayerStateCopyWith(
-          PlayerState value, $Res Function(PlayerState) then) =
-      _$PlayerStateCopyWithImpl<$Res, PlayerState>;
+          GameState value, $Res Function(GameState) then) =
+      _$PlayerStateCopyWithImpl<$Res, GameState>;
   @useResult
   $Res call(
       {Vector2 speed,
@@ -891,7 +891,7 @@ abstract class $PlayerStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
+class _$PlayerStateCopyWithImpl<$Res, $Val extends GameState>
     implements $PlayerStateCopyWith<$Res> {
   _$PlayerStateCopyWithImpl(this._value, this._then);
 
@@ -1043,7 +1043,7 @@ class _$PlayerStateImpl implements _PlayerState {
       {required this.speed,
       this.moving = false,
       required this.position,
-      this.health = 1,
+      required this.health,
       final Map<int, PickableItem> items = const {},
       this.weight = 0,
       this.maxWeight = 50,
@@ -1060,7 +1060,6 @@ class _$PlayerStateImpl implements _PlayerState {
   @override
   final Vector2 position;
   @override
-  @JsonKey()
   final double health;
   final Map<int, PickableItem> _items;
   @override
@@ -1131,12 +1130,12 @@ class _$PlayerStateImpl implements _PlayerState {
       __$$PlayerStateImplCopyWithImpl<_$PlayerStateImpl>(this, _$identity);
 }
 
-abstract class _PlayerState implements PlayerState {
+abstract class _PlayerState implements GameState {
   const factory _PlayerState(
       {required final Vector2 speed,
       final bool moving,
       required final Vector2 position,
-      final double health,
+      required final double health,
       final Map<int, PickableItem> items,
       final double weight,
       final double maxWeight,

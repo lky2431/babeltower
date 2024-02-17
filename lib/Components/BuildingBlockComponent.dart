@@ -20,7 +20,7 @@ import '../tool/cVectors.dart';
 class BuildingBlockComponent extends PositionComponent
     with
         CollisionCallbacks,
-        FlameBlocListenable<PlayerBloc, PlayerState>,
+        FlameBlocListenable<GameBloc, GameState>,
         Indicatable,
         HasGameRef<BabelTowerGame> {
   BuildingBlockComponent({required this.index, required this.initialPosition});
@@ -62,7 +62,7 @@ class BuildingBlockComponent extends PositionComponent
   }
 
   @override
-  void onInitialState(PlayerState state) {
+  void onInitialState(GameState state) {
     super.onInitialState(state);
     havePhone = state.goods[allGoods.Phone]!;
   }
@@ -80,7 +80,7 @@ class BuildingBlockComponent extends PositionComponent
       if (result == null) {
         gameRef.indicatorManager.removeComponent(indicatorKey);
         removeFromParent();
-        bloc.add(PlayerEvent.pick(item));
+        bloc.add(GameEvent.pick(item));
       } else {
         gameRef.overlays.add(result);
         Future.delayed(Duration(seconds: 3), () {

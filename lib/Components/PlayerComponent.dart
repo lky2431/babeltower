@@ -22,7 +22,7 @@ import '../tool/cVectors.dart';
 
 class PlayerComponent extends SpriteAnimationComponent
     with
-        FlameBlocListenable<PlayerBloc, PlayerState>,
+        FlameBlocListenable<GameBloc, GameState>,
         KeyboardHandler,
         CollisionCallbacks,
         HasGameRef<BabelTowerGame> {
@@ -66,7 +66,7 @@ class PlayerComponent extends SpriteAnimationComponent
 
     anchor = Anchor.center;
     size = v256;
-    add(FlameBlocListener<PlayerBloc, PlayerState>(onNewState: (state) {
+    add(FlameBlocListener<GameBloc, GameState>(onNewState: (state) {
       speed = state.speed;
       if (prevHealth != state.health) {
         decorator.addLast(PaintDecorator.tint(Colors.red.withOpacity(0.2)));
@@ -95,7 +95,7 @@ class PlayerComponent extends SpriteAnimationComponent
   }
 
   @override
-  void onInitialState(PlayerState state) {
+  void onInitialState(GameState state) {
     super.onInitialState(state);
     position = state.position;
     haveShoe = state.goods[allGoods.Shoe]!;
@@ -118,7 +118,7 @@ class PlayerComponent extends SpriteAnimationComponent
     if (position.y > mapSize * 80) {
       position.y = mapSize * 80;
     }
-    bloc.add(PlayerEvent.setPosition(position));
+    bloc.add(GameEvent.setPosition(position));
     if (speed.x > 0) {
       if (!flipped) {
         flipHorizontallyAroundCenter();
@@ -155,7 +155,7 @@ class PlayerComponent extends SpriteAnimationComponent
   }
 
   @override
-  void onNewState(PlayerState state) {
+  void onNewState(GameState state) {
     super.onNewState(state);
     if (isMounted) {
       speedFactor = 260 - state.weight * 2;
@@ -172,19 +172,19 @@ class PlayerComponent extends SpriteAnimationComponent
     final left = keysPressed.contains(LogicalKeyboardKey.arrowLeft);
     final right = keysPressed.contains(LogicalKeyboardKey.arrowRight);
     if (up) {
-      bloc.add(PlayerEvent.move(Vector2(0, -1)));
+      bloc.add(GameEvent.move(Vector2(0, -1)));
     }
     if (down) {
-      bloc.add(PlayerEvent.move(Vector2(0, 1)));
+      bloc.add(GameEvent.move(Vector2(0, 1)));
     }
     if (left) {
-      bloc.add(PlayerEvent.move(Vector2(-1, 0)));
+      bloc.add(GameEvent.move(Vector2(-1, 0)));
     }
     if (right) {
-      bloc.add(PlayerEvent.move(Vector2(1, 0)));
+      bloc.add(GameEvent.move(Vector2(1, 0)));
     }
     if (keysPressed.isEmpty) {
-      bloc.add(PlayerEvent.move(Vector2(0, 0)));
+      bloc.add(GameEvent.move(Vector2(0, 0)));
     }
     return true;
   }

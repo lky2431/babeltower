@@ -47,5 +47,6 @@ class GameContent extends HiveObject with _$GameContent {
     Map<allGoods, bool> goods,
     @HiveField(8) int? savePosition,
     @HiveField(9) @Default(5) double money,
+    @HiveField(10) @Default(1.0) double health
   }) = _GameContent;
 }

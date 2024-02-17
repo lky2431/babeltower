@@ -19,6 +19,7 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
     on<_UpdatePosition>(onUpdate);
     on<_Rotate>(onRotate);
     on<_Accept>(onAccept);
+    on<_Cancel>(onCancel);
   }
 
   final GlobalBloc globalBloc;
@@ -28,7 +29,17 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
         state.copyWith(rotation: state.rotation == 3 ? 0 : state.rotation + 1));
   }
 
+  bool isFinish() {
+    for (int value in state.towerBuilt.values) {
+      if (value < 6) {
+        return false;
+      }
+    };
+    return true;
+  }
+
   FutureOr<void> onUpdate(_UpdatePosition event, Emitter<TowerState> emit) {
+
     int column = event.column;
     if (column < 0) {
       column = 0;
@@ -63,17 +74,8 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
     Map<int, List<int>> _tempInValid = {};
 
     int maxHeight = 0; //determine how high the block will be placed.
-    /*for (int i = column; i < column + width; i++) {
-      if (state.towerBuilt[i]! > maxHeight) {
-        maxHeight = state.towerBuilt[i]!;
-        if (!blocks.contains(6 + i - column)) {
-          maxHeight = maxHeight - 1;
-          if (!blocks.contains(3 + 1 - column)) {
-            maxHeight = maxHeight - 1;
-          }
-        }
-      }
-    }*/
+
+
     do {
       _tempValid = {};
       for (int i = 0; i < 9; i++) {
@@ -84,10 +86,8 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
       }
       maxHeight += 1;
 
-      if (maxHeight > 5) {
-        return false;
-      }
     } while (isOverlap(_tempValid, column, width, state.towerBuilt));
+
 
     Map<int, List<int>> gapMap = {};
     for (int i = 0; i < 5; i++) {
@@ -108,7 +108,7 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
         }
       }
     }
-    //print("$_tempValid $_tempInValid");
+
     emit(state.copyWith(valid: _tempValid, notvalid: _tempInValid));
   }
 
@@ -134,7 +134,7 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
       _tempBlock[event.index!] = _tempBlock[event.index]! - 1;
       emit(state.copyWith(towerBuilt: _tempTower, blocks: _tempBlock));
     }
-    emit(state.copyWith(valid: {}, notvalid: {}));
+    emit(state.copyWith(valid: {}, notvalid: {}, isFinish: isFinish()));
   }
 
   @override
@@ -142,6 +142,10 @@ class TowerBloc extends Bloc<TowerEvent, TowerState> {
     super.close();
     globalBloc.add(GlobalEvent.updateBlock(state.blocks));
     globalBloc.add(GlobalEvent.updateTower(state.towerBuilt));
+  }
+
+  FutureOr<void> onCancel(_Cancel event, Emitter<TowerState> emit) {
+    emit(state.copyWith(valid: {}, notvalid: {}));
   }
 }
 

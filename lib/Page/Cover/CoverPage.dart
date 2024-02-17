@@ -1,4 +1,5 @@
 import 'package:babeltower/Page/Cover/CoverDifficultyPage.dart';
+import 'package:babeltower/Page/Cover/CoverLoadPage.dart';
 import 'package:babeltower/Page/Cover/CoverMainPage.dart';
 import 'package:babeltower/Page/Cover/CoverSavePage.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/global/global_bloc.dart';
 import 'CoverNamePage.dart';
 
-enum _CoverStage { game, name, difficulty, save }
+enum _CoverStage { game, name, difficulty, save, load }
 
 class CoverPage extends StatefulWidget {
   const CoverPage({super.key});
@@ -47,7 +48,18 @@ class _CoverPageState extends State<CoverPage> {
               stage = _CoverStage.name;
             });
           },
+          onLoadGame: () {
+            setState(() {
+              stage = _CoverStage.load;
+            });
+          },
         );
+      case _CoverStage.load:
+        return CoverLoadPage(onBack: () {
+          setState(() {
+            stage = _CoverStage.game;
+          });
+        });
       case _CoverStage.name:
         return CoverNamePage(
           onConfirm: () {
@@ -63,12 +75,11 @@ class _CoverPageState extends State<CoverPage> {
         );
       case _CoverStage.difficulty:
         return CoverDifficultyPage(
-          onConfirm: (){
+          onConfirm: () {
             setState(() {
-              stage= _CoverStage.save;
+              stage = _CoverStage.save;
             });
           },
-
         );
       case _CoverStage.save:
         return CoverSavePage();

@@ -13,7 +13,7 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 
 class SpawnEnemyComponent extends Component
-    with HasGameRef<BabelTowerGame>, FlameBlocReader<PlayerBloc, PlayerState> {
+    with HasGameRef<BabelTowerGame>, FlameBlocReader<GameBloc, GameState> {
   SpawnEnemyComponent();
 
   late Vector2 _size;

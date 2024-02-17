@@ -44,7 +44,7 @@ class _BagDialogState extends State<BagDialog> {
                 if (height < width * 10 / 6) {
                   width = height * 6 / 10;
                 }
-                return BlocBuilder<PlayerBloc, PlayerState>(
+                return BlocBuilder<GameBloc, GameState>(
                   builder: (context, state) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -123,8 +123,8 @@ class _BagDialogState extends State<BagDialog> {
                                     return;
                                   }
                                   context
-                                      .read<PlayerBloc>()
-                                      .add(PlayerEvent.drop(selectedIndex!));
+                                      .read<GameBloc>()
+                                      .add(GameEvent.drop(selectedIndex!));
                                   if (state.items[selectedIndex]! is Building) {
                                     BuildingBlockComponent component =
                                         BuildingBlockComponent(

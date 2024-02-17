@@ -1,6 +1,7 @@
 
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 
-FlameInitiate(){
-  Flame;
+FlameInitiate()async{
+  await FlameAudio.audioCache.loadAll(['explosion.mp3', 'footstep.mp3','mosquito.mp3','zombie.mp3']);
 }

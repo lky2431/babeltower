@@ -1,6 +1,7 @@
 import 'package:babeltower/Page/DayPage.dart';
 import 'package:babeltower/dialog/BagDialog.dart';
 import 'package:babeltower/dialog/CantPickDialog.dart';
+import 'package:babeltower/dialog/DeadDialog.dart';
 import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:babeltower/dialog/LeaveFieldDialog.dart';
 import 'package:babeltower/dialog/SummaryDialog.dart';
@@ -23,8 +24,9 @@ class FieldGamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PlayerBloc>(
-      create: (context) => PlayerBloc(PlayerState(
+    return BlocProvider<GameBloc>(
+      create: (context) => GameBloc(GameState(
+          health: context.read<GlobalBloc>().state.gameContent!.health,
           speed: Vector2(0, 0),
           position: Vector2(mapSize * 80 / 2, mapSize * 80 - 250),
           difficulty:
@@ -33,7 +35,7 @@ class FieldGamePage extends StatelessWidget {
           goods: context.read<GlobalBloc>().state.gameContent!.goods)),
       child: Builder(builder: (context) {
         return GameWidget<BabelTowerGame>(
-          game: BabelTowerGame(context.read<PlayerBloc>()),
+          game: BabelTowerGame(context.read<GameBloc>()),
           overlayBuilderMap: {
             "HealthBar": (context, game) => HealthBarWidget(game),
             "Tutorial": (context, game) => FieldTutorialDialog(game),
@@ -42,16 +44,17 @@ class FieldGamePage extends StatelessWidget {
             "Overload": (context, game) => CantPickDialog(true, game: game),
             "Overitem": (context, game) => CantPickDialog(false, game: game),
             "Summary": (context, game) => SummaryDialog(),
+            "Dead": (context, game) => DeadDialog()
           },
           initialActiveOverlays: [
             "HealthBar",
 
-            /*if (!context
+            if (!context
                 .read<GlobalBloc>()
                 .state
                 .gameContent!
                 .hintShown[GameStage.field]!)
-              "Tutorial"*/
+              "Tutorial"
           ],
         );
       }),

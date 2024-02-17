@@ -14,7 +14,9 @@ enum GameStage {
   @HiveField(4)
   shop,
   @HiveField(5)
-  day
+  day,
+  @HiveField(6)
+  ending
 }
 
 @freezed

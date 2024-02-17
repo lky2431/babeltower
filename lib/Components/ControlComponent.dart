@@ -15,7 +15,7 @@ class ControlComponent extends PositionComponent
     with
         DragCallbacks,
         HasGameRef<BabelTowerGame>,
-        FlameBlocReader<PlayerBloc, PlayerState> {
+        FlameBlocReader<GameBloc, GameState> {
   ControlComponent();
 
   CircleComponent? baseCircle;
@@ -75,7 +75,7 @@ class ControlComponent extends PositionComponent
         newPosition = initialPosition! +
             ((newPosition - initialPosition!).normalized() * v48.x);
       }
-      bloc.add(PlayerEvent.move((newPosition - initialPosition!).normalized()));
+      bloc.add(GameEvent.move((newPosition - initialPosition!).normalized()));
     }
     smallCircle?.position = newPosition;
   }
@@ -83,7 +83,7 @@ class ControlComponent extends PositionComponent
   void stop() {
     baseCircle?.removeFromParent();
     smallCircle?.removeFromParent();
-    bloc.add(PlayerEvent.move(Vector2.zero()));
+    bloc.add(GameEvent.move(Vector2.zero()));
   }
 
   @override

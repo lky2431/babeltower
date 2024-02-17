@@ -29,7 +29,7 @@ class HealthBarWidget extends StatelessWidget {
                     width: width,
                     fit: BoxFit.fitWidth,
                   ),
-                  BlocBuilder<PlayerBloc, PlayerState>(
+                  BlocBuilder<GameBloc, GameState>(
                     builder: (context, state) {
                       return ClipRect(
                         clipper: cCliper(width, state.health),

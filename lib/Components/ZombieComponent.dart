@@ -5,6 +5,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 
 import '../bloc/player/player_bloc.dart';
@@ -12,7 +13,7 @@ import '../tool/cVectors.dart';
 
 class ZombieComponent extends SpriteAnimationComponent
     with
-        FlameBlocListenable<PlayerBloc, PlayerState>,
+        FlameBlocListenable<GameBloc, GameState>,
         CollisionCallbacks,
         HasGameRef<BabelTowerGame>,
         ParentIsA<SpawnEnemyComponent> {
@@ -63,10 +64,10 @@ class ZombieComponent extends SpriteAnimationComponent
       flip = true;
     }
     if (indexToCheck > 10) {
-      if (camPosition.x + _size.x*0.8 < position.x ||
-          camPosition.x - _size.x*0.8 > position.x ||
-          camPosition.y + _size.y*0.8 < _position.y &&
-              camPosition.y - _size.y*0.8 > position.y) {
+      if (camPosition.x + _size.x * 0.8 < position.x ||
+          camPosition.x - _size.x * 0.8 > position.x ||
+          camPosition.y + _size.y * 0.8 < _position.y &&
+              camPosition.y - _size.y * 0.8 > position.y) {
         onDestroyed();
         removeFromParent();
       }
@@ -85,11 +86,12 @@ class ZombieComponent extends SpriteAnimationComponent
       if (!attacking) {
         animation = attackAnimation;
         attacking = true;
+        //FlameAudio.play('zombie.mp3');
         Future.delayed(Duration(milliseconds: 600), () {
           animation = moveAnimation;
           attacking = false;
         });
-        bloc.add(PlayerEvent.damage(0.01));
+        bloc.add(GameEvent.damage(0.01));
       }
     }
   }
@@ -101,20 +103,19 @@ class ZombieComponent extends SpriteAnimationComponent
   }
 
   @override
-  void onInitialState(PlayerState state) {
+  void onInitialState(GameState state) {
     super.onInitialState(state);
     _playerPosition = state.position;
   }
 
   @override
-  void onNewState(PlayerState state) {
+  void onNewState(GameState state) {
     super.onNewState(state);
     _playerPosition = state.position;
   }
 
   @override
   void onRemove() {
-
     super.onRemove();
   }
 }

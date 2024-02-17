@@ -7,9 +7,8 @@ import 'package:tuple/tuple.dart';
 import '../tool/mapGenerator.dart';
 import 'TileComponent.dart';
 
-
 class TileGenerationComponent extends PositionComponent
-    with FlameBlocReader<PlayerBloc, PlayerState>, HasGameRef<BabelTowerGame> {
+    with FlameBlocReader<GameBloc, GameState>, HasGameRef<BabelTowerGame> {
   TileGenerationComponent();
 
   Map<Tuple2, TileComponent> addedTile = {};
@@ -20,9 +19,9 @@ class TileGenerationComponent extends PositionComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    priority=-10;
+    priority = -10;
     tiles = getPossibleMap();
-    await add(FlameBlocListener<PlayerBloc, PlayerState>(onNewState: (state) {
+    await add(FlameBlocListener<GameBloc, GameState>(onNewState: (state) {
       updateAccordingPosition();
     }));
   }
@@ -30,10 +29,9 @@ class TileGenerationComponent extends PositionComponent
   @override
   void onMount() {
     super.onMount();
-    Future.delayed(Duration(milliseconds: 10),(){
+    Future.delayed(Duration(milliseconds: 10), () {
       updateAccordingPosition();
     });
-
   }
 
   updateAccordingPosition() {

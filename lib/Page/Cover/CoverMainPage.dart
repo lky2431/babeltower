@@ -1,9 +1,13 @@
+import 'package:babeltower/BabelTowerGame.dart';
+import 'package:babeltower/bloc/player/player_bloc.dart';
+import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:flutter/material.dart';
 
 class CoverMainPage extends StatelessWidget {
-  const CoverMainPage({required this.onNewGame});
+  const CoverMainPage({required this.onNewGame,required this.onLoadGame});
 
   final Function() onNewGame;
+  final Function() onLoadGame;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +39,12 @@ class CoverMainPage extends StatelessWidget {
                 SizedBox(
                   height: 24,
                 ),
-                /*TextButton(
-                        onPressed: () {},
+                TextButton(
+                        onPressed: onLoadGame,
                         child: Text(
                           "Load Game",
                           style: TextStyle(color: Colors.white, fontSize: 36),
-                        )),*/
+                        )),
               ],
             ))
       ],

@@ -10,7 +10,7 @@ import 'PlayerComponent.dart';
 class GhostComponent extends SpriteComponent
     with
         CollisionCallbacks,
-        FlameBlocReader<PlayerBloc, PlayerState>,
+        FlameBlocReader<GameBloc, GameState>,
         HasGameRef<BabelTowerGame> {
   GhostComponent(this.speed, this._position);
 
@@ -55,7 +55,7 @@ class GhostComponent extends SpriteComponent
     if (other is PlayerComponent) {
       if (!attacking) {
         attacking = true;
-        bloc.add(const PlayerEvent.damage(0.01));
+        bloc.add(const GameEvent.damage(0.01));
         Future.delayed(Duration(seconds: 1), () {
           attacking = false;
         });

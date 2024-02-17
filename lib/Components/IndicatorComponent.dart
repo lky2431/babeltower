@@ -14,6 +14,8 @@ class IndicatorManager extends Component with HasGameRef {
   List<Indicatable> components;
   Map<GlobalKey, IndicatorComponent> records = {};
 
+  int iteration = 0;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -22,24 +24,21 @@ class IndicatorManager extends Component with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
-
-    if (isMounted) {
+    if (iteration >= 10) {
       for (Indicatable component in components) {
         bool active = component.isActive();
-        if (component is BuildingBlockComponent) {
-          //print("${component.position}  $active $records");
-        }
         if (!active && !records.containsKey(component.globalKey)) {
           IndicatorComponent indicator = IndicatorComponent(component);
           game.world.add(indicator);
           records[component.globalKey] = indicator;
-        }
-        if (active && records.containsKey(component.globalKey)) {
+        } else if (active && records.containsKey(component.globalKey)) {
           game.world.remove(records[component.globalKey]!);
           records.remove(component.globalKey);
         }
       }
+      iteration = 0;
     }
+    iteration += 1;
   }
 
   void removeComponent(GlobalKey key) {

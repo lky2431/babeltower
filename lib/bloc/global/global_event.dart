@@ -15,4 +15,7 @@ class GlobalEvent with _$GlobalEvent {
   const factory GlobalEvent.setSavePosition(int position) = _setSave;
   const factory GlobalEvent.updateMoney(double money) = _UpdateMoney;
   const factory GlobalEvent.purchase(Goods good)= _Purchase;
+  const factory GlobalEvent.quit()= _Quit;
+  const factory GlobalEvent.updateHealth(double health) = _UpdateHealth;
+  const factory GlobalEvent.loadGame(GameContent game) = _LoadGame;
 }

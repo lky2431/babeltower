@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
+import 'package:babeltower/dialog/VictoryDialog.dart';
 import 'package:babeltower/model/BuildingBlock.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +21,9 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
   int? selectedBlockIndex;
 
   Offset offset = Offset(0, 0);
+
+  final ConfettiController _controllerCenter =
+      ConfettiController(duration: const Duration(seconds: 3));
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,10 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
               children: [
                 BlocProvider(
                   create: (context) => TowerBloc(context.read<GlobalBloc>()),
-                  child: BlocBuilder<TowerBloc, TowerState>(
+                  child: BlocConsumer<TowerBloc, TowerState>(
+                    listenWhen: (prev, current) {
+                      return !prev.isFinish && current.isFinish;
+                    },
                     builder: (context, towerState) {
                       Map<int, int> blocks = towerState.blocks;
                       return OrientationBuilder(
@@ -78,6 +86,15 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
                         );
                       });
                     },
+                    listener: (BuildContext context, TowerState state) {
+                      _controllerCenter.play();
+                      Future.delayed(Duration(seconds: 2), () {
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => VictoryDialog(context));
+                      });
+                    },
                   ),
                 ),
                 buildExitButton(context)
@@ -87,6 +104,29 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
         ),
       ),
     );
+  }
+
+  Path drawStar(Size size) {
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path.lineTo(halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step));
+      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    }
+    path.close();
+    return path;
   }
 
   Padding buildExitButton(BuildContext context) {
@@ -137,7 +177,7 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
                   context.read<TowerBloc>().add(TowerEvent.accept(index));
                 },
                 onLeave: (index) {
-                  context.read<TowerBloc>().add(TowerEvent.accept(index));
+                  context.read<TowerBloc>().add(TowerEvent.cancel());
                 },
                 onMove: (DragTargetDetails details) {
                   double thresholdx = (width - height / 3) / 2;
@@ -208,7 +248,26 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
                   width: height / 15 * 5,
                 ),
               ),
-            )
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: ConfettiWidget(
+                emissionFrequency: 0.15,
+                confettiController: _controllerCenter,
+                blastDirectionality: BlastDirectionality
+                    .explosive, // don't specify a direction, blast randomly
+                shouldLoop:
+                    true, // start again as soon as the animation is finished
+                colors: const [
+                  Colors.green,
+                  Colors.blue,
+                  Colors.pink,
+                  Colors.orange,
+                  Colors.purple
+                ], // manually specify the colors to be used
+                createParticlePath: drawStar, // define a custom shape/path.
+              ),
+            ),
           ],
         ),
       );

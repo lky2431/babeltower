@@ -17,7 +17,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (stage > 2) {
+        if (stage >= 17) {
           context
               .read<GlobalBloc>()
               .add(GlobalEvent.changeStage(GameStage.day));
