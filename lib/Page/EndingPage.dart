@@ -154,8 +154,6 @@ class _MessageZoneState extends State<MessageZone>
         return "suffer";
       case 3:
         return "lesswaste";
-      case 4:
-        return "lesswaste";
       default:
         return "";
     }

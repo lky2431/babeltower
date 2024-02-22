@@ -1,6 +1,5 @@
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LeaveFieldDialog extends StatefulWidget {
   const LeaveFieldDialog(this.game);

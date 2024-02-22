@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/bloc/player/player_bloc.dart';
@@ -7,7 +6,6 @@ import 'package:babeltower/config.dart';
 import 'package:babeltower/model/Goods.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/particles.dart';
 import 'package:flame/sprite.dart';
@@ -16,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flame/rendering.dart';
 
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import '../tool/cVectors.dart';
 
@@ -119,13 +116,13 @@ class PlayerComponent extends SpriteAnimationComponent
       position.y = mapSize * 80;
     }
     bloc.add(GameEvent.setPosition(position));
-    if (speed.x > 0) {
+    if (speed.x > 0.05) {
       if (!flipped) {
         flipHorizontallyAroundCenter();
         flipped = true;
       }
       animation = sideAnimation;
-    } else if (speed.x < 0) {
+    } else if (speed.x < -0.05) {
       flipback();
       animation = sideAnimation;
     } else if (speed.y < 0) {
@@ -136,12 +133,12 @@ class PlayerComponent extends SpriteAnimationComponent
       animation = frontAnimation;
     }
     if (speed.x == 0 && speed.y == 0) {
-      if (previousSpeed.y > 0) {
+      if (previousSpeed.x.abs() > 0.05) {
+        animation = idlesideAnimation;
+      } else if (previousSpeed.y > 0) {
         animation = idlefrontAnimation;
       } else if (previousSpeed.y < 0) {
         animation = idlebackAnimation;
-      } else if (previousSpeed.x != 0) {
-        animation = idlesideAnimation;
       }
     }
     previousSpeed = speed;

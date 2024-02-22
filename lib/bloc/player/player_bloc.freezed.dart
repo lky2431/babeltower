@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$PlayerEvent {
+mixin _$GameEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Vector2 move) move,
@@ -75,16 +75,15 @@ mixin _$PlayerEvent {
 }
 
 /// @nodoc
-abstract class $PlayerEventCopyWith<$Res> {
-  factory $PlayerEventCopyWith(
-          GameEvent value, $Res Function(GameEvent) then) =
-      _$PlayerEventCopyWithImpl<$Res, GameEvent>;
+abstract class $GameEventCopyWith<$Res> {
+  factory $GameEventCopyWith(GameEvent value, $Res Function(GameEvent) then) =
+      _$GameEventCopyWithImpl<$Res, GameEvent>;
 }
 
 /// @nodoc
-class _$PlayerEventCopyWithImpl<$Res, $Val extends GameEvent>
-    implements $PlayerEventCopyWith<$Res> {
-  _$PlayerEventCopyWithImpl(this._value, this._then);
+class _$GameEventCopyWithImpl<$Res, $Val extends GameEvent>
+    implements $GameEventCopyWith<$Res> {
+  _$GameEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -103,7 +102,7 @@ abstract class _$$MoveImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$MoveImplCopyWithImpl<$Res>
-    extends _$PlayerEventCopyWithImpl<$Res, _$MoveImpl>
+    extends _$GameEventCopyWithImpl<$Res, _$MoveImpl>
     implements _$$MoveImplCopyWith<$Res> {
   __$$MoveImplCopyWithImpl(_$MoveImpl _value, $Res Function(_$MoveImpl) _then)
       : super(_value, _then);
@@ -132,7 +131,7 @@ class _$MoveImpl implements _Move {
 
   @override
   String toString() {
-    return 'PlayerEvent.move(move: $move)';
+    return 'GameEvent.move(move: $move)';
   }
 
   @override
@@ -253,7 +252,7 @@ abstract class _$$SetPositionImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$SetPositionImplCopyWithImpl<$Res>
-    extends _$PlayerEventCopyWithImpl<$Res, _$SetPositionImpl>
+    extends _$GameEventCopyWithImpl<$Res, _$SetPositionImpl>
     implements _$$SetPositionImplCopyWith<$Res> {
   __$$SetPositionImplCopyWithImpl(
       _$SetPositionImpl _value, $Res Function(_$SetPositionImpl) _then)
@@ -283,7 +282,7 @@ class _$SetPositionImpl implements _SetPosition {
 
   @override
   String toString() {
-    return 'PlayerEvent.setPosition(position: $position)';
+    return 'GameEvent.setPosition(position: $position)';
   }
 
   @override
@@ -405,7 +404,7 @@ abstract class _$$DamageImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$DamageImplCopyWithImpl<$Res>
-    extends _$PlayerEventCopyWithImpl<$Res, _$DamageImpl>
+    extends _$GameEventCopyWithImpl<$Res, _$DamageImpl>
     implements _$$DamageImplCopyWith<$Res> {
   __$$DamageImplCopyWithImpl(
       _$DamageImpl _value, $Res Function(_$DamageImpl) _then)
@@ -435,7 +434,7 @@ class _$DamageImpl implements _Damage {
 
   @override
   String toString() {
-    return 'PlayerEvent.damage(damage: $damage)';
+    return 'GameEvent.damage(damage: $damage)';
   }
 
   @override
@@ -556,7 +555,7 @@ abstract class _$$DropImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$DropImplCopyWithImpl<$Res>
-    extends _$PlayerEventCopyWithImpl<$Res, _$DropImpl>
+    extends _$GameEventCopyWithImpl<$Res, _$DropImpl>
     implements _$$DropImplCopyWith<$Res> {
   __$$DropImplCopyWithImpl(_$DropImpl _value, $Res Function(_$DropImpl) _then)
       : super(_value, _then);
@@ -585,7 +584,7 @@ class _$DropImpl implements _Drop {
 
   @override
   String toString() {
-    return 'PlayerEvent.drop(index: $index)';
+    return 'GameEvent.drop(index: $index)';
   }
 
   @override
@@ -708,7 +707,7 @@ abstract class _$$PickImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$PickImplCopyWithImpl<$Res>
-    extends _$PlayerEventCopyWithImpl<$Res, _$PickImpl>
+    extends _$GameEventCopyWithImpl<$Res, _$PickImpl>
     implements _$$PickImplCopyWith<$Res> {
   __$$PickImplCopyWithImpl(_$PickImpl _value, $Res Function(_$PickImpl) _then)
       : super(_value, _then);
@@ -745,7 +744,7 @@ class _$PickImpl implements _Pick {
 
   @override
   String toString() {
-    return 'PlayerEvent.pick(item: $item)';
+    return 'GameEvent.pick(item: $item)';
   }
 
   @override
@@ -856,7 +855,7 @@ abstract class _Pick implements GameEvent {
 }
 
 /// @nodoc
-mixin _$PlayerState {
+mixin _$GameState {
   Vector2 get speed => throw _privateConstructorUsedError;
   bool get moving => throw _privateConstructorUsedError;
   Vector2 get position => throw _privateConstructorUsedError;
@@ -868,15 +867,14 @@ mixin _$PlayerState {
   Map<allGoods, bool> get goods => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $PlayerStateCopyWith<GameState> get copyWith =>
+  $GameStateCopyWith<GameState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PlayerStateCopyWith<$Res> {
-  factory $PlayerStateCopyWith(
-          GameState value, $Res Function(GameState) then) =
-      _$PlayerStateCopyWithImpl<$Res, GameState>;
+abstract class $GameStateCopyWith<$Res> {
+  factory $GameStateCopyWith(GameState value, $Res Function(GameState) then) =
+      _$GameStateCopyWithImpl<$Res, GameState>;
   @useResult
   $Res call(
       {Vector2 speed,
@@ -891,9 +889,9 @@ abstract class $PlayerStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PlayerStateCopyWithImpl<$Res, $Val extends GameState>
-    implements $PlayerStateCopyWith<$Res> {
-  _$PlayerStateCopyWithImpl(this._value, this._then);
+class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
+    implements $GameStateCopyWith<$Res> {
+  _$GameStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -955,11 +953,11 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends GameState>
 }
 
 /// @nodoc
-abstract class _$$PlayerStateImplCopyWith<$Res>
-    implements $PlayerStateCopyWith<$Res> {
-  factory _$$PlayerStateImplCopyWith(
-          _$PlayerStateImpl value, $Res Function(_$PlayerStateImpl) then) =
-      __$$PlayerStateImplCopyWithImpl<$Res>;
+abstract class _$$GameStateImplCopyWith<$Res>
+    implements $GameStateCopyWith<$Res> {
+  factory _$$GameStateImplCopyWith(
+          _$GameStateImpl value, $Res Function(_$GameStateImpl) then) =
+      __$$GameStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -975,11 +973,11 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PlayerStateImplCopyWithImpl<$Res>
-    extends _$PlayerStateCopyWithImpl<$Res, _$PlayerStateImpl>
-    implements _$$PlayerStateImplCopyWith<$Res> {
-  __$$PlayerStateImplCopyWithImpl(
-      _$PlayerStateImpl _value, $Res Function(_$PlayerStateImpl) _then)
+class __$$GameStateImplCopyWithImpl<$Res>
+    extends _$GameStateCopyWithImpl<$Res, _$GameStateImpl>
+    implements _$$GameStateImplCopyWith<$Res> {
+  __$$GameStateImplCopyWithImpl(
+      _$GameStateImpl _value, $Res Function(_$GameStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -995,7 +993,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? difficulty = null,
     Object? goods = null,
   }) {
-    return _then(_$PlayerStateImpl(
+    return _then(_$GameStateImpl(
       speed: null == speed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
@@ -1038,8 +1036,8 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PlayerStateImpl implements _PlayerState {
-  const _$PlayerStateImpl(
+class _$GameStateImpl implements _GameState {
+  const _$GameStateImpl(
       {required this.speed,
       this.moving = false,
       required this.position,
@@ -1088,14 +1086,14 @@ class _$PlayerStateImpl implements _PlayerState {
 
   @override
   String toString() {
-    return 'PlayerState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight, difficulty: $difficulty, goods: $goods)';
+    return 'GameState(speed: $speed, moving: $moving, position: $position, health: $health, items: $items, weight: $weight, maxWeight: $maxWeight, difficulty: $difficulty, goods: $goods)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PlayerStateImpl &&
+            other is _$GameStateImpl &&
             (identical(other.speed, speed) || other.speed == speed) &&
             (identical(other.moving, moving) || other.moving == moving) &&
             (identical(other.position, position) ||
@@ -1126,12 +1124,12 @@ class _$PlayerStateImpl implements _PlayerState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>
-      __$$PlayerStateImplCopyWithImpl<_$PlayerStateImpl>(this, _$identity);
+  _$$GameStateImplCopyWith<_$GameStateImpl> get copyWith =>
+      __$$GameStateImplCopyWithImpl<_$GameStateImpl>(this, _$identity);
 }
 
-abstract class _PlayerState implements GameState {
-  const factory _PlayerState(
+abstract class _GameState implements GameState {
+  const factory _GameState(
       {required final Vector2 speed,
       final bool moving,
       required final Vector2 position,
@@ -1140,7 +1138,7 @@ abstract class _PlayerState implements GameState {
       final double weight,
       final double maxWeight,
       required final Difficulty difficulty,
-      required final Map<allGoods, bool> goods}) = _$PlayerStateImpl;
+      required final Map<allGoods, bool> goods}) = _$GameStateImpl;
 
   @override
   Vector2 get speed;
@@ -1162,6 +1160,6 @@ abstract class _PlayerState implements GameState {
   Map<allGoods, bool> get goods;
   @override
   @JsonKey(ignore: true)
-  _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>
+  _$$GameStateImplCopyWith<_$GameStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

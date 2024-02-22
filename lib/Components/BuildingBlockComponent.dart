@@ -1,17 +1,14 @@
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/Components/PlayerComponent.dart';
 import 'package:babeltower/bloc/player/player_bloc.dart';
-import 'package:babeltower/config.dart';
 import 'package:babeltower/mixin/Indicatable.dart';
 import 'package:babeltower/model/BuildingBlock.dart';
 import 'package:babeltower/model/Goods.dart';
 import 'package:babeltower/model/PickableItem.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 

@@ -1,16 +1,14 @@
-import 'package:babeltower/Widgets/HealthBarWidget.dart';
 import 'package:babeltower/repo/HiveRepo.dart';
-import 'package:flame/game.dart';
+import 'package:babeltower/tool/initiate.dart';
 import 'package:flutter/material.dart';
 
-import 'BabelTowerGame.dart';
 import 'Page/MainPage.dart';
 import 'bloc/global/global_bloc.dart';
-import 'bloc/player/player_bloc.dart';
-import 'config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
+  FlameInitiate();
   HiveRepo hive = HiveRepo();
   hive.init();
   runApp(MaterialApp(

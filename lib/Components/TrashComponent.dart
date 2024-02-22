@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:babeltower/Components/PlayerComponent.dart';
 import 'package:babeltower/bloc/player/player_bloc.dart';
@@ -10,7 +9,6 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../tool/cVectors.dart';
 
 class TrashComponent extends PositionComponent
     with

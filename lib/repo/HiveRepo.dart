@@ -1,7 +1,6 @@
 import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:babeltower/model/GameContent.dart';
 import 'package:babeltower/model/Goods.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveRepo {

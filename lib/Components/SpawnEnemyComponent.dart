@@ -48,8 +48,8 @@ class SpawnEnemyComponent extends Component
 
     SpawnComponent ghostSpawn = SpawnComponent(
         factory: (int amount) {
-          (Vector2, Vector2) d = ghostDimension();
-          return GhostComponent(d.$1, d.$2);
+          (Vector2, Vector2, double) d = ghostDimension();
+          return GhostComponent(d.$1, d.$2, acceleration: d.$3);
         },
         period: switch (difficulty) {
           Difficulty.simple => 2,
@@ -63,8 +63,8 @@ class SpawnEnemyComponent extends Component
         },
         period: switch (difficulty) {
           Difficulty.simple => 6,
-          Difficulty.real => 2,
-          Difficulty.tough => 1,
+          Difficulty.real => 3,
+          Difficulty.tough => 1.5,
         });
     SpawnComponent explodeSpawn = SpawnComponent.periodRange(
         factory: (int amount) {
@@ -97,12 +97,15 @@ class SpawnEnemyComponent extends Component
     return camPosition + shiftVector;
   }
 
-  (Vector2, Vector2) ghostDimension() {
+  (Vector2, Vector2, double) ghostDimension() {
+    double acceleration = _size.y/4;
     double rx = Random().nextDouble() - 0.5;
     Vector2 shiftVector = Vector2(rx * _size.x, _size.y / 2);
     return (
-      Vector2(rx * 500, -800 - Random().nextDouble() * 500) * vratio,
-      camPosition + shiftVector
+      Vector2(rx * 500 * vratio,
+          -2 * acceleration * (0.9 + Random().nextDouble() * 0.5)),
+      camPosition + shiftVector,
+      acceleration
     );
   }
 

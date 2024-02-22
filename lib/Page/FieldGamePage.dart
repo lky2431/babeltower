@@ -1,4 +1,3 @@
-import 'package:babeltower/Page/DayPage.dart';
 import 'package:babeltower/dialog/BagDialog.dart';
 import 'package:babeltower/dialog/CantPickDialog.dart';
 import 'package:babeltower/dialog/DeadDialog.dart';
@@ -6,8 +5,6 @@ import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:babeltower/dialog/LeaveFieldDialog.dart';
 import 'package:babeltower/dialog/SummaryDialog.dart';
 import 'package:babeltower/model/GameContent.dart';
-import 'package:babeltower/model/Goods.dart';
-import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 

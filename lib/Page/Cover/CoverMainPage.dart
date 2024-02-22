@@ -1,6 +1,3 @@
-import 'package:babeltower/BabelTowerGame.dart';
-import 'package:babeltower/bloc/player/player_bloc.dart';
-import 'package:babeltower/dialog/FieldTutorialDialog.dart';
 import 'package:flutter/material.dart';
 
 class CoverMainPage extends StatelessWidget {

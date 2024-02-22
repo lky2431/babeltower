@@ -18,8 +18,8 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   }
 
   GlobalBloc({required this.hive}) : super(const GlobalState()) {
-    emit(state.copyWith(
-        stage: GameStage.field, gameContent: GameContent(name: "Mike")));
+    /*emit(state.copyWith(
+        stage: GameStage.field, gameContent: GameContent(name: "Mike")));*/
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
           gameContent:
@@ -29,7 +29,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       emit(state.copyWith(
           gameContent: GameContent(
         name: event.name,
-        /*builtTower: {0: 6, 1: 6, 2: 6, 3: 6, 4: 6},
+        /*builtTower: {0: 2, 1: 3, 2: 1, 3: 2, 4: 3},
               blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}*/
       )));
     });
@@ -99,6 +99,12 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     on<_UpdateHealth>((event, emit) {
       emit(state.copyWith(
           gameContent: state.gameContent!.copyWith(health: event.health)));
+    });
+    on<_FinishTutorial>((event, emit) {
+      Map<GameStage, bool> tutor = Map.from(state.gameContent!.hintShown);
+      tutor[event.stage] = true;
+      emit(state.copyWith(
+          gameContent: state.gameContent!.copyWith(hintShown: tutor)));
     });
   }
 

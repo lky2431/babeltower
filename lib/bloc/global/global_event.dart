@@ -18,4 +18,5 @@ class GlobalEvent with _$GlobalEvent {
   const factory GlobalEvent.quit()= _Quit;
   const factory GlobalEvent.updateHealth(double health) = _UpdateHealth;
   const factory GlobalEvent.loadGame(GameContent game) = _LoadGame;
+  const factory GlobalEvent.finishTutorial(GameStage stage) = _FinishTutorial;
 }

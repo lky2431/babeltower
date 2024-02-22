@@ -49,7 +49,6 @@ class CoverSavePage extends StatelessWidget {
                 }
               },
               child: Container(
-                height: 100,
                 constraints: BoxConstraints(maxWidth: 500),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),

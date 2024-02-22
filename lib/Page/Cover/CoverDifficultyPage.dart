@@ -1,6 +1,5 @@
 import 'package:babeltower/model/GameContent.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/global/global_bloc.dart';
@@ -46,7 +45,7 @@ class _CoverDifficultyPageState extends State<CoverDifficultyPage> {
             },
             child: Text(
               "CONFIRM",
-              style: TextStyle(fontSize: 32),
+              style: TextStyle(fontSize: 24),
             ))
       ],
     );
@@ -56,7 +55,7 @@ class _CoverDifficultyPageState extends State<CoverDifficultyPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
+        height: 60,
         child: Center(
           child: Text(
             _buildContent(),
@@ -98,7 +97,7 @@ class _CoverDifficultyPageState extends State<CoverDifficultyPage> {
                 label,
                 style: TextStyle(
                     fontFamily: "Destroy",
-                    fontSize: 32,
+                    fontSize: 28,
                     color: Colors.white.withOpacity(selected ? 1 : 0.6)),
               ),
             ),

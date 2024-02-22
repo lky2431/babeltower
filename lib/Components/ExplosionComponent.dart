@@ -51,7 +51,7 @@ class ExplosionComponent extends PositionComponent
     });
 
     Future.delayed(Duration(seconds: 2), () {
-      //FlameAudio.play('explosion.mp3');
+      FlameAudio.play('explosion.mp3',volume: 0.05);
       remove(circle);
       add(SpriteAnimationComponent(
           animation: explodeAnimation,

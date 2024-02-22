@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
+import 'package:babeltower/dialog/TowerTutorialDialog.dart';
 import 'package:babeltower/dialog/VictoryDialog.dart';
 import 'package:babeltower/model/BuildingBlock.dart';
 import 'package:confetti/confetti.dart';
@@ -24,6 +25,20 @@ class _BuildTowerPageState extends State<BuildTowerPage> {
 
   final ConfettiController _controllerCenter =
       ConfettiController(duration: const Duration(seconds: 3));
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 200), () {
+      if (!context
+          .read<GlobalBloc>()
+          .state
+          .gameContent!
+          .hintShown[GameStage.tower]!) {
+        showDialog(context: context, builder: (_) => TowerTutorialDialog(context));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

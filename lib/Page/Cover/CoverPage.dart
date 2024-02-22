@@ -4,9 +4,7 @@ import 'package:babeltower/Page/Cover/CoverMainPage.dart';
 import 'package:babeltower/Page/Cover/CoverSavePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/global/global_bloc.dart';
 import 'CoverNamePage.dart';
 
 enum _CoverStage { game, name, difficulty, save, load }

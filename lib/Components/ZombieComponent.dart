@@ -33,7 +33,9 @@ class ZombieComponent extends SpriteAnimationComponent
   late Vector2 _size;
   final Function onDestroyed;
   bool attacking = false;
-  int indexToCheck = 0;
+  int outboundToCheck = 0;
+  int speedToCheck = 10;
+  Vector2 speed = Vector2(0, 0);
 
   @override
   Future<void> onLoad() async {
@@ -52,18 +54,24 @@ class ZombieComponent extends SpriteAnimationComponent
   void update(double dt) {
     super.update(dt);
     priority = position.y.toInt();
-    Vector2 speed = (_playerPosition - position).normalized() * 140 * vratio;
     if (!attacking) {
       position += speed * dt;
     }
-    if (speed.x > 0 && flip) {
-      flipHorizontallyAroundCenter();
-      flip = false;
-    } else if (speed.x < 0 && !flip) {
-      flipHorizontallyAroundCenter();
-      flip = true;
+    if (speedToCheck >= 10) {
+      speed = (_playerPosition - position).normalized() * 140 * vratio;
+
+      if (speed.x > 0 && flip) {
+        flipHorizontallyAroundCenter();
+        flip = false;
+      } else if (speed.x < 0 && !flip) {
+        flipHorizontallyAroundCenter();
+        flip = true;
+      }
+      speedToCheck = 0;
     }
-    if (indexToCheck > 10) {
+    speedToCheck += 1;
+
+    if (outboundToCheck > 20) {
       if (camPosition.x + _size.x * 0.8 < position.x ||
           camPosition.x - _size.x * 0.8 > position.x ||
           camPosition.y + _size.y * 0.8 < _position.y &&
@@ -71,9 +79,9 @@ class ZombieComponent extends SpriteAnimationComponent
         onDestroyed();
         removeFromParent();
       }
-      indexToCheck = 0;
+      outboundToCheck = 0;
     }
-    indexToCheck += 1;
+    outboundToCheck += 1;
   }
 
   Vector2 get camPosition => gameRef.camera.viewfinder.position;
@@ -86,7 +94,7 @@ class ZombieComponent extends SpriteAnimationComponent
       if (!attacking) {
         animation = attackAnimation;
         attacking = true;
-        //FlameAudio.play('zombie.mp3');
+        FlameAudio.play('zombie.mp3', volume: 0.1);
         Future.delayed(Duration(milliseconds: 600), () {
           animation = moveAnimation;
           attacking = false;

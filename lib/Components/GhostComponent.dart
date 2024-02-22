@@ -12,12 +12,13 @@ class GhostComponent extends SpriteComponent
         CollisionCallbacks,
         FlameBlocReader<GameBloc, GameState>,
         HasGameRef<BabelTowerGame> {
-  GhostComponent(this.speed, this._position);
+  GhostComponent(this.speed, this._position, {required this.acceleration});
 
   Vector2 speed;
   Vector2 _position;
   bool attacking = false;
   int indexToCheck = 0;
+  final double acceleration;
 
   @override
   Future<void> onLoad() async {
@@ -34,7 +35,7 @@ class GhostComponent extends SpriteComponent
   @override
   void update(double dt) {
     super.update(dt);
-    speed.y = speed.y + 400 * dt * vratio;
+    speed.y = speed.y + acceleration * dt;
     position += speed * dt;
     if (indexToCheck > 10) {
       if (position.y > camPosition.y + (gameRef.size).y * 2 / 3) {

@@ -3,8 +3,6 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
-import 'package:flame/game.dart';
-import 'package:flame/sprite.dart';
 
 class TileComponent extends SpriteComponent {
   TileComponent(

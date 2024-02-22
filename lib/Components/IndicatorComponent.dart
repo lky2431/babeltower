@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:babeltower/BabelTowerGame.dart';
-import 'package:babeltower/Components/BuildingBlockComponent.dart';
 import 'package:babeltower/mixin/Indicatable.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';

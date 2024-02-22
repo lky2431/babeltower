@@ -1,7 +1,7 @@
 part of 'player_bloc.dart';
 
 @freezed
-class GameState with _$PlayerState {
+class GameState with _$GameState {
   const factory GameState({
     required Vector2 speed,
     @Default(false) bool moving,
@@ -12,5 +12,5 @@ class GameState with _$PlayerState {
     @Default(50) double maxWeight,
     required Difficulty difficulty,
     required Map<allGoods, bool> goods,
-  }) = _PlayerState;
+  }) = _GameState;
 }

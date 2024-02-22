@@ -1,4 +1,3 @@
-import 'package:babeltower/model/BuildingBlock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part "PickableItem.freezed.dart";

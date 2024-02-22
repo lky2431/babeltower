@@ -34,6 +34,8 @@ class TileGenerationComponent extends PositionComponent
     });
   }
 
+
+
   updateAccordingPosition() {
     double lefttop_x = camPosition.x - _size.x / 2 - 80;
     double rightbottom_x = camPosition.x + _size.x / 2 + 80;

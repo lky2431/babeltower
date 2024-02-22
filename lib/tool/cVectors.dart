@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flutter/widgets.dart';
 
 class Vectors {
   Vectors._internal();

@@ -1,11 +1,9 @@
-import 'dart:ui';
 
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
-
 
 import '../bloc/player/player_bloc.dart';
 
@@ -66,10 +64,10 @@ class ControlComponent extends PositionComponent
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     Vector2 newPosition = event.canvasEndPosition;
-
     if (initialPosition != null) {
       if (newPosition.distanceTo(initialPosition!) > v196.x) {
         stop();
+
       }
       if (newPosition.distanceTo(initialPosition!) > v48.x) {
         newPosition = initialPosition! +

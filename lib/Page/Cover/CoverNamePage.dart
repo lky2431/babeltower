@@ -1,6 +1,5 @@
 import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CoverNamePage extends StatefulWidget {
@@ -71,7 +70,7 @@ class _CoverNamePageState extends State<CoverNamePage> {
               },
               child: Text("CONFIRM", style: TextStyle(fontSize: 28))),
           SizedBox(
-            height: 180,
+            height: 50,
           ),
           TextButton(
               onPressed: widget.onBack,

@@ -24,6 +24,7 @@ dependencies:
   flame_audio: ^2.1.8
   confetti: ^0.7.0
   animate_do: ^3.3.3
+  auto_size_text: ^3.0.0
 
 
 dev_dependencies:

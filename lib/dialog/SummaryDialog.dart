@@ -45,32 +45,47 @@ class SummaryDialog extends StatelessWidget {
             if (health > 1) {
               health = 1;
             }
+            if (numsum < 0) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ..._buildNoMoneyInfo(price, numsum),
+                  ElevatedButton(
+                      onPressed: () {
+                        context.read<GlobalBloc>().add(GlobalEvent.quit());
+                      },
+                      child: Text("Quit"))
+                ],
+              );
+            }
 
             return OrientationBuilder(builder: (context, orientation) {
               if (orientation == Orientation.portrait) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Summary",
-                      style: TextStyle(fontSize: 28),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    if (blocksList.isNotEmpty) ..._buildBlockList(blocksList),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Divider(
-                        thickness: 1,
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Summary",
+                        style: TextStyle(fontSize: 28),
                       ),
-                    ),
-                    ..._buildMoneyinfo(price, numsum),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    _buildOKButton(context, blocks, numsum, health)
-                  ],
+                      SizedBox(
+                        height: 24,
+                      ),
+                      if (blocksList.isNotEmpty) ..._buildBlockList(blocksList),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Divider(
+                          thickness: 1,
+                        ),
+                      ),
+                      ..._buildMoneyinfo(price, numsum),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      _buildOKButton(context, blocks, numsum, health)
+                    ],
+                  ),
                 );
               }
               return Row(
@@ -168,6 +183,18 @@ class SummaryDialog extends StatelessWidget {
         height: 12,
       ),
       Text("saving: \$${numsum.toStringAsFixed(2)}"),
+    ];
+  }
+
+  List<Widget> _buildNoMoneyInfo(double price, double numsum) {
+    return [
+      Text("money earnt: \$${price.toStringAsFixed(2)}",
+          style: TextStyle(fontSize: 22)),
+      Text("saving: \$${(numsum + 2).toStringAsFixed(2)}",
+          style: TextStyle(fontSize: 22)),
+      Text("family expense: \$2", style: TextStyle(fontSize: 22)),
+      Text("You don't have enough money to feed your money",
+          style: TextStyle(fontSize: 22))
     ];
   }
 }

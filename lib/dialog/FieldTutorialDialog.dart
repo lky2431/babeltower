@@ -1,6 +1,9 @@
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/global/global_bloc.dart';
 
 class FieldTutorialDialog extends StatefulWidget {
   const FieldTutorialDialog(this.game);
@@ -50,6 +53,9 @@ class _FieldTutorialDialogState extends State<FieldTutorialDialog> {
                       } else {
                         widget.game.resumeEngine();
                         widget.game.overlays.remove("Tutorial");
+                        context
+                            .read<GlobalBloc>()
+                            .add(GlobalEvent.finishTutorial(GameStage.field));
                       }
                     },
                     child: Text(page < 3 ? "Next" : "OK"))
@@ -79,6 +85,20 @@ class _FieldTutorialDialogState extends State<FieldTutorialDialog> {
         return [
           Text(
               "You have so many threat around you. Stay away from them. They will decrease your health when you touch them."),
+          SizedBox(
+            height: 24,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/zombie_image.png",
+                height: 50,
+              ),
+              Image.asset("assets/images/ghost.png", height: 50),
+              Image.asset("assets/images/mosquite_image.png", height: 50),
+            ],
+          ),
         ];
       case 2:
         return [
@@ -86,7 +106,13 @@ class _FieldTutorialDialogState extends State<FieldTutorialDialog> {
               "There is some good stuff on the ground that you can collect to sell for your family expense or buying something. However, the more thing you carried, the slower you move")
         ];
       case 3:
-        return [Text("Go back to the portal when you finish.")];
+        return [
+          Text("Go back to the portal when you finish."),
+          SizedBox(
+            height: 24,
+          ),
+          Image.asset("assets/images/portal_image.png", height: 50),
+        ];
     }
     return [];
   }

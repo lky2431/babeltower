@@ -18,14 +18,15 @@ class MosquitoGroupComponent extends PositionComponent
   final Vector2 initPosition;
   final Vector2 speed;
   int indexToCheck = 0;
+  AudioPlayer? audioPlayer;
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
     size = Vector2(1000, 1000);
-    int mosNum= Random().nextInt(3)+2;
-    for (int i= 0; i<mosNum;i++){
-      add(MosquitoComponent(initPosition: Vector2.random()*250*vratio));
+    int mosNum = Random().nextInt(2) + 2;
+    for (int i = 0; i < mosNum; i++) {
+      add(MosquitoComponent(initPosition: Vector2.random() * 350 * vratio));
     }
     position = initPosition;
     if (speed.x > 0 && speed.y < 0) {
@@ -37,13 +38,21 @@ class MosquitoGroupComponent extends PositionComponent
     } else if (speed.x < 0 && speed.y < 0) {
       angle = atan(speed.x / -speed.y);
     }
+    audioPlayer = await FlameAudio.play('mosquito.mp3',volume: 0.2);
+  }
+
+  @override
+  void remove(Component component) {
+    super.remove(component);
+    audioPlayer?.stop();
+    audioPlayer?.release();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    position += speed * dt;
-    if (indexToCheck == 10) {
+    position += speed * dt * vratio;
+    if (indexToCheck >= 20) {
       indexToCheck = 0;
       if (position.x > camPosition.x + gameRef.size.x * 2 / 3 ||
           position.x < camPosition.x - gameRef.size.x * 2 / 3 ||
@@ -82,11 +91,6 @@ class MosquitoComponent extends SpriteAnimationComponent
         srcSize: Vector2.all(64));
     animation = flyAnimation;
     //FlameAudio.play('mosquito.mp3');
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
   }
 
   @override
