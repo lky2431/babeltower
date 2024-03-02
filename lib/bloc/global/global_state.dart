@@ -16,7 +16,9 @@ enum GameStage {
   @HiveField(5)
   day,
   @HiveField(6)
-  ending
+  ending,
+  @HiveField(7)
+  wallet
 }
 
 @freezed

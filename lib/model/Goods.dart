@@ -32,7 +32,7 @@ List<Goods> availableGoods = [
   Goods(
       name: "Shoe",
       image: "shoe",
-      description: "An old show. Increase your speed",
+      description: "An old shoe. Increase your speed",
       price: 2.5,
       goods: allGoods.Shoe),
   Goods(

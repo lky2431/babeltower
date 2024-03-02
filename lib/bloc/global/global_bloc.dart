@@ -19,23 +19,19 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
 
   GlobalBloc({required this.hive}) : super(const GlobalState()) {
     /*emit(state.copyWith(
-        stage: GameStage.field, gameContent: GameContent(name: "Mike")));*/
+        stage: GameStage.ending, gameContent: GameContent(name: "Mike")));*/
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
           gameContent:
               state.gameContent!.copyWith(difficulty: event.difficulty)));
     });
     on<_Name>((event, emit) {
-      emit(state.copyWith(
-          gameContent: GameContent(
-        name: event.name,
-        /*builtTower: {0: 2, 1: 3, 2: 1, 3: 2, 4: 3},
-              blocks: {0: 1, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}*/
-      )));
+      emit(state.copyWith(gameContent: GameContent(name: event.name)));
     });
     on<_ChangeStage>((event, emit) {
       if (event.stage == GameStage.tower ||
           event.stage == GameStage.shop ||
+          event.stage == GameStage.ending ||
           event.stage == GameStage.day) {
         emit(state.copyWith(
             stage: event.stage,

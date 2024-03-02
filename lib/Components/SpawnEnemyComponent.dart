@@ -71,14 +71,14 @@ class SpawnEnemyComponent extends Component
           return ExplosionComponent(initPosition: explodeDimension());
         },
         minPeriod: switch (difficulty) {
-          Difficulty.simple => 2,
-          Difficulty.real => 0.7,
-          Difficulty.tough => 0.3,
+          Difficulty.simple => 2.5,
+          Difficulty.real => 1.2,
+          Difficulty.tough => 0.7,
         },
         maxPeriod: switch (difficulty) {
           Difficulty.simple => 5,
           Difficulty.real => 2.5,
-          Difficulty.tough => 1,
+          Difficulty.tough => 1.2,
         });
     add(zombieSpawn);
     add(ghostSpawn);
@@ -125,7 +125,7 @@ class SpawnEnemyComponent extends Component
 
   Vector2 explodeDimension() {
     Vector2 shiftVector = Vector2((Random().nextDouble() - 0.5) * _size.x,
-        (Random().nextDouble() - 0.5) * _size.y);
+        (Random().nextDouble() - 0.5) * _size.y)*0.8;
     return camPosition + shiftVector;
   }
 

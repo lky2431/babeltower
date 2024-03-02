@@ -65,7 +65,7 @@ class _ShopPageState extends State<ShopPage> {
               );
             }
             return Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24.0),
@@ -88,9 +88,9 @@ class _ShopPageState extends State<ShopPage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                Container(
+                  constraints: BoxConstraints(maxHeight: 500),
                   width: MediaQuery.of(context).size.width * 2 / 3,
-                  height: MediaQuery.of(context).size.height,
                   child: ListView(
                       children: availableGoods
                           .where((element) => !purchased[element.goods]!)
@@ -118,14 +118,17 @@ class _ShopPageState extends State<ShopPage> {
       width: 120,
       child: FilledButton.tonal(
           onPressed: () {
-            context.read<GlobalBloc>().add(GlobalEvent.changeStage(GameStage.tower));
+            context
+                .read<GlobalBloc>()
+                .add(GlobalEvent.changeStage(GameStage.tower));
           },
           child: Text("Quit")),
     );
   }
 
   Text _buildMoney(double money) {
-    return Text("your saving: \$${money.toStringAsFixed(2)}", style: TextStyle(fontSize: 24));
+    return Text("your saving: \$${money.toStringAsFixed(2)}",
+        style: TextStyle(fontSize: 24));
   }
 
   Text _buildShopTitle() {

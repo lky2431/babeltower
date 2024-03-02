@@ -51,7 +51,7 @@ class PlayerComponent extends SpriteAnimationComponent
   Future<void> onLoad() async {
     super.onLoad();
     add(RectangleHitbox(
-        size: Vector2(80 * vratio, 132 * vratio),
+        size: Vector2(79 * vratio, 132 * vratio),
         collisionType: CollisionType.passive,
         anchor: Anchor.center,
         position: v128));
@@ -109,11 +109,11 @@ class PlayerComponent extends SpriteAnimationComponent
     if (position.y < 0) {
       position.y = 0;
     }
-    if (position.x > mapSize * 80) {
-      position.x = mapSize * 80;
+    if (position.x > mapSize * tileSize) {
+      position.x = mapSize * tileSize;
     }
-    if (position.y > mapSize * 80) {
-      position.y = mapSize * 80;
+    if (position.y > mapSize * tileSize) {
+      position.y = mapSize * tileSize;
     }
     bloc.add(GameEvent.setPosition(position));
     if (speed.x > 0.05) {
@@ -158,6 +158,8 @@ class PlayerComponent extends SpriteAnimationComponent
       speedFactor = 260 - state.weight * 2;
     }
   }
+
+  double get tileSize => gameRef.tileSize;
 
   @override
   bool onKeyEvent(

@@ -1,6 +1,7 @@
 import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class EndingPage extends StatefulWidget {
   const EndingPage({super.key});
@@ -11,11 +12,20 @@ class EndingPage extends StatefulWidget {
 
 class _EndingPageState extends State<EndingPage> {
   bool reach = false;
+  AudioPlayer player = AudioPlayer();
+
+  @override
+  void dispose() {
+    super.dispose();
+    player.stop();
+    player.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (!reach) {
-      return OfficeZone(onOfficeFinish: () {
+      return OfficeZone(onOfficeFinish: () async {
+        await player.play(AssetSource("audio/allegro.mp3"));
         setState(() {
           reach = true;
         });
@@ -50,18 +60,16 @@ class _MessageZoneState extends State<MessageZone>
         AnimationController(vsync: this, duration: Duration(seconds: 4));
     _textOpacityController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _playAnimatin();
+    _playAnimation();
 
     super.initState();
   }
 
-  _playAnimatin() {
+  _playAnimation() {
     _backgroundOpacityController.stop();
     _backgroundSizeController.value = 0;
-
     _backgroundSizeController.forward();
     _backgroundOpacityController.value = 0;
-
     _backgroundOpacityController.forward();
     _textOpacityController.value = 0;
     Future.delayed(Duration(seconds: 1), () {
@@ -77,7 +85,7 @@ class _MessageZoneState extends State<MessageZone>
   @override
   Widget build(BuildContext context) {
     double screenAspect = MediaQuery.of(context).size.aspectRatio;
-    print(screenAspect);
+
     return GestureDetector(
       onTap: () {
         if (!ready) {
@@ -88,9 +96,11 @@ class _MessageZoneState extends State<MessageZone>
           setState(() {
             stage = stage + 1;
           });
-          _playAnimatin();
+          _playAnimation();
         } else {
-          context.read<GlobalBloc>().add(GlobalEvent.quit());
+          context
+              .read<GlobalBloc>()
+              .add(GlobalEvent.changeStage(GameStage.wallet));
         }
       },
       child: Stack(
@@ -124,19 +134,24 @@ class _MessageZoneState extends State<MessageZone>
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Container(
+                  decoration: BoxDecoration(color: Colors.transparent),
                   constraints: BoxConstraints(maxWidth: 500),
-                  child: AnimatedBuilder(
-                      animation: _textOpacityController,
-                      builder: (context, animation) {
-                        return Opacity(
-                          opacity: _textOpacityController.value,
-                          child: Text(
-                            _buildMessage(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 24),
-                          ),
-                        );
-                      })),
+                  child: SizedBox.expand(
+                    child: Center(
+                      child: AnimatedBuilder(
+                          animation: _textOpacityController,
+                          builder: (context, animation) {
+                            return Opacity(
+                              opacity: _textOpacityController.value,
+                              child: Text(
+                                _buildMessage(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            );
+                          }),
+                    ),
+                  )),
             ),
           ),
         ],

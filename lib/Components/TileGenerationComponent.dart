@@ -34,17 +34,15 @@ class TileGenerationComponent extends PositionComponent
     });
   }
 
-
-
   updateAccordingPosition() {
-    double lefttop_x = camPosition.x - _size.x / 2 - 80;
-    double rightbottom_x = camPosition.x + _size.x / 2 + 80;
-    double lefttop_y = camPosition.y - _size.y / 2 - 80;
-    double rightbottom_y = camPosition.y + _size.y / 2 + 80;
-    int l_index_x = (lefttop_x / 80).floor();
-    int h_index_x = (rightbottom_x / 80).ceil();
-    int l_index_y = (lefttop_y / 80).floor();
-    int h_index_y = (rightbottom_y / 80).ceil();
+    double lefttop_x = camPosition.x - _size.x / 2 - tileSize;
+    double rightbottom_x = camPosition.x + _size.x / 2 + tileSize;
+    double lefttop_y = camPosition.y - _size.y / 2 - tileSize;
+    double rightbottom_y = camPosition.y + _size.y / 2 + tileSize;
+    int l_index_x = (lefttop_x / tileSize).floor();
+    int h_index_x = (rightbottom_x / tileSize).ceil();
+    int l_index_y = (lefttop_y / tileSize).floor();
+    int h_index_y = (rightbottom_y / tileSize).ceil();
     boundary = (l_index_x, h_index_x, l_index_y, h_index_y);
     for (int i = l_index_x; i < h_index_x; i++) {
       for (int j = l_index_y; j < h_index_y; j++) {
@@ -81,6 +79,8 @@ class TileGenerationComponent extends PositionComponent
   }
 
   Vector2 get camPosition => gameRef.camera.viewfinder.position;
+
+  double get tileSize => gameRef.tileSize;
 
   Vector2 get _size => gameRef.size;
 

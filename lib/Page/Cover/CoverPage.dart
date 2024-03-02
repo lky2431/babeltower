@@ -78,9 +78,20 @@ class _CoverPageState extends State<CoverPage> {
               stage = _CoverStage.save;
             });
           },
+          onBack: () {
+            setState(() {
+              stage = _CoverStage.name;
+            });
+          },
         );
       case _CoverStage.save:
-        return CoverSavePage();
+        return CoverSavePage(
+          onBack: () {
+            setState(() {
+              stage = _CoverStage.difficulty;
+            });
+          },
+        );
       default:
         return Container();
     }

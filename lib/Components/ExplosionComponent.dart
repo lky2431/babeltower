@@ -22,8 +22,8 @@ class ExplosionComponent extends PositionComponent
 
   late final SpriteSheet spriteSheet;
 
-  late SpriteAnimation explodeAnimation =
-      spriteSheet.createAnimation(row: 0, stepTime: 0.05, from: 0, to: 12);
+  late SpriteAnimation explodeAnimation = spriteSheet.createAnimation(
+      row: 0, stepTime: 0.05, from: 0, to: 12, loop: false);
   bool attacking = false;
 
   @override
@@ -51,7 +51,7 @@ class ExplosionComponent extends PositionComponent
     });
 
     Future.delayed(Duration(seconds: 2), () {
-      FlameAudio.play('explosion.mp3',volume: 0.05);
+      FlameAudio.play('explosion.mp3', volume: 0.05);
       remove(circle);
       add(SpriteAnimationComponent(
           animation: explodeAnimation,
@@ -73,5 +73,4 @@ class ExplosionComponent extends PositionComponent
       }
     }
   }
-
 }

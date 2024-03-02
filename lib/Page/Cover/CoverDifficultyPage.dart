@@ -1,3 +1,5 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:babeltower/model/GameContent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/global/global_bloc.dart';
 
 class CoverDifficultyPage extends StatefulWidget {
-  const CoverDifficultyPage({required this.onConfirm});
+  const CoverDifficultyPage({required this.onConfirm, required this.onBack});
   final Function() onConfirm;
+  final Function() onBack;
 
   @override
   State<CoverDifficultyPage> createState() => _CoverDifficultyPageState();
@@ -17,43 +20,75 @@ class _CoverDifficultyPageState extends State<CoverDifficultyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildButton(() {
-          setState(() {
-            difficulty = Difficulty.simple;
-          });
-        }, difficulty == Difficulty.simple, "Simple"),
-        _buildButton(() {
-          setState(() {
-            difficulty = Difficulty.real;
-          });
-        }, difficulty == Difficulty.real, "Real"),
-        _buildButton(() {
-          setState(() {
-            difficulty = Difficulty.tough;
-          });
-        }, difficulty == Difficulty.tough, "Tough"),
-        _buildDescription(),
-        TextButton(
-            onPressed: () {
-              context
-                  .read<GlobalBloc>()
-                  .add(GlobalEvent.difficulty(difficulty));
-              widget.onConfirm();
-            },
-            child: Text(
-              "CONFIRM",
-              style: TextStyle(fontSize: 24),
-            ))
-      ],
+    return PopScope(
+      onPopInvoked: (result) {
+        widget.onBack();
+      },
+      child: FadeIn(
+        child: Center(
+          child: SizedBox(
+            height: 400,
+            child: LayoutBuilder(builder: (context, constraint) {
+              double height = constraint.maxHeight;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildButton(() {
+                    setState(() {
+                      difficulty = Difficulty.simple;
+                    });
+                  }, difficulty == Difficulty.simple, "Simple", height / 6),
+                  _buildButton(() {
+                    setState(() {
+                      difficulty = Difficulty.real;
+                    });
+                  }, difficulty == Difficulty.real, "Real", height / 6),
+                  _buildButton(() {
+                    setState(() {
+                      difficulty = Difficulty.tough;
+                    });
+                  }, difficulty == Difficulty.tough, "Tough", height / 6),
+                  SizedBox(height:height/8,child: _buildDescription()),
+                  SizedBox(
+                    height: height/8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            context
+                                .read<GlobalBloc>()
+                                .add(GlobalEvent.difficulty(difficulty));
+                            widget.onConfirm();
+                          },
+                          child: AutoSizeText(
+                            "CONFIRM",
+                            style: TextStyle(fontSize: 24),
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height/10,
+                    child: TextButton(
+                        onPressed: () {
+                          widget.onBack();
+                        },
+                        child: Text(
+                          "Back",
+                          style: TextStyle(fontSize: 18),
+                        )),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildDescription() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: Container(
         height: 60,
         child: Center(
@@ -78,27 +113,31 @@ class _CoverDifficultyPageState extends State<CoverDifficultyPage> {
     }
   }
 
-  _buildButton(Function() onTap, bool selected, String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+  _buildButton(Function() onTap, bool selected, String label, double height) {
+    return SizedBox(
+      height: height,
+      width: 250,
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          width: 240,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border:
-                Border.all(color: Colors.white.withOpacity(selected ? 1 : 0.6)),
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-              child: Text(
-                label,
-                style: TextStyle(
-                    fontFamily: "Destroy",
-                    fontSize: 28,
-                    color: Colors.white.withOpacity(selected ? 1 : 0.6)),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                  color: Colors.white.withOpacity(selected ? 1 : 0.6)),
+            ),
+            child: Center(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                child: AutoSizeText(
+                  label,
+                  style: TextStyle(
+                      fontFamily: "Destroy",
+                      fontSize: 28,
+                      color: Colors.white.withOpacity(selected ? 1 : 0.6)),
+                ),
               ),
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:babeltower/Page/BuildTowerPage.dart';
 import 'package:babeltower/Page/DayPage.dart';
 import 'package:babeltower/Page/EndingPage.dart';
 import 'package:babeltower/Page/FieldGamePage.dart';
+import 'package:babeltower/Page/GetWalletPage.dart';
 import 'package:babeltower/Page/IntroductionPage.dart';
 import 'package:babeltower/Page/ShopPage.dart';
 import 'package:babeltower/bloc/global/global_bloc.dart';
@@ -31,6 +32,8 @@ class MainPage extends StatelessWidget {
           return ShopPage();
         case GameStage.ending:
           return EndingPage();
+        case GameStage.wallet:
+          return GetWalletPage();
         default:
           return Container();
       }

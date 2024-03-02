@@ -33,22 +33,26 @@ class BabelTowerGame extends FlameGame
   late FlameBlocProvider provider;
   late IndicatorManager indicatorManager;
   late final double tileSize;
+  bool initialSize=false;
+
+
 
   @override
   Future<void> onLoad() async {
+    getTileSize();
     await super.onLoad();
 
     PlayerComponent player = PlayerComponent();
     camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
-        mapSize * 80 - size.x / 2, mapSize * 80.0 - size.y / 2));
+        mapSize * tileSize - size.x / 2, mapSize * tileSize - size.y / 2));
     PortalComponent portal = PortalComponent();
     List<BuildingBlockComponent> blocks = List.generate(
         Random().nextInt(2) + 3,
         (index) => BuildingBlockComponent(
             // gameRef: this,
             index: Random().nextInt(availableBlocks.values.length),
-            initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
-                Random().nextDouble() * mapSize * 80)));
+            initialPosition: Vector2(Random().nextDouble() * mapSize * tileSize,
+                Random().nextDouble() * mapSize * tileSize)));
     indicatorManager = IndicatorManager(components: [portal, ...blocks]);
 
     provider = FlameBlocProvider<GameBloc, GameState>.value(children: [
@@ -63,8 +67,9 @@ class BabelTowerGame extends FlameGame
       ...List.generate(
           40,
           (index) => TrashComponent(
-              initialPosition: Vector2(Random().nextDouble() * mapSize * 80,
-                  Random().nextDouble() * mapSize * 80))),
+              initialPosition: Vector2(
+                  Random().nextDouble() * mapSize * tileSize,
+                  Random().nextDouble() * mapSize * tileSize))),
     ], value: playerBloc);
     world.add(provider);
     FlameAudio.bgm.initialize();
@@ -84,8 +89,11 @@ class BabelTowerGame extends FlameGame
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
     Vectors.instance.setRatio(size);
-    camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
-        mapSize * 80.0 - size.x / 2, mapSize * 80.0 - size.y / 2));
+    if(initialSize){
+      camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
+          mapSize * tileSize - size.x / 2, mapSize * tileSize - size.y / 2));
+    }
+
   }
 
   @override
@@ -97,5 +105,8 @@ class BabelTowerGame extends FlameGame
       shorterSize = size.y;
     }
     tileSize = shorterSize / 8;
+    camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
+        mapSize * tileSize - size.x / 2, mapSize * tileSize - size.y / 2));
+    initialSize=true;
   }
 }
