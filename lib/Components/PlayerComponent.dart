@@ -163,7 +163,7 @@ class PlayerComponent extends SpriteAnimationComponent
 
   @override
   bool onKeyEvent(
-    RawKeyEvent event,
+    KeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     final up = keysPressed.contains(LogicalKeyboardKey.arrowUp);

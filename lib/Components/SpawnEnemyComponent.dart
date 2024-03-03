@@ -98,7 +98,7 @@ class SpawnEnemyComponent extends Component
   }
 
   (Vector2, Vector2, double) ghostDimension() {
-    double acceleration = _size.y/4;
+    double acceleration = _size.y / 4;
     double rx = Random().nextDouble() - 0.5;
     Vector2 shiftVector = Vector2(rx * _size.x, _size.y / 2);
     return (
@@ -125,7 +125,8 @@ class SpawnEnemyComponent extends Component
 
   Vector2 explodeDimension() {
     Vector2 shiftVector = Vector2((Random().nextDouble() - 0.5) * _size.x,
-        (Random().nextDouble() - 0.5) * _size.y)*0.8;
+            (Random().nextDouble() - 0.5) * _size.y) *
+        0.8;
     return camPosition + shiftVector;
   }
 

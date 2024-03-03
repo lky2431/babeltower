@@ -33,9 +33,7 @@ class BabelTowerGame extends FlameGame
   late FlameBlocProvider provider;
   late IndicatorManager indicatorManager;
   late final double tileSize;
-  bool initialSize=false;
-
-
+  bool initialSize = false;
 
   @override
   Future<void> onLoad() async {
@@ -89,11 +87,10 @@ class BabelTowerGame extends FlameGame
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
     Vectors.instance.setRatio(size);
-    if(initialSize){
+    if (initialSize) {
       camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
           mapSize * tileSize - size.x / 2, mapSize * tileSize - size.y / 2));
     }
-
   }
 
   @override
@@ -107,6 +104,6 @@ class BabelTowerGame extends FlameGame
     tileSize = shorterSize / 8;
     camera.setBounds(Rectangle.fromLTRB(size.x / 2, size.y / 2,
         mapSize * tileSize - size.x / 2, mapSize * tileSize - size.y / 2));
-    initialSize=true;
+    initialSize = true;
   }
 }

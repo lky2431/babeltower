@@ -115,7 +115,7 @@ class _ShopPageState extends State<ShopPage> {
 
   Container buildQuitButton(BuildContext context) {
     return Container(
-      width: 120,
+      width: 160,
       child: FilledButton.tonal(
           onPressed: () {
             context
@@ -140,7 +140,7 @@ class _ShopPageState extends State<ShopPage> {
 
   Widget buildPurchaseButton(double money, BuildContext context) {
     return Container(
-      width: 120,
+      width: 160,
       child: ElevatedButton(
           onPressed: () {
             if (good != null) {
