@@ -88,41 +88,46 @@ class SummaryDialog extends StatelessWidget {
                   ),
                 );
               }
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Summary",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      _buildOKButton(context, blocks, numsum, health)
-                    ],
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  if (blocksList.isNotEmpty)
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 500),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [..._buildBlockList(blocksList)],
-                      ),
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(width: 16,),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Summary",
+                          style: TextStyle(fontSize: 28),
+                        ),
+                        SizedBox(
+                          height: 24,
+                        ),
+                        _buildOKButton(context, blocks, numsum, health)
+                      ],
                     ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: _buildMoneyinfo(price, numsum),
-                  ),
-                ],
+                    SizedBox(
+                      width: 12,
+                    ),
+                    if (blocksList.isNotEmpty)
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 500),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [..._buildBlockList(blocksList)],
+                        ),
+                      ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: _buildMoneyinfo(price, numsum),
+                    ),
+                  ],
+                ),
               );
             });
           },
