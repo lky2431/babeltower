@@ -18,8 +18,6 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   }
 
   GlobalBloc({required this.hive}) : super(const GlobalState()) {
-    /*emit(state.copyWith(
-        stage: GameStage.ending, gameContent: GameContent(name: "Mike")));*/
     on<_Difficulty>((event, emit) {
       emit(state.copyWith(
           gameContent:
