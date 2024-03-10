@@ -2,7 +2,9 @@ import 'package:babeltower/Widgets/BuildingBlockWidget.dart';
 import 'package:babeltower/bloc/global/global_bloc.dart';
 import 'package:babeltower/model/GameContent.dart';
 import 'package:babeltower/model/PickableItem.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../bloc/player/player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,77 +61,81 @@ class SummaryDialog extends StatelessWidget {
               );
             }
 
-            return OrientationBuilder(builder: (context, orientation) {
-              if (orientation == Orientation.portrait) {
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Summary",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      if (blocksList.isNotEmpty) ..._buildBlockList(blocksList),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Divider(
-                          thickness: 1,
-                        ),
-                      ),
-                      ..._buildMoneyinfo(price, numsum),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      _buildOKButton(context, blocks, numsum, health)
-                    ],
-                  ),
-                );
-              }
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 16,),
-                    Column(
+            return Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 500),
+                child: OrientationBuilder(builder: (context, orientation) {
+                  if (orientation == Orientation.portrait) {
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Summary",
-                          style: TextStyle(fontSize: 28),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          height: 24,
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                if (blocksList.isNotEmpty)
+                                  ..._buildBlockList(blocksList),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Divider(
+                                    thickness: 1,
+                                  ),
+                                ),
+                                ..._buildMoneyinfo(price, numsum),
+                              ],
+                            ),
+                          ),
                         ),
                         _buildOKButton(context, blocks, numsum, health)
                       ],
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    if (blocksList.isNotEmpty)
-                      Container(
-                        constraints: BoxConstraints(maxWidth: 500),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [..._buildBlockList(blocksList)],
+                    );
+                  }
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Summary",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Expanded(
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            if (blocksList.isNotEmpty)
+                              Expanded(
+                                flex: 1,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [..._buildBlockList(blocksList)],
+                                  ),
+                                ),
+                              ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: _buildMoneyinfo(price, numsum),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: _buildMoneyinfo(price, numsum),
-                    ),
-                  ],
-                ),
-              );
-            });
+                      _buildOKButton(context, blocks, numsum, health),
+                      SizedBox(
+                        height: 8,
+                      )
+                    ],
+                  );
+                }),
+              ),
+            );
           },
         ),
       ),
@@ -138,16 +144,16 @@ class SummaryDialog extends StatelessWidget {
 
   List<Widget> _buildBlockList(List<int> blocksList) {
     return [
-      Text("building block:", style: TextStyle(fontSize: 22)),
+      Text("building block:", style: TextStyle(fontSize: 18)),
       SizedBox(
-        height: 12,
+        height: 8,
       ),
       Wrap(
         children: blocksList
             .map((e) => Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: SizedBox(
-                      height: 100, width: 100, child: BuildingBlockWidget(e)),
+                      height: 80, width: 80, child: BuildingBlockWidget(e)),
                 ))
             .toList(),
       ),
@@ -174,32 +180,35 @@ class SummaryDialog extends StatelessWidget {
   List<Widget> _buildMoneyinfo(double price, double numsum) {
     return [
       Text("money earnt: \$${price.toStringAsFixed(2)}",
-          style: TextStyle(fontSize: 22)),
+          style: TextStyle(fontSize: 16)),
       SizedBox(
         height: 12,
       ),
-      Text("family expense: \$2", style: TextStyle(fontSize: 22)),
+      Text("family expense: \$2", style: TextStyle(fontSize: 16)),
       SizedBox(
         height: 12,
       ),
       Text("change: \$${(price - 2).toStringAsFixed(2)}",
-          style: TextStyle(fontSize: 22)),
+          style: TextStyle(fontSize: 16)),
       SizedBox(
         height: 12,
       ),
-      Text("saving: \$${numsum.toStringAsFixed(2)}"),
+      Text(
+        "saving: \$${numsum.toStringAsFixed(2)}",
+        style: TextStyle(fontSize: 16),
+      ),
     ];
   }
 
   List<Widget> _buildNoMoneyInfo(double price, double numsum) {
     return [
       Text("money earnt: \$${price.toStringAsFixed(2)}",
-          style: TextStyle(fontSize: 22)),
+          style: TextStyle(fontSize: 16)),
       Text("saving: \$${(numsum + 2).toStringAsFixed(2)}",
-          style: TextStyle(fontSize: 22)),
-      Text("family expense: \$2", style: TextStyle(fontSize: 22)),
+          style: TextStyle(fontSize: 16)),
+      Text("family expense: \$2", style: TextStyle(fontSize: 16)),
       Text("You don't have enough money to feed your money",
-          style: TextStyle(fontSize: 22))
+          style: TextStyle(fontSize: 16))
     ];
   }
 }

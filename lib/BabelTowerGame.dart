@@ -1,3 +1,4 @@
+
 import 'dart:math';
 
 import 'package:babeltower/Components/BuildingBlockComponent.dart';
@@ -16,6 +17,7 @@ import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -71,13 +73,20 @@ class BabelTowerGame extends FlameGame
     ], value: playerBloc);
     world.add(provider);
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('traversing.mp3', volume: 0.3);
+    if (!kIsWeb ){
+      FlameAudio.bgm.play('traversing.mp3', volume: 0.3);
+    }
+
+
   }
 
   @override
   void onDispose() {
     super.onDispose();
-    FlameAudio.bgm.stop();
+    if (!kIsWeb ){
+      FlameAudio.bgm.stop();
+    }
+
   }
 
   @override

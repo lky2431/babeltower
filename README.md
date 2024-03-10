@@ -1,16 +1,8 @@
-# babeltower
 
-A new Flutter project.
+Babel Tower is a RPG game.
 
-## Getting Started
+You will experience life of a person living in garbage mountain, struggling to survive and build a tower.
 
-This project is a starting point for a Flutter application.
+This game is designed to raise public concern on global waste trade.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

@@ -1,5 +1,5 @@
-import 'dart:math';
 
+import 'dart:math';
 import 'package:babeltower/BabelTowerGame.dart';
 import 'package:babeltower/Components/PlayerComponent.dart';
 import 'package:babeltower/bloc/player/player_bloc.dart';
@@ -9,6 +9,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flutter/foundation.dart';
 
 import '../tool/cVectors.dart';
 
@@ -38,7 +39,10 @@ class MosquitoGroupComponent extends PositionComponent
     } else if (speed.x < 0 && speed.y < 0) {
       angle = atan(speed.x / -speed.y);
     }
-    audioPlayer = await FlameAudio.play('mosquito.mp3',volume: 0.2);
+    if (!kIsWeb ){
+      audioPlayer = await FlameAudio.play('mosquito.mp3',volume: 0.2);
+    }
+
   }
 
   @override
@@ -90,11 +94,11 @@ class MosquitoComponent extends SpriteAnimationComponent
         image: await Flame.images.load('mosquito.png'),
         srcSize: Vector2.all(64));
     animation = flyAnimation;
-    //FlameAudio.play('mosquito.mp3');
   }
 
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
+    super.onCollision(points,other);
     if (other is PlayerComponent) {
       if (!attacking) {
         attacking = true;

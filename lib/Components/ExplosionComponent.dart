@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'dart:math';
 import 'dart:ui';
 
@@ -9,6 +10,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../bloc/player/player_bloc.dart';
@@ -51,7 +53,9 @@ class ExplosionComponent extends PositionComponent
     });
 
     Future.delayed(Duration(seconds: 2), () {
-      FlameAudio.play('explosion.mp3', volume: 0.05);
+      if (!kIsWeb) {
+        FlameAudio.play('explosion.mp3', volume: 0.05);
+      }
       remove(circle);
       add(SpriteAnimationComponent(
           animation: explodeAnimation,
@@ -66,6 +70,7 @@ class ExplosionComponent extends PositionComponent
 
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
+    super.onCollision(points, other);
     if (other is PlayerComponent) {
       if (!attacking) {
         attacking = true;

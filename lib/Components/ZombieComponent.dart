@@ -7,6 +7,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flutter/foundation.dart';
 
 import '../bloc/player/player_bloc.dart';
 import '../tool/cVectors.dart';
@@ -88,13 +89,17 @@ class ZombieComponent extends SpriteAnimationComponent
 
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
+    super.onCollision(points, other);
     if (other is ZombieComponent) {
       position += (position - other.position) * 0.01;
     } else if (other is PlayerComponent) {
       if (!attacking) {
         animation = attackAnimation;
         attacking = true;
-        FlameAudio.play('zombie.mp3', volume: 0.1);
+        if (!kIsWeb) {
+          FlameAudio.play('zombie.mp3', volume: 0.1);
+        }
+
         Future.delayed(Duration(milliseconds: 600), () {
           animation = moveAnimation;
           attacking = false;

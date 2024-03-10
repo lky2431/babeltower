@@ -27,6 +27,7 @@ dependencies:
   auto_size_text: ^3.0.0
   url_launcher: ^6.2.5
   dio: ^5.4.1
+  firebase_core: ^2.24.2
 
 
 dev_dependencies:

@@ -1,11 +1,16 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CoverMainPage extends StatelessWidget {
-  const CoverMainPage({required this.onNewGame, required this.onLoadGame});
+  const CoverMainPage(
+      {required this.onNewGame,
+      required this.onLoadGame,
+      required this.onDownload});
 
   final Function() onNewGame;
   final Function() onLoadGame;
+  final Function() onDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +52,19 @@ class CoverMainPage extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 36),
                       )),
                 ),
+                if (kIsWeb) ...[
+                  SizedBox(
+                    height: 24,
+                  ),
+                  FadeIn(
+                    child: TextButton(
+                        onPressed: onDownload,
+                        child: Text(
+                          "Download Client",
+                          style: TextStyle(color: Colors.white, fontSize: 36),
+                        )),
+                  )
+                ]
               ],
             ))
       ],

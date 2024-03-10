@@ -2,12 +2,13 @@ import 'package:babeltower/Page/Cover/CoverDifficultyPage.dart';
 import 'package:babeltower/Page/Cover/CoverLoadPage.dart';
 import 'package:babeltower/Page/Cover/CoverMainPage.dart';
 import 'package:babeltower/Page/Cover/CoverSavePage.dart';
+import 'package:babeltower/Page/DownloadPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'CoverNamePage.dart';
 
-enum _CoverStage { game, name, difficulty, save, load }
+enum _CoverStage { game, name, difficulty, save, load, download }
 
 class CoverPage extends StatefulWidget {
   const CoverPage({super.key});
@@ -39,6 +40,14 @@ class _CoverPageState extends State<CoverPage> {
 
   Widget _buildPage() {
     switch (stage) {
+      case _CoverStage.download:
+        return DownloadPage(
+          onBack: (){
+            setState(() {
+              stage = _CoverStage.game;
+            });
+          },
+        );
       case _CoverStage.game:
         return CoverMainPage(
           onNewGame: () {
@@ -49,6 +58,11 @@ class _CoverPageState extends State<CoverPage> {
           onLoadGame: () {
             setState(() {
               stage = _CoverStage.load;
+            });
+          },
+          onDownload: (){
+            setState(() {
+              stage= _CoverStage.download;
             });
           },
         );

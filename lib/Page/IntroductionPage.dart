@@ -16,7 +16,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (stage >= 17) {
+        if (stage >= 18) {
           context
               .read<GlobalBloc>()
               .add(GlobalEvent.changeStage(GameStage.day));
@@ -79,21 +79,21 @@ class _IntroductionPageState extends State<IntroductionPage> {
       case 12:
         return _buildContent(rich,
             "Great. I have a project. I need some hard working people to help me.");
-      case 12:
+      case 13:
         return _buildContent(rich,
             "I want to build a tower in here. If you can finish the tower. I will pay you \$10");
-      case 13:
+      case 14:
         return _buildContent(
             job, "Sure. Where can I find the material to build the tower?");
-      case 14:
+      case 15:
         return _buildContent(rich,
             "No worry. I will put the building block in the garbage mountain everyday. You can collect them everyday.");
-      case 15:
-        return _buildContent(job, "OK. I will do this job well.");
       case 16:
+        return _buildContent(job, "OK. I will do this job well.");
+      case 17:
         return _buildContent(
             job, "( May I can find some good stuff to sell on the way )");
-      case 17:
+      case 18:
         return _buildContent(
             rich, "Great. I am looking forward to see the tower soon.");
       default:
@@ -106,6 +106,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
   String get rich => "richman";
 
   List<Widget> _buildContent(String image, String content) {
+
     return [
       Padding(
         padding: const EdgeInsets.all(16.0),
@@ -132,7 +133,8 @@ class _IntroductionPageState extends State<IntroductionPage> {
             : Alignment.centerLeft,
         child: Image.asset(
           "assets/images/$image.png",
-          scale: 0.3,
+          height: MediaQuery.of(context).size.height*0.35,
+          fit: BoxFit.fill,
         ),
       )
     ];
