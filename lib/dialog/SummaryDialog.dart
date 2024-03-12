@@ -120,7 +120,7 @@ class SummaryDialog extends StatelessWidget {
                               flex: 1,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: blocksList.isNotEmpty?CrossAxisAlignment.start:CrossAxisAlignment.center,
                                 children: _buildMoneyinfo(price, numsum),
                               ),
                             ),

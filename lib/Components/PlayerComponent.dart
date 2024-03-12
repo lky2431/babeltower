@@ -26,7 +26,6 @@ class PlayerComponent extends SpriteAnimationComponent
   PlayerComponent();
   final Vector2 playerDimensions = Vector2(96, 96);
   late SpriteSheet spriteSheet;
-
   late SpriteAnimation frontAnimation =
       spriteSheet.createAnimation(row: 0, stepTime: 0.03);
   late SpriteAnimation backAnimation =
